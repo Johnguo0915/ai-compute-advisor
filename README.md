@@ -1,6 +1,6 @@
 # AI Compute Advisor
 
-[简体中文](#简体中文) · [Live Calculator](https://johnguo0915.github.io/ai-compute-advisor/)
+[简体中文](https://johnguo0915.github.io/ai-compute-advisor/) · [Live Calculator](https://johnguo0915.github.io/ai-compute-advisor/)
 
 AI Compute Advisor is a pre-sales deployment advisor for matching open-weight models to available devices. It supports both directions of work:
 
