@@ -2,7 +2,7 @@
 
 AI Compute Advisor 是一个纯静态 Web App。它不需要后端、数据库、登录系统或运行时 Server API，构建结果是标准的 `dist/` 静态目录，可部署到 Vercel、Netlify、GitHub Pages、对象存储或任意静态 Web Server。
 
-在线计算器：[https://joyzhou123123.github.io/ai-compute-advisor/](https://joyzhou123123.github.io/ai-compute-advisor/)
+在线计算器：[https://johnguo0915.github.io/ai-compute-advisor/](https://johnguo0915.github.io/ai-compute-advisor/)
 
 英文产品与维护说明见 [README.md](README.md)。
 
