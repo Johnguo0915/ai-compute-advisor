@@ -95,6 +95,12 @@ export interface ModelRecord {
   openWeight: boolean;
   commercialUse: "allowed" | "restricted" | "unknown";
   kvCacheBytesPerToken?: number;
+  /** Planning GB of model weights offloaded from GPU VRAM into host RAM. */
+  systemMemoryOffloadGB?: number;
+  /** Planning GB of KV cache offloaded from GPU VRAM onto SSD. */
+  ssdKvCacheOffloadGB?: number;
+  /** Optional model-specific VRAM safety margin; otherwise the catalog assumption is used. */
+  safetyMarginRatio?: number;
   notes?: string;
 }
 

@@ -33,11 +33,20 @@ function recommendedVramGB(id: string): number {
 describe("mainstream local model catalog", () => {
   it("covers representative current open-weight families without inventing local performance", () => {
     const expectedIds = [
+      "qwen3-8b",
+      "qwen3-14b",
       "qwen3.5-9b",
-      "qwen3.5-27b",
+      "qwen3.8-27b",
       "qwen3.6-35b-a3b",
+      "qwen3.6-35b-a3b-ai-fusion-2",
+      "qwen3.8-flash-next",
+      "ornith-1.5-35b-a3b",
+      "ornith-1.5-35b-a3b-ai-fusion-2",
+      "minimax-h3",
+      "deepseek-v4-flash",
       "gemma-4-12b-it",
       "gemma-4-26b-a4b-it",
+      "gemma-4-26b-a4b-it-ai-fusion-2",
       "gemma-4-31b-it",
       "mistral-small-3.1-24b-instruct",
       "mistral-small-4-119b",
@@ -47,7 +56,6 @@ describe("mainstream local model catalog", () => {
       "phi-4-14b",
       "gpt-oss-20b",
       "gpt-oss-120b",
-      "qwen3-235b-a22b",
     ];
 
     expect(models.map((candidate) => candidate.id)).toEqual(
@@ -63,14 +71,55 @@ describe("mainstream local model catalog", () => {
     }
   });
 
+  it("plans local KV cache at Q8 rather than FP16", () => {
+    expect(model("qwen3-8b").kvCacheBytesPerToken).toBe(73728);
+    expect(model("qwen3-14b").kvCacheBytesPerToken).toBe(81920);
+    expect(assumptions.vram.fallbackKvCacheBytesPerTokenByTier.balanced).toBe(
+      98304,
+    );
+  });
+
+  it("catalogues AI Fusion 2.0 KV compression as K8-bit / Q3-bit on supported models", () => {
+    const supported = [
+      ["qwen3.6-35b-a3b", "qwen3.6-35b-a3b-ai-fusion-2"],
+      ["gemma-4-26b-a4b-it", "gemma-4-26b-a4b-it-ai-fusion-2"],
+      ["ornith-1.5-35b-a3b", "ornith-1.5-35b-a3b-ai-fusion-2"],
+    ] as const;
+
+    for (const [baseId, fusionId] of supported) {
+      const base = model(baseId);
+      const fusion = model(fusionId);
+      expect(fusion.name).toMatch(/AI Fusion 2\.0/);
+      expect(fusion.name).toMatch(/K8-bit \/ Q3-bit/);
+      expect(fusion.totalParametersB).toBe(base.totalParametersB);
+      expect(fusion.activeParametersB).toBe(base.activeParametersB);
+      expect(fusion.kvCacheBytesPerToken).toBe(
+        (base.kvCacheBytesPerToken! * 11) / 16,
+      );
+      expect(fusion.systemMemoryOffloadGB).toBe(5);
+      expect(fusion.ssdKvCacheOffloadGB).toBe(1);
+      expect(fusion.safetyMarginRatio).toBe(0.05);
+      expect(fusion.notes).toMatch(/K 8-bit, Q 3-bit/i);
+      expect(fusion.notes).toMatch(/AI Fusion 2\.0/);
+      expect(fusion.notes).toMatch(/5GB/i);
+      expect(fusion.notes).toMatch(/1GB/i);
+      expect(fusion.notes).toMatch(/5%/);
+    }
+  });
+
   it("keeps MoE total-weight capacity separate from active-parameter compute", () => {
     for (const id of [
       "qwen3.6-35b-a3b",
+      "qwen3.6-35b-a3b-ai-fusion-2",
+      "ornith-1.5-35b-a3b",
+      "ornith-1.5-35b-a3b-ai-fusion-2",
+      "qwen3.8-flash-next",
       "gemma-4-26b-a4b-it",
+      "gemma-4-26b-a4b-it-ai-fusion-2",
       "llama-4-scout-17b-16e-instruct",
       "mistral-small-4-119b",
       "gpt-oss-120b",
-      "qwen3-235b-a22b",
+      "deepseek-v4-flash",
     ]) {
       const candidate = model(id);
       expect(candidate.modelType).toBe("moe");
@@ -93,17 +142,13 @@ describe("mainstream local model catalog", () => {
       expect(recommendedVramGB(id)).toBeLessThan(96);
     }
 
-    const qwen = model("qwen3-235b-a22b");
-    expect(qwen.contextWindowTokens).toBe(32_768);
-    expect(qwen.recommendedQuantizationId).toBe("q4");
-    expect(qwen.quantizations.map((candidate) => candidate.id)).not.toContain(
-      "q2",
-    );
+    const deepseek = model("deepseek-v4-flash");
+    expect(deepseek.recommendedQuantizationId).toBe("fp4-mixed");
     expect(
       calculateVramRequirement({
-        model: qwen,
-        quantization: qwen.quantizations.find(
-          (candidate) => candidate.id === qwen.recommendedQuantizationId,
+        model: deepseek,
+        quantization: deepseek.quantizations.find(
+          (candidate) => candidate.id === deepseek.recommendedQuantizationId,
         )!,
         peakContextTokens: 8192,
         peakConcurrentUsers: 1,

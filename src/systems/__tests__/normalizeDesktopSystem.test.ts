@@ -164,7 +164,7 @@ describe("normalizeDesktopSystem", () => {
         method: "measured",
       },
       performance: {
-        modelId: "qwen2.5-14b-instruct",
+        modelId: "qwen3-14b",
         quantizationId: "q4",
         effectiveTokensPerSecond: 31,
         timeToFirstTokenSeconds: 0.7,

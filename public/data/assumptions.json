@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "catalogId": "assumptions",
-  "lastUpdated": "2026-08-11",
+  "lastUpdated": "2026-09-20",
   "source": {
     "label": "Bundled calculator assumptions",
     "url": "https://www.nist.gov/privacy-framework",
-    "methodology": "Configurable planning policy informed by risk-based governance, data minimization and processing-boundary control. These labels are not an industry-wide legal classification and should be edited for the user's organization, region and operating environment."
+    "methodology": "Configurable planning policy informed by risk-based governance, data minimization and processing-boundary control. These labels are not an industry-wide legal classification and should be edited for the user's organization, region and operating environment. Local inference planning quantizes KV cache to Q8 (1 byte per K/V element); fallbackKvCacheBytesPerTokenByTier values are Q8 bytes/token."
   },
   "data": [
     {
@@ -118,10 +118,10 @@
         "minimumRuntimeOverheadGB": 2,
         "safetyMarginRatio": 0.15,
         "fallbackKvCacheBytesPerTokenByTier": {
-          "basic": 131072,
-          "balanced": 196608,
-          "advanced": 327680,
-          "frontier": 786432
+          "basic": 65536,
+          "balanced": 98304,
+          "advanced": 163840,
+          "frontier": 393216
         },
         "fitThresholds": {
           "marginalCapacityRatio": 0.85,

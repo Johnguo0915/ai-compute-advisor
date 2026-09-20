@@ -154,7 +154,7 @@ export const enMessages = {
   "workload.averageContextHint":
     "Total context seen by a typical call. Used to match performance evidence at a comparable context length.",
   "workload.peakContextHint":
-    "Largest context a call may reach. It must fit the model window and combines with peak concurrency to estimate KV-cache memory.",
+    "Largest context a call may reach. It must fit the model window and combines with peak concurrency to estimate local Q8 KV-cache memory.",
   "workload.peakContextAutoRaised":
     "Peak context was also raised to {value} tokens / call so it remains at least the average context.",
   "workload.averageContextAutoLowered":
@@ -198,6 +198,7 @@ export const enMessages = {
   "model.noEligible": "No eligible model",
   "model.reviewConstraints": "Review the workload constraints.",
   "model.openWeight": "Open weight",
+  "model.aiFusion2": "AI Fusion 2.0 supported",
   "model.proprietary": "Proprietary",
   "model.reasoning": "Reasoning",
   "model.intelligence": "Intelligence",
@@ -356,7 +357,7 @@ export const enMessages = {
     "Billions (B); for dense models this normally equals total parameters.",
   "model.local.contextWindow": "Context window (tokens)",
   "model.local.maxOutput": "Maximum output (tokens)",
-  "model.local.kvCacheBytesPerToken": "KV cache bytes / token",
+  "model.local.kvCacheBytesPerToken": "KV cache bytes / token (local Q8)",
   "model.local.capabilityTier": "Capability tier",
   "model.local.commercialUse": "Commercial use",
   "model.local.allowed": "Allowed",
@@ -438,7 +439,15 @@ export const enMessages = {
   "hardware.catalogCaveatsTitle": "Catalog evidence and compatibility notes",
   "hardware.memoryRequirement": "Model memory requirement",
   "hardware.modelWeights": "Model weights",
-  "hardware.kvCache": "KV cache",
+  "hardware.kvCache": "KV cache (local Q8)",
+  "hardware.kvCacheAiFusion2": "KV cache (AI Fusion 2.0 · K8-bit / Q3-bit)",
+  "hardware.systemMemoryOffload": "Offloaded to system memory",
+  "hardware.gpuResidentWeights": "GPU-resident weights",
+  "hardware.ssdKvCacheOffload": "KV cache on SSD",
+  "hardware.gpuResidentKvCache": "GPU-resident KV cache",
+  "hardware.fusionOffloadTitle": "AI Fusion 2.0 planning: RAM offload, SSD KV, 5% safety",
+  "hardware.fusionOffloadDescription":
+    "AI Fusion 2.0 planning moves about {ram} of model weights into host RAM, about {kv} of KV cache onto SSD, and uses a {safety} VRAM safety margin. GPU VRAM is recalculated from the remaining resident weights and KV. Validate the offload path, SSD paging bandwidth/latency, and system-memory headroom.",
   "hardware.runtimeOverhead": "Runtime overhead",
   "hardware.safetyMargin": "Safety margin",
   "hardware.recommendedMemory": "Recommended memory",
@@ -1186,7 +1195,7 @@ export const zhCNMessages: Record<TranslationKey, string> = {
   "workload.averageContextHint":
     "典型调用中模型看到的完整上下文，用于匹配相同上下文长度下的性能证据。",
   "workload.peakContextHint":
-    "单次调用可能达到的最大上下文；必须装入模型窗口，并结合峰值并发估算 KV Cache 显存。",
+    "单次调用可能达到的最大上下文；必须装入模型窗口，并结合峰值并发估算本地 Q8 KV Cache 显存。",
   "workload.peakContextAutoRaised":
     "为保证峰值不小于平均值，峰值上下文已同步提高到 {value} Token / 次调用。",
   "workload.averageContextAutoLowered":
@@ -1229,6 +1238,7 @@ export const zhCNMessages: Record<TranslationKey, string> = {
   "model.noEligible": "没有符合条件的模型",
   "model.reviewConstraints": "请检查工作负载约束。",
   "model.openWeight": "开放权重",
+  "model.aiFusion2": "AI Fusion 2.0 支持",
   "model.proprietary": "闭源",
   "model.reasoning": "推理模型",
   "model.intelligence": "智能评分",
@@ -1383,7 +1393,7 @@ export const zhCNMessages: Record<TranslationKey, string> = {
     "单位：十亿参数（B）；稠密模型通常与总参数量相同。",
   "model.local.contextWindow": "上下文窗口（Token）",
   "model.local.maxOutput": "最大输出（Token）",
-  "model.local.kvCacheBytesPerToken": "每 Token KV Cache 字节数",
+  "model.local.kvCacheBytesPerToken": "每 Token KV Cache 字节数（本地 Q8）",
   "model.local.capabilityTier": "能力等级",
   "model.local.commercialUse": "商业使用",
   "model.local.allowed": "允许",
@@ -1463,7 +1473,15 @@ export const zhCNMessages: Record<TranslationKey, string> = {
   "hardware.catalogCaveatsTitle": "目录证据与兼容性说明",
   "hardware.memoryRequirement": "模型内存需求",
   "hardware.modelWeights": "模型权重",
-  "hardware.kvCache": "KV Cache",
+  "hardware.kvCache": "KV Cache（本地 Q8）",
+  "hardware.kvCacheAiFusion2": "KV Cache（AI Fusion 2.0 · K8-bit / Q3-bit）",
+  "hardware.systemMemoryOffload": "卸载到系统内存",
+  "hardware.gpuResidentWeights": "GPU 驻留权重",
+  "hardware.ssdKvCacheOffload": "KV Cache 放到 SSD",
+  "hardware.gpuResidentKvCache": "GPU 驻留 KV Cache",
+  "hardware.fusionOffloadTitle": "AI Fusion 2.0 规划：内存卸载、SSD KV 与 5% 安全余量",
+  "hardware.fusionOffloadDescription":
+    "AI Fusion 2.0 规划将约 {ram} 模型权重放到系统内存、约 {kv} KV Cache 放到 SSD，安全余量为 {safety}。GPU 显存按剩余驻留权重和 KV 重算。需核验卸载路径、SSD 分页带宽/延迟与系统内存余量。",
   "hardware.runtimeOverhead": "运行时开销",
   "hardware.safetyMargin": "安全余量",
   "hardware.recommendedMemory": "建议内存",

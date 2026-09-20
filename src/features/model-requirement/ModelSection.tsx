@@ -1174,6 +1174,9 @@ export function ModelSection({
                   {selected.reasoning ? (
                     <StatusBadge>{t("model.reasoning")}</StatusBadge>
                   ) : null}
+                  {selected.id.endsWith("-ai-fusion-2") ? (
+                    <StatusBadge tone="green">{t("model.aiFusion2")}</StatusBadge>
+                  ) : null}
                 </div>
               ) : null}
             </div>

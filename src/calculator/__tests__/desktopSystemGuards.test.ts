@@ -39,7 +39,7 @@ function customSystemConfig(
   };
   config.modelSelection = {
     mode: "manual",
-    modelId: "qwen2.5-14b-instruct",
+    modelId: "qwen3-14b",
     quantizationId: "q4",
   };
   const draft: CustomDesktopSystemDraft = {
@@ -59,7 +59,7 @@ function customSystemConfig(
     runtimeNames: "Test runtime",
     effectiveTokensPerSecond: 100,
     timeToFirstTokenSeconds: 0.2,
-    performanceModelId: "qwen2.5-14b-instruct",
+    performanceModelId: "qwen3-14b",
     performanceQuantizationId: "q4",
     performanceContextTokens: config.workload.averageContextLength,
     performanceConcurrency: config.workload.peakConcurrentUsers,
@@ -100,7 +100,7 @@ describe("desktop-system recommendation guards", () => {
 
     const result = calculateAnalysis(config, catalogs);
 
-    expect(result.selectedModel?.id).toBe("qwen2.5-14b-instruct");
+    expect(result.selectedModel?.id).toBe("qwen3-14b");
     expect(result.modelRequirement.reasonCodes).toContain(
       "CONFIGURATION_FIRST_SELECTION",
     );

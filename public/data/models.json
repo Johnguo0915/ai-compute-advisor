@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "catalogId": "models",
-  "lastUpdated": "2026-08-11",
+  "lastUpdated": "2026-09-20",
   "source": {
     "label": "Artificial Analysis open-model index (family discovery)",
     "url": "https://artificialanalysis.ai/models/open-source",
-    "methodology": "Official model cards provide architecture, parameter, context and license fields. The Artificial Analysis public model index was used only to identify representative mainstream open-weight families; hosted-provider intelligence, price, TPS and latency metrics are not imported as local-hardware evidence. Fit is derived from model weights plus configured KV-cache, runtime and safety overhead and must be validated with the intended runtime and checkpoint.",
+    "methodology": "Official model cards provide architecture, parameter, context and license fields. The Artificial Analysis public model index was used only to identify representative mainstream open-weight families; hosted-provider intelligence, price, TPS and latency metrics are not imported as local-hardware evidence. Fit is derived from GPU-resident model weights plus configured KV-cache, runtime and safety overhead and must be validated with the intended runtime and checkpoint. Local planning quantizes KV cache to Q8 (1 byte per K/V element) unless a catalogued AI Fusion 2.0 variant is selected. Those variants keep the same weights, use K 8-bit / Q 3-bit KV compression (1.375 bytes per K/V pair, 11/16 of the Q8 bytes/token), plan about 5GB of model weights offloaded into system memory, plan about 1GB of KV cache on SSD, and use a 5% VRAM safety margin. Catalog kvCacheBytesPerToken values are therefore either Q8 bytes/token derived from official GQA, or the AI Fusion 2.0 compressed equivalent.",
     "license": "Mixed: Apache 2.0, MIT, Llama Community licenses and other model-specific terms"
   },
   "data": [
@@ -30,19 +30,19 @@
       "modalities": ["text"],
       "openWeight": true,
       "commercialUse": "allowed",
-      "kvCacheBytesPerToken": 114688,
+      "kvCacheBytesPerToken": 57344,
       "notes": "Compact local baseline for light assistant and extraction workloads."
     },
     {
-      "id": "qwen2.5-14b-instruct",
-      "name": "Qwen2.5 14B Instruct",
-      "provider": "Alibaba Cloud",
-      "family": "Qwen2.5",
+      "id": "qwen3-8b",
+      "name": "Qwen3 8B",
+      "provider": "Qwen",
+      "family": "Qwen3",
       "modelType": "dense",
-      "totalParametersB": 14.7,
-      "activeParametersB": 14.7,
+      "totalParametersB": 8.2,
+      "activeParametersB": 8.2,
       "contextWindowTokens": 131072,
-      "maxOutputTokens": 8192,
+      "maxOutputTokens": 32768,
       "recommendedQuantizationId": "q4",
       "quantizations": [
         { "id": "q4", "label": "4-bit", "bitsPerParameter": 4, "packingOverheadRatio": 0.05 },
@@ -50,12 +50,36 @@
         { "id": "fp16", "label": "FP16", "bitsPerParameter": 16, "packingOverheadRatio": 0 }
       ],
       "capabilityTierId": "balanced",
-      "reasoning": false,
+      "reasoning": true,
       "modalities": ["text"],
       "openWeight": true,
       "commercialUse": "allowed",
-      "kvCacheBytesPerToken": 196608,
-      "notes": "Balanced local model used as a directional planning example."
+      "kvCacheBytesPerToken": 73728,
+      "notes": "Dense Qwen3 successor to the 7B-class local slot, with thinking and non-thinking modes. Specs, 32,768-token native context (YaRN to 131,072) and Apache 2.0 license: official Qwen/Qwen3-8B model card. KV cache bytes/token derived from official GQA (36 layers, 8 KV heads, head_dim 128) and quantized to Q8 for local planning (1 byte per K/V element). Fit is calculated from weights plus configured KV/runtime/safety overhead; it does not verify runtime compatibility or TPS. Long context can require substantially more memory than the weight estimate."
+    },
+    {
+      "id": "qwen3-14b",
+      "name": "Qwen3 14B",
+      "provider": "Qwen",
+      "family": "Qwen3",
+      "modelType": "dense",
+      "totalParametersB": 14.8,
+      "activeParametersB": 14.8,
+      "contextWindowTokens": 131072,
+      "maxOutputTokens": 32768,
+      "recommendedQuantizationId": "q4",
+      "quantizations": [
+        { "id": "q4", "label": "4-bit", "bitsPerParameter": 4, "packingOverheadRatio": 0.05 },
+        { "id": "q8", "label": "8-bit", "bitsPerParameter": 8, "packingOverheadRatio": 0.03 },
+        { "id": "fp16", "label": "FP16", "bitsPerParameter": 16, "packingOverheadRatio": 0 }
+      ],
+      "capabilityTierId": "balanced",
+      "reasoning": true,
+      "modalities": ["text"],
+      "openWeight": true,
+      "commercialUse": "allowed",
+      "kvCacheBytesPerToken": 81920,
+      "notes": "Dense Qwen3 local planning model with thinking and non-thinking modes. Specs, 32,768-token native context (YaRN to 131,072) and Apache 2.0 license: official Qwen/Qwen3-14B model card. KV cache bytes/token derived from official GQA (40 layers, 8 KV heads, head_dim 128) and quantized to Q8 for local planning (1 byte per K/V element). Fit is calculated from weights plus configured KV/runtime/safety overhead; it does not verify runtime compatibility or TPS. Long context can require substantially more memory than the weight estimate."
     },
     {
       "id": "mixtral-8x7b-instruct",
@@ -77,7 +101,7 @@
       "modalities": ["text"],
       "openWeight": true,
       "commercialUse": "allowed",
-      "kvCacheBytesPerToken": 131072,
+      "kvCacheBytesPerToken": 65536,
       "notes": "MoE example: weight capacity uses 46.7B total parameters, not 12.9B active parameters."
     },
     {
@@ -101,7 +125,7 @@
       "modalities": ["text"],
       "openWeight": true,
       "commercialUse": "allowed",
-      "kvCacheBytesPerToken": 327680,
+      "kvCacheBytesPerToken": 163840,
       "notes": "Large local model for advanced reasoning and RAG planning scenarios."
     },
     {
@@ -192,7 +216,7 @@
       "modalities": ["text"],
       "openWeight": true,
       "commercialUse": "allowed",
-      "kvCacheBytesPerToken": 196608,
+      "kvCacheBytesPerToken": 98304,
       "notes": "Reasoning distillation based on Qwen2.5. Specs, local-run guidance and MIT/Apache license lineage: official deepseek-ai model card. Fit is calculated from weights plus configured KV/runtime/safety overhead; it does not verify runtime compatibility or TPS."
     },
     {
@@ -239,10 +263,10 @@
       "notes": "Mainstream multimodal local model; Mistral documents quantized deployment on one RTX 4090 or a 32GB-memory MacBook. Specs and Apache 2.0 license: official Mistral model card. Fit is calculated from weights plus configured KV/runtime/safety overhead; it does not verify runtime compatibility or TPS."
     },
     {
-      "id": "qwen3.5-27b",
-      "name": "Qwen3.5 27B",
+      "id": "qwen3.8-27b",
+      "name": "Qwen3.8 27B",
       "provider": "Qwen",
-      "family": "Qwen3.5",
+      "family": "Qwen3.8",
       "modelType": "dense",
       "totalParametersB": 27,
       "activeParametersB": 27,
@@ -259,7 +283,7 @@
       "modalities": ["text", "image", "video"],
       "openWeight": true,
       "commercialUse": "allowed",
-      "notes": "Current dense multimodal and reasoning workstation model. Specs and Apache 2.0 license: official Qwen/Qwen3.5-27B model card. Fit is calculated from weights plus configured KV/runtime/safety overhead; it does not verify runtime compatibility or TPS. Long context can require substantially more memory than the weight estimate."
+      "notes": "Dense Qwen3.8 vision-language model with hybrid Gated DeltaNet / gated attention. Specs, native 262,144-token context (YaRN to 1M) and Apache 2.0 license: official Qwen/Qwen3.8-27B model card. Fit is calculated from weights plus configured KV/runtime/safety overhead; it does not verify runtime compatibility or TPS. Long context can require substantially more memory than the weight estimate."
     },
     {
       "id": "gemma-4-26b-a4b-it",
@@ -281,7 +305,34 @@
       "modalities": ["text", "image", "video"],
       "openWeight": true,
       "commercialUse": "allowed",
-      "notes": "Gemma 4 MoE workstation model; the A4B label rounds the official 3.8B active out of 25.2B total parameters. Specs and Apache 2.0 license: official Google Gemma 4 model card. Fit uses total weights, not active parameters, plus configured overhead; it does not verify runtime compatibility or TPS."
+      "kvCacheBytesPerToken": 98304,
+      "notes": "Gemma 4 MoE workstation model; the A4B label rounds the official 3.8B active out of 25.2B total parameters. Specs and Apache 2.0 license: official Google Gemma 4 model card. Local planning KV is Q8 (98,304 B/token, matching the Gemma 4 workstation class estimate). An AI Fusion 2.0 option with K8-bit / Q3-bit KV is catalogued separately. Fit uses total weights, not active parameters, plus configured overhead; it does not verify runtime compatibility or TPS."
+    },
+    {
+      "id": "gemma-4-26b-a4b-it-ai-fusion-2",
+      "name": "Gemma 4 26B A4B IT · AI Fusion 2.0（K8-bit / Q3-bit）",
+      "provider": "Google",
+      "family": "Gemma 4",
+      "modelType": "moe",
+      "totalParametersB": 25.2,
+      "activeParametersB": 3.8,
+      "contextWindowTokens": 262144,
+      "recommendedQuantizationId": "q4",
+      "quantizations": [
+        { "id": "q4", "label": "4-bit", "bitsPerParameter": 4, "packingOverheadRatio": 0.06 },
+        { "id": "q8", "label": "8-bit", "bitsPerParameter": 8, "packingOverheadRatio": 0.04 },
+        { "id": "bf16", "label": "BF16", "bitsPerParameter": 16, "packingOverheadRatio": 0 }
+      ],
+      "capabilityTierId": "advanced",
+      "reasoning": true,
+      "modalities": ["text", "image", "video"],
+      "openWeight": true,
+      "commercialUse": "allowed",
+      "kvCacheBytesPerToken": 67584,
+      "systemMemoryOffloadGB": 5,
+      "ssdKvCacheOffloadGB": 1,
+      "safetyMarginRatio": 0.05,
+      "notes": "AI Fusion 2.0 supported planning variant of Gemma 4 26B A4B IT. Weights match the base model. KV cache uses the AI Fusion 2.0 path (K 8-bit, Q 3-bit) instead of local Q8: 98,304 × 11/16 = 67,584 B/token. About 5GB of model weights are planned to offload into system memory, about 1GB of KV cache is planned to reside on SSD, and VRAM safety headroom is 5%. Specs and Apache 2.0 license: official Google Gemma 4 model card. Fit uses GPU-resident weights plus GPU-resident KV and this 5% margin; it does not verify AI Fusion 2.0 runtime compatibility, offload path, SSD paging, packing, quality or TPS."
     },
     {
       "id": "gemma-4-31b-it",
@@ -306,6 +357,28 @@
       "notes": "Largest dense Gemma 4 workstation option. Specs and Apache 2.0 license: official google/gemma-4-31B model card. Fit is calculated from weights plus configured KV/runtime/safety overhead; it does not verify runtime compatibility or TPS."
     },
     {
+      "id": "minimax-h3",
+      "name": "MiniMax H3 33B",
+      "provider": "MiniMax",
+      "family": "MiniMax H3",
+      "modelType": "dense",
+      "totalParametersB": 33,
+      "activeParametersB": 33,
+      "contextWindowTokens": 8192,
+      "recommendedQuantizationId": "bf16",
+      "quantizations": [
+        { "id": "q4", "label": "4-bit planning", "bitsPerParameter": 4, "packingOverheadRatio": 0.05 },
+        { "id": "fp8", "label": "FP8", "bitsPerParameter": 8, "packingOverheadRatio": 0.04 },
+        { "id": "bf16", "label": "BF16 (official)", "bitsPerParameter": 16, "packingOverheadRatio": 0 }
+      ],
+      "capabilityTierId": "advanced",
+      "reasoning": false,
+      "modalities": ["text", "image", "audio", "video"],
+      "openWeight": true,
+      "commercialUse": "restricted",
+      "notes": "Omni-modal audio-video generator, not an LLM. Official H3-Omni-Transformer is a 33B dense model; about 13B AdaLN parameters can be cached at inference, but this catalog keeps dense active=total so fit uses the full 33B weights. Publisher does not document an LLM context window; 8192 is only a packed-sequence planning bound for the schema. License: MiniMax H3 Community License. Token TPS/TTFT economics do not apply. Runtime, quality and memory must be validated on the intended FL2VA or Ref2VA checkpoint."
+    },
+    {
       "id": "deepseek-r1-distill-qwen-32b",
       "name": "DeepSeek-R1-Distill-Qwen-32B",
       "provider": "DeepSeek",
@@ -326,7 +399,7 @@
       "modalities": ["text"],
       "openWeight": true,
       "commercialUse": "allowed",
-      "kvCacheBytesPerToken": 262144,
+      "kvCacheBytesPerToken": 131072,
       "notes": "Mainstream local reasoning distillation based on Qwen2.5. Specs, local-run guidance and MIT/Apache license lineage: official deepseek-ai model card. Fit is calculated from weights plus configured KV/runtime/safety overhead; it does not verify runtime compatibility or TPS."
     },
     {
@@ -350,7 +423,84 @@
       "modalities": ["text", "image", "video"],
       "openWeight": true,
       "commercialUse": "allowed",
-      "notes": "Current open-weight Qwen coding and multimodal MoE; about 3B of 35B parameters activate per token. Specs and Apache 2.0 license: official Qwen/Qwen3.6-35B-A3B model card. Fit uses total weights plus configured overhead; it does not verify runtime compatibility or TPS."
+      "kvCacheBytesPerToken": 131072,
+      "notes": "Current open-weight Qwen coding and multimodal MoE; about 3B of 35B parameters activate per token. Specs and Apache 2.0 license: official Qwen/Qwen3.6-35B-A3B model card. Local planning KV is Q8 (131,072 B/token). An AI Fusion 2.0 option with K8-bit / Q3-bit KV is catalogued separately. Fit uses total weights plus configured overhead; it does not verify runtime compatibility or TPS."
+    },
+    {
+      "id": "qwen3.6-35b-a3b-ai-fusion-2",
+      "name": "Qwen3.6 35B A3B · AI Fusion 2.0（K8-bit / Q3-bit）",
+      "provider": "Qwen",
+      "family": "Qwen3.6",
+      "modelType": "moe",
+      "totalParametersB": 35,
+      "activeParametersB": 3,
+      "contextWindowTokens": 262144,
+      "maxOutputTokens": 32768,
+      "recommendedQuantizationId": "q4",
+      "quantizations": [
+        { "id": "q4", "label": "4-bit", "bitsPerParameter": 4, "packingOverheadRatio": 0.06 },
+        { "id": "q8", "label": "8-bit", "bitsPerParameter": 8, "packingOverheadRatio": 0.04 },
+        { "id": "fp16", "label": "FP16", "bitsPerParameter": 16, "packingOverheadRatio": 0 }
+      ],
+      "capabilityTierId": "advanced",
+      "reasoning": true,
+      "modalities": ["text", "image", "video"],
+      "openWeight": true,
+      "commercialUse": "allowed",
+      "kvCacheBytesPerToken": 90112,
+      "systemMemoryOffloadGB": 5,
+      "ssdKvCacheOffloadGB": 1,
+      "safetyMarginRatio": 0.05,
+      "notes": "AI Fusion 2.0 supported planning variant of Qwen3.6 35B A3B. Weights match the base model. KV cache uses the AI Fusion 2.0 path (K 8-bit, Q 3-bit) instead of local Q8: 131,072 × 11/16 = 90,112 B/token. About 5GB of model weights are planned to offload into system memory, about 1GB of KV cache is planned to reside on SSD, and VRAM safety headroom is 5%. Specs and Apache 2.0 license: official Qwen/Qwen3.6-35B-A3B model card. Fit uses GPU-resident weights plus GPU-resident KV and this 5% margin; it does not verify AI Fusion 2.0 runtime compatibility, offload path, SSD paging, packing, quality or TPS."
+    },
+    {
+      "id": "ornith-1.5-35b-a3b",
+      "name": "Ornith 1.5 35B A3B",
+      "provider": "Ornith",
+      "family": "Ornith 1.5",
+      "modelType": "moe",
+      "totalParametersB": 35,
+      "activeParametersB": 3,
+      "contextWindowTokens": 262144,
+      "recommendedQuantizationId": "q4",
+      "quantizations": [
+        { "id": "q4", "label": "4-bit", "bitsPerParameter": 4, "packingOverheadRatio": 0.06 },
+        { "id": "q8", "label": "8-bit", "bitsPerParameter": 8, "packingOverheadRatio": 0.04 },
+        { "id": "fp16", "label": "FP16", "bitsPerParameter": 16, "packingOverheadRatio": 0 }
+      ],
+      "capabilityTierId": "advanced",
+      "reasoning": true,
+      "modalities": ["text"],
+      "openWeight": true,
+      "commercialUse": "allowed",
+      "kvCacheBytesPerToken": 131072,
+      "notes": "Agentic-coding MoE with about 3B of 35B parameters active per token. Specs, native 262,144-token context (YaRN to about 1M) and MIT license: official ornith-ai/Ornith-1.5-35B-A3B model card. Hugging Face metadata lists ~36B including auxiliary tensors; fit uses the published 35B-A3B totals. Local planning KV is Q8 (131,072 B/token). An AI Fusion 2.0 option with K8-bit / Q3-bit KV is catalogued separately. Fit uses total weights plus configured overhead; it does not verify runtime compatibility or TPS."
+    },
+    {
+      "id": "ornith-1.5-35b-a3b-ai-fusion-2",
+      "name": "Ornith 1.5 35B A3B · AI Fusion 2.0（K8-bit / Q3-bit）",
+      "provider": "Ornith",
+      "family": "Ornith 1.5",
+      "modelType": "moe",
+      "totalParametersB": 35,
+      "activeParametersB": 3,
+      "contextWindowTokens": 262144,
+      "recommendedQuantizationId": "q4",
+      "quantizations": [
+        { "id": "q4", "label": "4-bit", "bitsPerParameter": 4, "packingOverheadRatio": 0.06 },
+        { "id": "q8", "label": "8-bit", "bitsPerParameter": 8, "packingOverheadRatio": 0.04 },
+        { "id": "fp16", "label": "FP16", "bitsPerParameter": 16, "packingOverheadRatio": 0 }
+      ],
+      "capabilityTierId": "advanced",
+      "reasoning": true,
+      "modalities": ["text"],
+      "openWeight": true,
+      "commercialUse": "allowed",
+      "kvCacheBytesPerToken": 90112,
+      "systemMemoryOffloadGB": 5,
+      "ssdKvCacheOffloadGB": 1,
+      "safetyMarginRatio": 0.05,
+      "notes": "AI Fusion 2.0 supported planning variant of Ornith 1.5 35B A3B. Weights match the base model. KV cache uses the AI Fusion 2.0 path (K 8-bit, Q 3-bit) instead of local Q8: 131,072 × 11/16 = 90,112 B/token. About 5GB of model weights are planned to offload into system memory, about 1GB of KV cache is planned to reside on SSD, and VRAM safety headroom is 5%. Specs, native 262,144-token context (YaRN to about 1M) and MIT license: official ornith-ai/Ornith-1.5-35B-A3B model card. Fit uses GPU-resident weights plus GPU-resident KV and this 5% margin; it does not verify AI Fusion 2.0 runtime compatibility, offload path, SSD paging, packing, quality or TPS."
     },
     {
       "id": "llama-4-scout-17b-16e-instruct",
@@ -417,49 +567,48 @@
       "notes": "Officially released in native MXFP4 and described by OpenAI as runnable on a single 80GB GPU. Specs and Apache 2.0 license: OpenAI gpt-oss model card. Calculator fit adds configured KV/runtime/safety overhead and therefore targets a 96GB-class envelope at moderate context; no local TPS is assumed."
     },
     {
-      "id": "qwen3-235b-a22b",
-      "name": "Qwen3 235B A22B",
+      "id": "qwen3.8-flash-next",
+      "name": "Qwen3.8 Flash Next",
       "provider": "Qwen",
-      "family": "Qwen3",
+      "family": "Qwen3.8 Flash Next",
       "modelType": "moe",
-      "totalParametersB": 235,
-      "activeParametersB": 22,
-      "contextWindowTokens": 32768,
+      "totalParametersB": 125,
+      "activeParametersB": 6,
+      "contextWindowTokens": 262144,
       "maxOutputTokens": 32768,
       "recommendedQuantizationId": "q4",
       "quantizations": [
         { "id": "q4", "label": "4-bit", "bitsPerParameter": 4, "packingOverheadRatio": 0.06 },
-        { "id": "q8", "label": "8-bit", "bitsPerParameter": 8, "packingOverheadRatio": 0.04 }
+        { "id": "q8", "label": "8-bit", "bitsPerParameter": 8, "packingOverheadRatio": 0.04 },
+        { "id": "fp16", "label": "FP16", "bitsPerParameter": 16, "packingOverheadRatio": 0 }
       ],
       "capabilityTierId": "frontier",
       "reasoning": true,
-      "modalities": ["text"],
+      "modalities": ["text", "image", "video"],
       "openWeight": true,
-      "commercialUse": "allowed",
-      "kvCacheBytesPerToken": 192512,
-      "notes": "Official public Qwen3 model is 235B total / 22B active under Apache 2.0, with a native 32,768-token context; 131,072 tokens requires the documented YaRN extension. The official GGUF release provides Q4/Q5/Q6/Q8 variants, so Q4 is the smallest catalog quantization allowed to drive fit. The supplied X Ultra pre-release claim for Qwen3.5-235B-A22B (Q2) remains a compatibility note on that system, not a validated checkpoint or performance observation. No public Qwen3.5-235B-A22B model card was found, so this record intentionally uses the verified Qwen3 identity. Runtime, quality and TPS require direct validation."
+      "commercialUse": "restricted",
+      "notes": "Qwen4-preview multimodal MoE: 125B backbone with 6B activated per token, plus a 51B n-gram embedding table and 4B MTP head that the publisher describes as offloadable. Specs, native 262,144-token context (YaRN to 1M) and qwen-community-1.0 license: official Qwen/Qwen3.8-Flash-Next model card. Fit uses the 125B MoE backbone, not the offloaded n-gram table; add that capacity if it stays on the accelerator. Runtime, quality and TPS must be validated."
     },
     {
-      "id": "deepseek-r1-671b",
-      "name": "DeepSeek-R1 671B",
+      "id": "deepseek-v4-flash",
+      "name": "DeepSeek-V4-Flash",
       "provider": "DeepSeek",
-      "family": "DeepSeek-R1",
+      "family": "DeepSeek-V4",
       "modelType": "moe",
-      "totalParametersB": 671,
-      "activeParametersB": 37,
-      "contextWindowTokens": 131072,
-      "maxOutputTokens": 16384,
-      "recommendedQuantizationId": "q4",
+      "totalParametersB": 284,
+      "activeParametersB": 13,
+      "contextWindowTokens": 1000000,
+      "recommendedQuantizationId": "fp4-mixed",
       "quantizations": [
-        { "id": "q4", "label": "4-bit", "bitsPerParameter": 4, "packingOverheadRatio": 0.06 },
-        { "id": "q8", "label": "8-bit", "bitsPerParameter": 8, "packingOverheadRatio": 0.04 }
+        { "id": "fp4-mixed", "label": "FP4+FP8 mixed (official)", "bitsPerParameter": 4, "packingOverheadRatio": 0.08 },
+        { "id": "fp8", "label": "FP8 mixed", "bitsPerParameter": 8, "packingOverheadRatio": 0.04 }
       ],
       "capabilityTierId": "frontier",
       "reasoning": true,
       "modalities": ["text"],
       "openWeight": true,
       "commercialUse": "allowed",
-      "notes": "Frontier-class MoE example. Local fit uses total parameters and a conservative KV fallback."
+      "notes": "DeepSeek-V4-Flash MoE: 284B total / 13B active, 1M native context. Official instruct checkpoint stores MoE experts in FP4 and most other weights in FP8. Specs and MIT license: official deepseek-ai/DeepSeek-V4-Flash model card. Fit uses total weights plus configured overhead; the 1M window is not a promise that full context fits local memory. Runtime, quality and TPS must be validated. Think Max mode is documented as needing at least a 384K working window."
     }
   ]
 }

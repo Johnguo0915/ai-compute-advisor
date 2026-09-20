@@ -34,13 +34,13 @@ const rawBundle = {
 describe("catalog schemas", () => {
   it("validates and normalizes every bundled catalog", () => {
     const parsed = parseCatalogBundle(rawBundle);
-    expect(parsed.dataVersion).toBe("2026.08-sample.5");
+    expect(parsed.dataVersion).toBe("2026.09-sample.12");
     expect(parsed.models.length).toBeGreaterThanOrEqual(5);
     expect(parsed.gpus.length).toBeGreaterThanOrEqual(4);
     expect(parsed.systems.length).toBeGreaterThanOrEqual(4);
     expect(parsed.exchangeRates.base).toBe("USD");
     expect(parsed.assumptions.currency).toBe("USD");
-    expect(parsed.metadata.cloudPricing.lastUpdated).toBe("2026-08-10");
+    expect(parsed.metadata.cloudPricing.lastUpdated).toBe("2026-09-20");
   });
 
   it("rejects broken cross-catalog references", () => {

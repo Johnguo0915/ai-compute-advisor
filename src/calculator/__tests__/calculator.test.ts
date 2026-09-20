@@ -111,7 +111,12 @@ describe("pure calculation engine", () => {
     });
 
     expect(result.modelWeightGB).toBeCloseTo(36.75, 8);
+    expect(result.systemMemoryOffloadGB).toBe(0);
+    expect(result.gpuResidentWeightGB).toBeCloseTo(36.75, 8);
+    expect(result.ssdKvCacheOffloadGB).toBe(0);
     expect(result.kvCacheGB).toBeCloseTo(10.73741824, 8);
+    expect(result.gpuResidentKvCacheGB).toBeCloseTo(10.73741824, 8);
+    expect(result.safetyMarginRatio).toBe(0.15);
     expect(result.runtimeOverheadGB).toBeCloseTo(3.675, 8);
     expect(result.recommendedVramGB).toBeCloseTo(58.836780976, 8);
   });
@@ -129,6 +134,119 @@ describe("pure calculation engine", () => {
       model.totalParametersB * 0.5 * (1 + model.quantizations[0]!.packingOverheadRatio);
     expect(result.modelWeightGB).toBeCloseTo(expectedWeight);
     expect(result.modelWeightGB).toBeGreaterThan(model.activeParametersB * 0.5);
+  });
+
+  it("subtracts AI Fusion 2.0 system-memory offload from GPU-resident VRAM", () => {
+    const model = catalogs.models.find(
+      (candidate) => candidate.id === "qwen3.6-35b-a3b-ai-fusion-2",
+    )!;
+    const quantization = model.quantizations.find(
+      (candidate) => candidate.id === model.recommendedQuantizationId,
+    )!;
+    const assumptions = {
+      ...catalogs.assumptions.vram,
+      minimumRuntimeOverheadGB: 0,
+      defaultRuntimeOverheadRatio: 0.1,
+      safetyMarginRatio: 0.15,
+    };
+    const withOffload = calculateVramRequirement({
+      model,
+      quantization,
+      peakContextTokens: 8_192,
+      peakConcurrentUsers: 1,
+      assumptions,
+    });
+    const withoutOffload = calculateVramRequirement({
+      model: { ...model, systemMemoryOffloadGB: undefined },
+      quantization,
+      peakContextTokens: 8_192,
+      peakConcurrentUsers: 1,
+      assumptions,
+    });
+
+    expect(model.systemMemoryOffloadGB).toBe(5);
+    expect(withOffload.systemMemoryOffloadGB).toBe(5);
+    expect(withOffload.gpuResidentWeightGB).toBeCloseTo(
+      withoutOffload.modelWeightGB - 5,
+      8,
+    );
+    expect(withOffload.recommendedVramGB).toBeLessThan(
+      withoutOffload.recommendedVramGB,
+    );
+    expect(withOffload.trace.warnings.join(" ")).toMatch(/system memory/i);
+  });
+
+  it("subtracts AI Fusion 2.0 SSD KV offload and uses a 5% safety margin", () => {
+    const model = catalogs.models.find(
+      (candidate) => candidate.id === "qwen3.6-35b-a3b-ai-fusion-2",
+    )!;
+    const quantization = model.quantizations.find(
+      (candidate) => candidate.id === model.recommendedQuantizationId,
+    )!;
+    const assumptions = {
+      ...catalogs.assumptions.vram,
+      minimumRuntimeOverheadGB: 0,
+      defaultRuntimeOverheadRatio: 0.1,
+      safetyMarginRatio: 0.15,
+    };
+    const peakContextTokens = 32_768;
+    const peakConcurrentUsers = 1;
+    const withFusion = calculateVramRequirement({
+      model,
+      quantization,
+      peakContextTokens,
+      peakConcurrentUsers,
+      assumptions,
+    });
+    const withoutSsd = calculateVramRequirement({
+      model: { ...model, ssdKvCacheOffloadGB: undefined },
+      quantization,
+      peakContextTokens,
+      peakConcurrentUsers,
+      assumptions,
+    });
+    const withDefaultSafety = calculateVramRequirement({
+      model: { ...model, safetyMarginRatio: undefined },
+      quantization,
+      peakContextTokens,
+      peakConcurrentUsers,
+      assumptions,
+    });
+    const totalKvCacheGB =
+      (peakContextTokens * peakConcurrentUsers * model.kvCacheBytesPerToken!) /
+      1_000_000_000;
+
+    expect(model.ssdKvCacheOffloadGB).toBe(1);
+    expect(model.safetyMarginRatio).toBe(0.05);
+    expect(withFusion.ssdKvCacheOffloadGB).toBe(1);
+    expect(withFusion.totalKvCacheGB).toBeCloseTo(totalKvCacheGB, 8);
+    expect(withFusion.kvCacheGB).toBeCloseTo(totalKvCacheGB - 1, 8);
+    expect(withFusion.gpuResidentKvCacheGB).toBeCloseTo(totalKvCacheGB - 1, 8);
+    expect(withFusion.safetyMarginRatio).toBe(0.05);
+    expect(withFusion.safetyMarginGB).toBeCloseTo(withFusion.hardMinimumGB * 0.05, 8);
+    expect(withFusion.recommendedVramGB).toBeLessThan(withoutSsd.recommendedVramGB);
+    expect(withFusion.recommendedVramGB).toBeLessThan(
+      withDefaultSafety.recommendedVramGB,
+    );
+    expect(withFusion.trace.warnings.join(" ")).toMatch(/SSD/i);
+  });
+
+  it("clamps SSD KV offload so GPU-resident KV cannot go negative", () => {
+    const model = catalogs.models.find(
+      (candidate) => candidate.id === "qwen3.6-35b-a3b-ai-fusion-2",
+    )!;
+    const quantization = model.quantizations.find(
+      (candidate) => candidate.id === model.recommendedQuantizationId,
+    )!;
+    const result = calculateVramRequirement({
+      model: { ...model, ssdKvCacheOffloadGB: 100 },
+      quantization,
+      peakContextTokens: 1_024,
+      peakConcurrentUsers: 1,
+      assumptions: catalogs.assumptions.vram,
+    });
+    expect(result.kvCacheGB).toBe(0);
+    expect(result.ssdKvCacheOffloadGB).toBeCloseTo(result.totalKvCacheGB, 8);
   });
 
   it("keeps hardware fit thresholds monotonic", () => {
@@ -156,7 +274,7 @@ describe("pure calculation engine", () => {
       (candidate) => candidate.id === "rtx-pro-5000-blackwell-48gb",
     )!;
     const model = catalogs.models.find(
-      (candidate) => candidate.id === "qwen2.5-14b-instruct",
+      (candidate) => candidate.id === "qwen3-14b",
     )!;
     const vram = calculateVramRequirement({
       model,
@@ -274,7 +392,7 @@ describe("pure calculation engine", () => {
 
     const result = calculateAnalysis(config, catalogs);
 
-    expect(result.selectedModel?.id).toBe("qwen2.5-14b-instruct");
+    expect(result.selectedModel?.id).toBe("qwen3-14b");
     expect(result.modelRequirement.reasonCodes).toContain(
       "CONFIGURATION_FIRST_SELECTION",
     );
@@ -313,7 +431,7 @@ describe("pure calculation engine", () => {
       startingClass: "expert",
     };
     const qwen = extendedCatalogs.models.find(
-      (candidate) => candidate.id === "qwen2.5-14b-instruct",
+      (candidate) => candidate.id === "qwen3-14b",
     )!;
     qwen.capabilityTierId = "expert";
 
@@ -344,7 +462,7 @@ describe("pure calculation engine", () => {
     expect(resolution.warning).toContain("MULTI_GPU_EFFICIENCY_MISSING");
 
     const profile = catalogs.inferenceProfiles.find(
-      (candidate) => candidate.id === "qwen25-14b-q4-4090x1",
+      (candidate) => candidate.id === "qwen3-14b-q4-4090x1",
     )!;
     const demand = calculateTokenDemand(workload);
     const performance = calculatePerformanceCapacity({
@@ -382,7 +500,7 @@ describe("pure calculation engine", () => {
     };
     config.modelSelection = {
       mode: "manual",
-      modelId: "qwen2.5-14b-instruct",
+      modelId: "qwen3-14b",
       quantizationId: "q4",
     };
     config.hardwareSelection = {

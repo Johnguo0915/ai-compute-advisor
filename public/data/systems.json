@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "catalogId": "desktop-systems",
-  "lastUpdated": "2026-08-11",
+  "lastUpdated": "2026-09-20",
   "source": {
     "label": "Bundled directional complete-system examples",
     "methodology": "Illustrative planning configurations for exercising the desktop-system adapter. Prices, power, bandwidth and performance are directional and must be replaced with current vendor or measured data before a purchase decision."
@@ -51,7 +51,7 @@
       "name": "Directional 192GB Unified-Memory Desktop",
       "vendor": "Reference Design",
       "dataQuality": "directional",
-      "lastUpdated": "2026-08-11",
+      "lastUpdated": "2026-09-20",
       "memoryArchitecture": "unified",
       "allocatableUnifiedMemoryGB": 160,
       "systemMemoryType": "Unified",
@@ -73,7 +73,7 @@
         "method": "community-reported"
       },
       "performance": {
-        "modelId": "qwen2.5-14b-instruct",
+        "modelId": "qwen3-14b",
         "quantizationId": "q4",
         "contextTokens": 8192,
         "concurrency": 1,

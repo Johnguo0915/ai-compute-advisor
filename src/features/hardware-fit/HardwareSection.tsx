@@ -209,6 +209,32 @@ function GpuConfiguration({
 function MemoryRequirementPanel({ analysis }: { analysis: AnalysisResult }) {
   const { t } = useI18n();
   const vram = analysis.vram;
+  const kvLabel = analysis.selectedModel?.id.endsWith("-ai-fusion-2")
+    ? t("hardware.kvCacheAiFusion2")
+    : t("hardware.kvCache");
+  const offloadGB = vram?.systemMemoryOffloadGB ?? 0;
+  const ssdKvGB = vram?.ssdKvCacheOffloadGB ?? 0;
+  const isFusion = analysis.selectedModel?.id.endsWith("-ai-fusion-2") ?? false;
+  const rows: Array<[string, number | undefined]> = [
+    [t("hardware.modelWeights"), vram?.modelWeightGB],
+  ];
+  if (offloadGB > 0) {
+    rows.push(
+      [t("hardware.systemMemoryOffload"), offloadGB],
+      [t("hardware.gpuResidentWeights"), vram?.gpuResidentWeightGB],
+    );
+  }
+  rows.push([kvLabel, vram?.totalKvCacheGB ?? vram?.kvCacheGB]);
+  if (ssdKvGB > 0) {
+    rows.push(
+      [t("hardware.ssdKvCacheOffload"), ssdKvGB],
+      [t("hardware.gpuResidentKvCache"), vram?.gpuResidentKvCacheGB],
+    );
+  }
+  rows.push(
+    [t("hardware.runtimeOverhead"), vram?.runtimeOverheadGB],
+    [t("hardware.safetyMargin"), vram?.safetyMarginGB],
+  );
   return (
     <Panel className="overflow-hidden">
       <div className="flex items-center gap-2 border-b border-slate-200 px-5 py-4">
@@ -216,10 +242,10 @@ function MemoryRequirementPanel({ analysis }: { analysis: AnalysisResult }) {
         <h3 className="font-bold text-slate-950">{t("hardware.memoryRequirement")}</h3>
       </div>
       <dl className="divide-y divide-slate-100 px-5">
-        {[[t("hardware.modelWeights"), vram?.modelWeightGB], [t("hardware.kvCache"), vram?.kvCacheGB], [t("hardware.runtimeOverhead"), vram?.runtimeOverheadGB], [t("hardware.safetyMargin"), vram?.safetyMarginGB]].map(([label, value]) => (
+        {rows.map(([label, value]) => (
           <div key={String(label)} className="flex items-center justify-between gap-4 py-3 text-sm">
             <dt className="font-medium text-slate-600">{label}</dt>
-            <dd className="font-bold tabular-nums text-slate-950">{formatMemoryValue(value as number | undefined, t)}</dd>
+            <dd className="font-bold tabular-nums text-slate-950">{formatMemoryValue(value, t)}</dd>
           </div>
         ))}
         <div className="flex items-center justify-between gap-4 py-4">
@@ -227,6 +253,17 @@ function MemoryRequirementPanel({ analysis }: { analysis: AnalysisResult }) {
           <dd className="text-2xl font-bold tracking-[-0.03em] tabular-nums text-slate-950">{formatMemoryValue(vram?.recommendedVramGB, t)}</dd>
         </div>
       </dl>
+      {isFusion || offloadGB > 0 || ssdKvGB > 0 ? (
+        <div className="border-t border-slate-100 px-5 py-4">
+          <InlineNotice tone="blue" title={t("hardware.fusionOffloadTitle")}>
+            {t("hardware.fusionOffloadDescription", {
+              ram: formatMemoryValue(offloadGB || 5, t),
+              kv: formatMemoryValue(ssdKvGB || 1, t),
+              safety: "5%",
+            })}
+          </InlineNotice>
+        </div>
+      ) : null}
     </Panel>
   );
 }

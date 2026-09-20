@@ -36,10 +36,10 @@ describe("model-bound recommendation evidence", () => {
 
     const result = calculateAnalysis(config, catalogs);
 
-    expect(result.selectedModel?.id).toBe("qwen2.5-14b-instruct");
+    expect(result.selectedModel?.id).toBe("qwen3-14b");
     expect(result.selectedGpu?.id).toBe("rtx-4090-24gb");
     expect(result.config.hardwareSelection.gpuCount).toBe(1);
-    expect(result.performance?.profileId).toBe("qwen25-14b-q4-4090x1");
+    expect(result.performance?.profileId).toBe("qwen3-14b-q4-4090x1");
     expect(result.performance?.effectiveTokensPerSecond).not.toBeNull();
     expect(
       result.warnings.some((warning) =>
@@ -151,11 +151,11 @@ describe("model-bound recommendation evidence", () => {
 
     const result = calculateAnalysis(config, catalogs);
 
-    expect(result.selectedModel?.id).toBe("deepseek-r1-671b");
+    expect(result.selectedModel?.id).toBe("deepseek-v4-flash");
     expect(result.modelRequirement.reasonCodes).toContain(
       "PARTIAL_MODEL_EVIDENCE_FALLBACK",
     );
-    expect(result.cloudCost?.pricing?.modelId).toBe("deepseek-r1-671b");
+    expect(result.cloudCost?.pricing?.modelId).toBe("deepseek-v4-flash");
     expect(
       result.warnings.some(
         (warning) =>
@@ -232,7 +232,7 @@ describe("model-bound recommendation evidence", () => {
     const config = createDefaultAdvisorConfig(catalogsWithOnlyUnboundPricing);
     config.modelSelection = {
       mode: "manual",
-      modelId: "qwen2.5-14b-instruct",
+      modelId: "qwen3-14b",
       quantizationId: "q4",
     };
     config.economics.cloudPricingId = unboundPricing.id;

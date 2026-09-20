@@ -69,9 +69,15 @@ export interface ModelRequirementResult {
 
 export interface VramResult {
   modelWeightGB: number;
+  systemMemoryOffloadGB: number;
+  gpuResidentWeightGB: number;
+  totalKvCacheGB: number;
   kvCacheGB: number;
+  ssdKvCacheOffloadGB: number;
+  gpuResidentKvCacheGB: number;
   runtimeOverheadGB: number;
   safetyMarginGB: number;
+  safetyMarginRatio: number;
   hardMinimumGB: number;
   recommendedVramGB: number;
   kvCacheMethod: "model-data" | "class-fallback";
