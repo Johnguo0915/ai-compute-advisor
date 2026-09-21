@@ -136,7 +136,7 @@ describe("pure calculation engine", () => {
     expect(result.modelWeightGB).toBeGreaterThan(model.activeParametersB * 0.5);
   });
 
-  it("subtracts AI Fusion 2.0 system-memory offload from GPU-resident VRAM", () => {
+  it("subtracts AI Fusion Turbo system-memory offload from GPU-resident VRAM", () => {
     const model = catalogs.models.find(
       (candidate) => candidate.id === "qwen3.6-35b-a3b-ai-fusion-2",
     )!;
@@ -176,7 +176,7 @@ describe("pure calculation engine", () => {
     expect(withOffload.trace.warnings.join(" ")).toMatch(/system memory/i);
   });
 
-  it("subtracts AI Fusion 2.0 SSD KV offload and uses a 5% safety margin", () => {
+  it("subtracts AI Fusion Turbo SSD KV offload and uses a 5% safety margin", () => {
     const model = catalogs.models.find(
       (candidate) => candidate.id === "qwen3.6-35b-a3b-ai-fusion-2",
     )!;

@@ -79,7 +79,7 @@ describe("mainstream local model catalog", () => {
     );
   });
 
-  it("catalogues AI Fusion 2.0 KV compression as K8-bit / Q3-bit on supported models", () => {
+  it("catalogues AI Fusion Turbo KV compression as K8-bit / Q3-bit on supported models", () => {
     const supported = [
       ["qwen3.6-35b-a3b", "qwen3.6-35b-a3b-ai-fusion-2"],
       ["gemma-4-26b-a4b-it", "gemma-4-26b-a4b-it-ai-fusion-2"],
@@ -89,8 +89,7 @@ describe("mainstream local model catalog", () => {
     for (const [baseId, fusionId] of supported) {
       const base = model(baseId);
       const fusion = model(fusionId);
-      expect(fusion.name).toMatch(/AI Fusion 2\.0/);
-      expect(fusion.name).toMatch(/K8-bit \/ Q3-bit/);
+      expect(fusion.name).toMatch(/AI Fusion Turbo/);
       expect(fusion.totalParametersB).toBe(base.totalParametersB);
       expect(fusion.activeParametersB).toBe(base.activeParametersB);
       expect(fusion.kvCacheBytesPerToken).toBe(
@@ -100,7 +99,7 @@ describe("mainstream local model catalog", () => {
       expect(fusion.ssdKvCacheOffloadGB).toBe(1);
       expect(fusion.safetyMarginRatio).toBe(0.05);
       expect(fusion.notes).toMatch(/K 8-bit, Q 3-bit/i);
-      expect(fusion.notes).toMatch(/AI Fusion 2\.0/);
+      expect(fusion.notes).toMatch(/AI Fusion Turbo/);
       expect(fusion.notes).toMatch(/5GB/i);
       expect(fusion.notes).toMatch(/1GB/i);
       expect(fusion.notes).toMatch(/5%/);

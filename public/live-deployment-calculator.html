@@ -349,20 +349,18 @@
       <header>
         <div>
           <div class="kick">方案工作台 / 实时计算</div>
-          <h1>模型与设备的可解释匹配</h1>
+          <h1>模型与设备匹配</h1>
           <p class="sub">
-            每次选择都会立即刷新权重、KV Cache（本地 Q8 或 AI Fusion 2.0 K8-bit / Q3-bit）、显存门槛和可行 ThinkCentre
-            配置。
+            选择后立即刷新结果。
           </p>
-          <p id="localDataNotice" class="local-data-notice">本地自定义设备、报价和测试记录仅保存在当前浏览器，不会改写官方标准库；可随时在本地重新调整。</p>
+          <p id="localDataNotice" class="local-data-notice">自定义数据仅保存在本浏览器。</p>
         </div>
         <div class="language-toggle" aria-label="Language"><button id="langZh" type="button" class="active">中文</button><button id="langEn" type="button">EN</button></div>
       </header>
       <div id="modelFlow"><section class="card">
-        <h2>模型与运行约束</h2>
+        <h2>运行约束</h2>
         <p class="hint">
-          模型目录显示的是现有 MVP 的 26 个真实记录；峰值输入/输出 Token
-          为选填。
+          26 个模型；峰值 Token 选填。
         </p>
         <div class="grid">
           <div>
@@ -374,7 +372,7 @@
             ><select id="quant"></select>
           </div>
           <div>
-            <label>上下文长度</label
+            <label>上下文</label
             ><select id="context">
               <option value="16">16K</option>
               <option value="32" selected>32K</option>
@@ -389,51 +387,50 @@
             ><input id="concurrency" type="number" value="1" min="1" />
           </div>
           <div>
-            <label>峰值输入 / 输出 Token（选填）</label
+            <label>峰值 Token（选填）</label
             ><input id="modelPeakIo" placeholder="未知时采用场景上限假设" />
           </div>
           <div>
-            <label>目标聚合 TPS</label
+            <label>目标 TPS</label
             ><input id="tps" type="number" value="20" min="1" />
           </div>
           <div>
-            <label>显存使用上限（%）</label
+            <label>显存上限（%）</label
             ><input id="modelVramUtilization" type="number" value="90" min="50" max="99" step="1" />
           </div>
         </div>
       </section>
       <section class="card">
-        <h2>实时计算依据</h2>
+        <h2>计算依据</h2>
         <p class="hint" id="modelMeta"></p>
         <div id="offloadBox" class="option pass" style="display:none;margin:12px 0 0">
-          <h3 id="offloadTitle">AI Fusion 2.0 规划：内存卸载、SSD KV 与 5% 安全余量</h3>
-          <p id="offloadText">约 5GB 模型权重放到系统内存，约 1GB KV Cache 放到 SSD，安全余量 5%。GPU 显存按扣减后重算。需核验卸载路径、SSD 分页与系统内存余量。</p>
+          <h3 id="offloadTitle">AI Fusion Turbo</h3>
+          <p id="offloadText">约 5GB 权重到内存，约 1GB KV 到 SSD，安全余量 5%。</p>
         </div>
         <div class="formula">
-          <div><label id="weightLabel">权重显存（推算）</label><strong id="weight"></strong></div>
+          <div><label id="weightLabel">权重显存</label><strong id="weight"></strong></div>
           <i>+</i>
-          <div><label id="kvLabel">KV Cache（本地 Q8）</label><strong id="kv"></strong></div>
+          <div><label id="kvLabel">KV Cache</label><strong id="kv"></strong></div>
           <i>+</i>
           <div>
-            <label id="reserveLabel">运行时安全余量（由使用上限计算）</label><strong id="reserve"></strong>
+            <label id="reserveLabel">安全余量</label><strong id="reserve"></strong>
           </div>
           <i>=</i>
           <div><label>推荐显存</label><strong id="need"></strong></div>
         </div>
         <p class="hint" id="formulaText" style="margin-top: 12px"></p>
-        <p class="hint" id="sourceText">模型参数来源：<a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face Model Hub</a> 的官方模型仓库与配置文件；运行时预留由内部规则维护，需以指定运行时实测校验。</p>
+        <p class="hint" id="sourceText">来源：<a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face</a>。本地 KV 为 Q8；吞吐需压测。</p>
       </section>
       <section class="card">
-        <h2>可行设备部署方案</h2>
+        <h2>可行方案</h2>
         <p class="hint">
-          每一个条目从单台具体配置开始，系统按目标 TPS
-          反推需要台数；多台默认用于并发、服务副本或高可用。
+          每条为单台配置。
         </p>
         <div id="options" class="options"></div>
       </section></div>
       <div id="hardwareFlow" style="display:none">
-        <section class="card"><h2>已有硬件与运行约束</h2><p class="hint">选择已有资源与服务目标，系统反推出可部署模型、台数、容量余量与必须验证项。</p>
-          <h3 style="font-size:12px;margin:14px 0 8px">快速评估（常用）</h3><div class="grid"><div><label>已有设备</label><select id="hardware"></select></div><div><label>设备台数</label><input id="hardwareCount" type="number" value="1" min="1" /></div><div><label>模型能力筛选</label><select id="capability"><option value="all">全部开放模型</option><option value="reasoning">推理 / Agent</option><option value="coding">代码生成</option><option value="multimodal">多模态 / 视觉</option><option value="document">文档理解 / RAG</option><option value="translation">翻译 / 多语言</option><option value="text">通用文本问答</option></select></div><div><label>量化</label><select id="hardwareQuant"><option value="4" selected>Q4</option><option value="8">Q8</option><option value="16">FP16 / BF16</option></select></div><div><label>上下文长度</label><select id="hardwareContext"><option value="16">16K</option><option value="32" selected>32K</option><option value="64">64K</option><option value="128">128K</option><option value="256">256K</option><option value="512">512K</option><option value="1024">1M</option></select></div><div><label>峰值并发</label><input id="hardwareConcurrency" type="number" value="1" min="1" /></div><div><label>目标聚合 TPS</label><input id="hardwareTps" type="number" value="20" min="1" /></div><div><label>AI 加速卡分层容量</label><select id="acceleratorTier"><option value="0">无</option><option value="320">320GB</option><option value="1024">1TB</option></select></div></div>
+        <section class="card"><h2>已有硬件</h2><p class="hint">按已有硬件反推可部署模型。</p>
+          <h3 style="font-size:12px;margin:14px 0 8px">快速评估（常用）</h3><div class="grid"><div><label>已有设备</label><select id="hardware"></select></div><div><label>设备台数</label><input id="hardwareCount" type="number" value="1" min="1" /></div><div><label>模型能力筛选</label><select id="capability"><option value="all">全部开放模型</option><option value="reasoning">推理 / Agent</option><option value="coding">代码生成</option><option value="multimodal">多模态 / 视觉</option><option value="document">文档理解 / RAG</option><option value="translation">翻译 / 多语言</option><option value="text">通用文本问答</option></select></div><div><label>量化</label><select id="hardwareQuant"><option value="4" selected>Q4</option><option value="8">Q8</option><option value="16">FP16 / BF16</option></select></div><div><label>上下文长度</label><select id="hardwareContext"><option value="16">16K</option><option value="32" selected>32K</option><option value="64">64K</option><option value="128">128K</option><option value="256">256K</option><option value="512">512K</option><option value="1024">1M</option></select></div><div><label>峰值并发</label><input id="hardwareConcurrency" type="number" value="1" min="1" /></div><div><label>目标聚合 TPS</label><input id="hardwareTps" type="number" value="20" min="1" /></div><div><label>AI 加速卡（Post training）</label><select id="acceleratorTier"><option value="0">无</option><option value="320">320GB</option><option value="1024">1TB</option></select></div></div>
           <details id="advancedRequirements" style="margin-top:14px"><summary style="cursor:pointer;color:#c7d5ea;font-size:11px">补充要求（选填）</summary><div class="grid" style="margin-top:12px"><div><label>峰值输入 / 输出 Token</label><input id="hardwareIo" placeholder="例如 8K / 2K；未知可留空" /></div><div><label>TTFT 目标（秒）</label><input id="hardwareTtft" type="number" placeholder="可选" min="0" step="0.1" /></div><div><label>系统内存</label><select id="systemRam"><option value="16">16GB</option><option value="32">32GB</option><option value="64" selected>64GB</option><option value="128">128GB</option><option value="256">256GB</option><option value="custom">客户指定，待补充</option></select></div><div><label>允许跨设备分片</label><select id="hardwareSharding"><option value="no">否：仅做副本并发</option><option value="yes" selected>是：需验证运行时</option></select></div><div><label>多机互联能力</label><select id="interconnect"><option>未知 / 待验证</option><option>标准以太网</option><option>高速网络</option></select></div><div><label>本地 / 混合云</label><select id="dataBoundary"><option>必须本地</option><option>脱敏后可上云</option><option>允许混合云</option></select></div><div><label>预算上限</label><input placeholder="选填" /></div><div><label>功耗上限（W）</label><input placeholder="选填" /></div><div><label>目标运行时</label><select><option>未指定</option><option>vLLM</option><option>SGLang</option><option>llama.cpp</option></select></div><div><label>高可用需求</label><select><option>无</option><option>需要 N+1</option><option>需要跨机房</option></select></div></div></details>
         </section>
         <section class="card"><h2>可部署模型</h2><p class="hint" id="hardwareMeta"></p><div id="hardwareOptions" class="options"></div></section>
@@ -452,16 +449,16 @@
           <span>可验收显存</span><b class="good" id="sumNeed"></b>
         </div>
         <div class="row"><span>目标 / 预计 TPS</span><b id="sumTps"></b></div>
-        <div class="row"><span id="acceleratorSummaryLabel">AI 加速量化</span><b id="sumAccelerator"></b></div>
+        <div class="row"><span id="acceleratorSummaryLabel">Post training</span><b id="sumAccelerator"></b></div>
         <div class="row device-list"><span id="machineListLabel">部署设备清单</span><b id="sumMachineList"></b></div>
         <div class="row"><span id="evidenceLabel">证据状态</span><b id="evidenceStatus">估算，需压测</b></div>
       </div>
-      <div class="side"><h3 id="evidenceTitle">方案说明</h3><p id="evidenceText">结果按当前模型、权重量化、KV Cache（本地 Q8 或 AI Fusion 2.0 K8-bit / Q3-bit）、上下文、并发和 TPS 约束实时计算；性能为估算时需压测确认。</p></div>
+      <div class="side"><h3 id="evidenceTitle">方案说明</h3><p id="evidenceText">按当前输入估算，吞吐需压测。</p></div>
     </div>
   </div>
   <div id="deviceModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="新增设备">
     <div class="modal"><div class="modal-header"><h2>新增设备配置</h2><button id="closeDeviceModal" class="action" type="button">关闭</button></div>
-      <p class="hint">工程师维护的字段。新增后标记为“待审核”，审核通过才参与正式推荐。</p>
+      <p class="hint">新增后待审核，通过后才参与推荐。</p>
       <div class="grid">
         <div><label>设备名称</label><input id="newDeviceName" placeholder="例如：客户指定 Intel B60 工作站" /></div><div><label>设备平台</label><select><option>ThinkCentre X Tower</option><option>ThinkCentre X Ultra</option><option>客户指定硬件</option></select></div>
         <div><label>GPU 厂商 / 型号</label><input placeholder="例如：Intel B60" /></div><div><label>单卡显存（GB）</label><input type="number" placeholder="24" /></div>
@@ -535,7 +532,7 @@
           ["BF16", 16],
         ],
         [
-          "Gemma 4 26B A4B IT · AI Fusion 2.0（K8-bit / Q3-bit）",
+          "Gemma 4 26B A4B IT · AI Fusion Turbo",
           25.2,
           67584,
           262144,
@@ -601,7 +598,7 @@
           ["FP16", 16],
         ],
         [
-          "Qwen3.6 35B A3B · AI Fusion 2.0（K8-bit / Q3-bit）",
+          "Qwen3.6 35B A3B · AI Fusion Turbo",
           35,
           90112,
           262144,
@@ -619,7 +616,7 @@
           ["FP16", 16],
         ],
         [
-          "Ornith 1.5 35B A3B · AI Fusion 2.0（K8-bit / Q3-bit）",
+          "Ornith 1.5 35B A3B · AI Fusion Turbo",
           35,
           90112,
           262144,
@@ -698,8 +695,8 @@
       function deviceSpecs(h) {
         const [bandwidth, tops, precision, tdp] = h[3] || [];
         return english
-          ? ("VRAM bandwidth " + bandwidth + " GB/s · peak AI " + tops + " TOPS (" + precision + ")" + (tdp ? " · GPU TDP " + tdp + " W" : "") + ". Hardware specifications only; TOPS is not converted into LLM TPS.")
-          : ("显存带宽 " + bandwidth + " GB/s · 峰值 AI " + tops + " TOPS（" + precision + "）" + (tdp ? " · GPU TDP " + tdp + " W" : "") + "。仅为硬件规格，TOPS 不换算为 LLM TPS。");
+          ? (bandwidth + " GB/s · " + tops + " TOPS" + (tdp ? " · " + tdp + " W" : ""))
+          : (bandwidth + " GB/s · " + tops + " TOPS" + (tdp ? " · " + tdp + " W" : ""));
       }
       function matchesCapability(name, capability) {
         if (capability === "all") return true;
@@ -715,7 +712,30 @@
         return !!labels[capability];
       }
       function isAiFusion2(m) {
-        return String(m[0]).indexOf("AI Fusion 2.0") >= 0;
+        return String(m[0]).indexOf("AI Fusion Turbo") >= 0;
+      }
+      function canPostTrain(m, tier) {
+        if (!tier || isAiFusion2(m)) return false;
+        const size = m[1];
+        // 14B-class includes records slightly over 14B, e.g. Qwen3 14B = 14.8B.
+        if (tier === 320) return size <= 15;
+        if (tier === 1024) return size <= 72;
+        return false;
+      }
+      function postTrainSummary(m, english) {
+        if (isAiFusion2(m)) return english ? "No post-training" : "不可 Post training";
+        const size = m[1];
+        if (size <= 15) return english ? "GPU+320GB / 1TB" : "GPU+320GB / 1TB";
+        if (size <= 72) return english ? "GPU+1TB" : "GPU+1TB";
+        return english ? "No post-training" : "不可 Post training";
+      }
+      function postTrainTag(m, tier, english) {
+        if (!tier) return "";
+        if (canPostTrain(m, tier)) {
+          const card = tier === 320 ? "320GB" : "1TB";
+          return '<span class="tag good">' + (english ? ("GPU + " + card + " post-training") : ("GPU+" + card + " 可 Post training")) + "</span>";
+        }
+        return '<span class="tag">' + (english ? "No post-training" : "不可 Post training") + "</span>";
       }
       function fusionOffloadGB(m) {
         return isAiFusion2(m) ? 5 : 0;
@@ -727,18 +747,12 @@
         return isAiFusion2(m) ? 0.95 : fallback;
       }
       function kvPrecisionLabel(m, english) {
-        if (isAiFusion2(m)) {
-          return english
-            ? "AI Fusion 2.0 KV Cache (K 8-bit / Q 3-bit)"
-            : "AI Fusion 2.0 KV Cache（K8-bit / Q3-bit）";
-        }
-        return english ? "local Q8 KV Cache" : "本地 Q8 KV Cache";
+        if (isAiFusion2(m)) return "Fusion Turbo KV";
+        return english ? "Q8 KV" : "Q8 KV";
       }
       function kvBytesLabel(m, english) {
-        if (!Number.isFinite(m[2])) return english ? "pending verification" : "参数待校验";
-        return english
-          ? (m[2].toLocaleString() + " B/token (" + (isAiFusion2(m) ? "AI Fusion 2.0 · K8-bit / Q3-bit" : "local Q8") + ")")
-          : (m[2].toLocaleString() + " B/token（" + (isAiFusion2(m) ? "AI Fusion 2.0 · K8-bit / Q3-bit" : "本地 Q8") + "）");
+        if (!Number.isFinite(m[2])) return english ? "pending" : "待校验";
+        return m[2].toLocaleString() + " B/token";
       }
       function calc() {
         const m = M[+sm.value],
@@ -762,71 +776,74 @@
         const offloadBox = r.querySelector("#offloadBox");
         if (offloadBox) offloadBox.style.display = isAiFusion2(m) ? "block" : "none";
         if (isAiFusion2(m)) {
-          r.querySelector("#offloadTitle").textContent = english
-            ? "AI Fusion 2.0 planning: RAM offload, SSD KV, 5% safety"
-            : "AI Fusion 2.0 规划：内存卸载、SSD KV 与 5% 安全余量";
+          r.querySelector("#offloadTitle").textContent = "AI Fusion Turbo";
           r.querySelector("#offloadText").textContent = english
-            ? ("About " + offload.toFixed(1) + "GB of weights go to system memory and about " + ssdKv.toFixed(1) + "GB of KV cache goes to SSD. GPU VRAM uses resident weights " + gpuWeight.toFixed(1) + "GB (total " + weight.toFixed(1) + "GB − " + offload.toFixed(1) + "GB) plus resident KV " + (kvKnown ? kv.toFixed(1) : "—") + "GB (total KV " + (kvKnown ? totalKv.toFixed(1) : "—") + "GB − " + ssdKv.toFixed(1) + "GB), with 5% safety headroom. Validate the offload path, SSD paging bandwidth/latency and host RAM.")
-            : ("约 " + offload.toFixed(1) + "GB 权重放到系统内存，约 " + ssdKv.toFixed(1) + "GB KV Cache 放到 SSD。GPU 显存按驻留权重 " + gpuWeight.toFixed(1) + "GB（总权重 " + weight.toFixed(1) + "GB − " + offload.toFixed(1) + "GB）加上驻留 KV " + (kvKnown ? kv.toFixed(1) : "—") + "GB（总 KV " + (kvKnown ? totalKv.toFixed(1) : "—") + "GB − " + ssdKv.toFixed(1) + "GB）计算，安全余量 5%。需核验卸载路径、SSD 分页带宽/延迟与系统内存余量。");
+            ? ("~" + offload.toFixed(0) + "GB weights in RAM, ~" + ssdKv.toFixed(0) + "GB KV on SSD, 5% safety.")
+            : ("约 " + offload.toFixed(0) + "GB 权重到内存，约 " + ssdKv.toFixed(0) + "GB KV 到 SSD，安全余量 5%。");
         }
         r.querySelector("#modelMeta").textContent = english
-          ? (m[0] + " · " + m[1] + "B parameters · maximum context " + (m[3] / 1024) + "K · KV Cache " + kvBytesLabel(m, true) + (isAiFusion2(m) ? " · " + offload.toFixed(0) + "GB weights to RAM · " + ssdKv.toFixed(0) + "GB KV to SSD · 5% safety" : ""))
-          : (m[0] + " · " + m[1] + "B 参数 · 最大上下文 " + (m[3] / 1024) + "K · KV Cache " + kvBytesLabel(m, false) + (isAiFusion2(m) ? " · 约 " + offload.toFixed(0) + "GB 权重到内存 · 约 " + ssdKv.toFixed(0) + "GB KV 到 SSD · 安全余量 5%" : ""));
+          ? (m[0] + " · " + m[1] + "B · " + (m[3] / 1024) + "K ctx")
+          : (m[0] + " · " + m[1] + "B · 上下文 " + (m[3] / 1024) + "K");
         r.querySelector("#weightLabel").textContent = english
-          ? (offload > 0 ? "GPU-resident weights (after 5GB offload)" : "Weight VRAM (estimate)")
-          : (offload > 0 ? "GPU 权重显存（已卸载 5GB）" : "权重显存（推算）");
+          ? (offload > 0 ? "GPU weights" : "Weight VRAM")
+          : (offload > 0 ? "GPU 权重" : "权重显存");
         r.querySelector("#kvLabel").textContent = english
-          ? (ssdKv > 0 ? "GPU-resident KV Cache (after ~1GB SSD offload)" : (isAiFusion2(m) ? "KV Cache (AI Fusion 2.0 · K8-bit / Q3-bit)" : "KV Cache (local Q8)"))
-          : (ssdKv > 0 ? "GPU 驻留 KV Cache（已卸载约 1GB 到 SSD）" : (isAiFusion2(m) ? "KV Cache（AI Fusion 2.0 · K8-bit / Q3-bit）" : "KV Cache（本地 Q8）"));
+          ? (ssdKv > 0 ? "GPU KV" : (isAiFusion2(m) ? "Fusion Turbo KV" : "KV Cache"))
+          : (ssdKv > 0 ? "GPU KV" : (isAiFusion2(m) ? "Fusion Turbo KV" : "KV Cache"));
         const reserveLabel = r.querySelector("#reserveLabel");
         if (reserveLabel) {
           reserveLabel.textContent = english
-            ? (isAiFusion2(m) ? "Runtime safety headroom (AI Fusion 2.0 · 5%)" : "Runtime safety headroom (calculated)")
-            : (isAiFusion2(m) ? "运行时安全余量（AI Fusion 2.0 · 5%）" : "运行时安全余量（由使用上限计算）");
+            ? (isAiFusion2(m) ? "Safety 5%" : "Safety")
+            : (isAiFusion2(m) ? "安全余量 5%" : "安全余量");
         }
         r.querySelector("#weight").textContent = gpuWeight.toFixed(1) + " GB";
         r.querySelector("#kv").textContent = kvKnown ? kv.toFixed(1) + " GB" : "待校验";
         r.querySelector("#reserve").textContent = kvKnown ? (english ? (safetyReserve.toFixed(1) + " GB (" + Math.round((1 - vramUtilization) * 100) + "%)") : (safetyReserve.toFixed(1) + " GB（" + Math.round((1 - vramUtilization) * 100) + "%）")) : (english ? "Pending verification" : "待校验");
         r.querySelector("#need").textContent = kvKnown ? need + " GB" : "无法计算";
-        r.querySelector("#formulaText").textContent =
-          kvKnown ? (english ? (kvPrecisionLabel(m, true) + " = " + m[2].toLocaleString() + " B/token × " + ctx / 1024 + "K tokens × " + con + " concurrent requests = " + totalKv.toFixed(1) + " GB. " + (isAiFusion2(m) ? "KV uses AI Fusion 2.0 compression (K 8-bit, Q 3-bit; 1.375 bytes per K/V pair, 11/16 of local Q8) independently of the weight quantization. About " + offload.toFixed(1) + "GB of weights are offloaded to system memory. About " + ssdKv.toFixed(1) + "GB of KV cache is placed on SSD, so GPU-resident KV is " + kv.toFixed(1) + " GB. " : "KV is quantized to Q8 (1 byte per K/V element) independently of the weight quantization. ") + "Recommended VRAM = (GPU-resident weights " + gpuWeight.toFixed(1) + " GB" + (offload > 0 ? " = total " + weight.toFixed(1) + " GB − " + offload.toFixed(1) + " GB system-memory offload" : "") + " + KV Cache " + kv.toFixed(1) + " GB) ÷ " + Math.round(vramUtilization * 100) + "% = " + need + " GB; the remaining " + Math.round((1 - vramUtilization) * 100) + "% is runtime safety headroom. Model weights are unchanged by concurrency.") : (kvPrecisionLabel(m, false) + " = " + m[2].toLocaleString() + " B/token × " + ctx / 1024 + "K Token × " + con + " 并发 = " + totalKv.toFixed(1) + " GB。" + (isAiFusion2(m) ? "KV 采用 AI Fusion 2.0 压缩（K 8-bit、Q 3-bit；每 K/V 元素对 1.375 字节，为本地 Q8 的 11/16），与权重量化无关。约 " + offload.toFixed(1) + "GB 权重卸载到系统内存。约 " + ssdKv.toFixed(1) + "GB KV Cache 放到 SSD，因此 GPU 驻留 KV 为 " + kv.toFixed(1) + " GB。" : "KV 按 Q8（每 K/V 元素 1 字节）量化，与权重量化无关。") + "推荐显存 =（GPU 权重 " + gpuWeight.toFixed(1) + " GB" + (offload > 0 ? " = 总权重 " + weight.toFixed(1) + " GB − " + offload.toFixed(1) + " GB 系统内存卸载" : "") + " + KV Cache " + kv.toFixed(1) + " GB）÷ " + Math.round(vramUtilization * 100) + "% = " + need + " GB；其余 " + Math.round((1 - vramUtilization) * 100) + "% 作为运行时安全余量。模型权重不随并发变化。")) : (english ? "This model is missing its per-token KV Cache parameter. An engineer must verify it before a deployment plan can be generated." : "此模型缺少每 Token KV Cache 参数；请由模型工程师补录并核验后再生成部署方案。");
+        r.querySelector("#formulaText").textContent = kvKnown
+          ? (english
+            ? ("Recommended = (GPU " + gpuWeight.toFixed(1) + " + KV " + kv.toFixed(1) + ") ÷ " + Math.round(vramUtilization * 100) + "% = " + need + "GB.")
+            : ("推荐 =（GPU " + gpuWeight.toFixed(1) + " + KV " + kv.toFixed(1) + "）÷ " + Math.round(vramUtilization * 100) + "% = " + need + "GB。"))
+          : (english ? "KV missing; cannot calculate capacity." : "缺少 KV，无法计算容量。");
+
         r.querySelector("#sourceText").innerHTML = m[0] === "Qwen3.5 9B"
-          ? (english ? 'KV source: <a href="https://huggingface.co/Qwen/Qwen3.5-9B" target="_blank" rel="noopener">Qwen3.5 9B official model card</a>. Derived from 8 full-attention layers × 4 KV heads × 256 head dimension × K/V × 1B (local Q8) = 16,384 B/token; validate runtime KV precision and overhead. The VRAM utilization limit is a user-configurable internal safety rule, pending runtime benchmark.' : 'KV 参数来源：<a href="https://huggingface.co/Qwen/Qwen3.5-9B" target="_blank" rel="noopener">Qwen3.5 9B 官方模型卡</a>。基于 8 个全注意力层 × 4 KV heads × 256 head dim × K/V × 1B（本地 Q8）= 16,384 B/token；部署时仍需核对 KV 精度与运行时开销。显存使用上限为用户可配置的内部安全规则，待运行时压测。')
+          ? (english ? 'KV: <a href="https://huggingface.co/Qwen/Qwen3.5-9B" target="_blank" rel="noopener">Qwen3.5 9B</a> · Q8 16,384 B/token.' : 'KV：<a href="https://huggingface.co/Qwen/Qwen3.5-9B" target="_blank" rel="noopener">Qwen3.5 9B</a> · Q8 16,384 B/token。')
           : m[0] === "Qwen3.8 27B"
-          ? (english ? 'KV source: <a href="https://huggingface.co/Qwen/Qwen3.8-27B" target="_blank" rel="noopener">Qwen3.8-27B official model card</a>. Derived from 16 full-attention layers × 4 KV heads × 256 head dimension × K/V × 1B (local Q8) = 32,768 B/token; Gated DeltaNet layers use a fixed state, not this per-token KV. Validate runtime KV precision and overhead.' : 'KV 参数来源：<a href="https://huggingface.co/Qwen/Qwen3.8-27B" target="_blank" rel="noopener">Qwen3.8-27B 官方模型卡</a>。基于 16 个全注意力层 × 4 KV heads × 256 head dim × K/V × 1B（本地 Q8）= 32,768 B/token；Gated DeltaNet 层使用固定状态而非该每 Token KV。部署时仍需核对 KV 精度与运行时开销。')
+          ? (english ? 'KV: <a href="https://huggingface.co/Qwen/Qwen3.8-27B" target="_blank" rel="noopener">Qwen3.8-27B</a> · Q8 32,768 B/token.' : 'KV：<a href="https://huggingface.co/Qwen/Qwen3.8-27B" target="_blank" rel="noopener">Qwen3.8-27B</a> · Q8 32,768 B/token。')
           : m[0] === "MiniMax H3 33B"
-          ? (english ? 'Model source: <a href="https://huggingface.co/MiniMaxAI/MiniMax-H3" target="_blank" rel="noopener">MiniMax-H3 official model card</a>. This is an omni-modal audio-video generator, not an LLM; per-token KV is unavailable, so deployment-capacity conclusions are blocked.' : '模型来源：<a href="https://huggingface.co/MiniMaxAI/MiniMax-H3" target="_blank" rel="noopener">MiniMax-H3 官方模型卡</a>。这是全模态音视频生成模型，不是 LLM；缺少每 Token KV，禁止输出部署容量结论。')
+          ? (english ? 'Source: <a href="https://huggingface.co/MiniMaxAI/MiniMax-H3" target="_blank" rel="noopener">MiniMax-H3</a>. Not an LLM; KV unavailable.' : '来源：<a href="https://huggingface.co/MiniMaxAI/MiniMax-H3" target="_blank" rel="noopener">MiniMax-H3</a>。非 LLM，缺少 KV。')
           : isAiFusion2(m)
-          ? (english ? 'Model source: official repository on <a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face Model Hub</a>. This is the AI Fusion 2.0 supported planning option: weights match the base model, KV cache uses K 8-bit / Q 3-bit compression (1.375 bytes per K/V pair = 11/16 of the local Q8 bytes/token), about 5GB of model weights are offloaded to system memory, about 1GB of KV cache is placed on SSD, and only 5% VRAM safety headroom is reserved. Validate the AI Fusion 2.0 runtime, offload path, SSD paging, packing, quality and TPS.' : '模型参数来源：<a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face Model Hub</a> 的官方仓库。这是 AI Fusion 2.0 支持的规划选项：权重与基础模型相同，KV Cache 采用 K 8-bit / Q 3-bit 压缩（每 K/V 元素对 1.375 字节，为本地 Q8 的 11/16），约 5GB 模型权重卸载到系统内存，约 1GB KV Cache 放到 SSD，安全余量仅预留 5%。部署时仍需核验 AI Fusion 2.0 运行时、卸载路径、SSD 分页、打包、质量与 TPS。')
+          ? (english ? 'Source: <a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face</a>. AI Fusion Turbo: K8/Q3 KV, ~5GB RAM, ~1GB SSD KV, 5% safety.' : '来源：<a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face</a>。AI Fusion Turbo：K8/Q3 KV，约 5GB 到内存，约 1GB KV 到 SSD，安全余量 5%。')
           : (kvKnown
-          ? (english ? 'Model source: official repository on <a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face Model Hub</a>; KV architecture is from the official card and local planning quantizes KV cache to Q8 (1 byte per K/V element), independently of the weight quantization. The VRAM utilization limit is a configurable internal safety rule, pending benchmark.' : '模型参数来源：<a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face Model Hub</a> 的官方仓库；KV 架构来自官方模型卡，本地规划将 KV Cache 量化为 Q8（每 K/V 元素 1 字节），与权重量化无关。显存使用上限为可配置的内部安全规则，待压测。')
-          : (english ? 'Model source: official repository on <a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face Model Hub</a>; KV parameter missing, so no deployment-capacity conclusion is allowed. VRAM utilization is a configurable internal safety rule.' : '模型参数来源：<a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face Model Hub</a> 的官方仓库；KV 参数状态：缺失，禁止输出部署容量结论。显存使用上限为可配置的内部安全规则。'));
-        r.querySelector("#sourceText").insertAdjacentHTML("beforeend", ' <button id="refreshSource" class="action" type="button" title="' + (english ? 'Refresh the local prototype directory' : '刷新本地原型目录') + '">↻ ' + (english ? 'Refresh prototype directory' : '刷新原型目录') + '</button><span id="sourceRefreshState"></span>');
+          ? (english ? 'Source: <a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face</a>. Local KV is Q8.' : '来源：<a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face</a>。本地 KV 为 Q8。')
+          : (english ? 'Source: <a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face</a>. KV missing; cannot size VRAM.' : '来源：<a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face</a>。缺少 KV，无法计算容量。'));
+        r.querySelector("#sourceText").insertAdjacentHTML("beforeend", ' <button id="refreshSource" class="action" type="button" title="' + (english ? 'Refresh directory' : '刷新目录') + '">↻ ' + (english ? 'Refresh' : '刷新') + '</button><span id="sourceRefreshState"></span>');
         r.querySelector("#refreshSource").onclick = () => {
           const selectedName = sm.options[sm.selectedIndex].text;
           M.sort((a, b) => { const family = (name) => name.toLowerCase().replace(/^deepseek-r1-distill-qwen/, "deepseek").replace(/^llama\s+\d/, "llama").replace(/^qwen[\d.]+/, "qwen"); return family(a[0]).localeCompare(family(b[0])) || a[1] - b[1] || a[0].localeCompare(b[0]); });
           sm.innerHTML = ""; M.forEach((model, index) => sm.add(new Option(model[0], index)));
           const nextIndex = M.findIndex((model) => model[0] === selectedName); sm.value = String(Math.max(0, nextIndex)); update();
-          r.querySelector("#sourceRefreshState").textContent = english ? " Local prototype directory refreshed and sorted. Hugging Face server synchronization is not configured yet." : " 本地原型目录已刷新并排序；Hugging Face 服务端同步尚未配置。";
+          r.querySelector("#sourceRefreshState").textContent = english ? " Directory refreshed." : " 目录已刷新。";
         };
         const fit = kvKnown ? P.filter((h) => h[1] >= need) : [];
         r.querySelector("#options").innerHTML = fit.length
           ? fit
-              .map((h, i) => {
-                const n = hasWorkloadProfile ? Math.ceil(t / h[2]) : 1, totalMachines = n * h[3], perCardCapacity = h[1] / h[4], perCardUse = need / h[4], perCardRemaining = perCardCapacity - perCardUse;
+              .map((h) => {
+                const n = hasWorkloadProfile ? Math.ceil(t / h[2]) : 1, totalMachines = n * h[3];
                 return (
                   '<div class="option"><h3>' +
                   totalMachines + " × " + displayPlanCore(h[0]) +
-                  (english ? "</h3><p>Deployment capacity " : "</h3><p>方案可验收 ") +
-                  h[1] +
-                  (hasWorkloadProfile ? (english ? "GB VRAM · estimated base throughput " + h[2] + " TPS (not peak) · aggregate estimate " + (n * h[2]) + " TPS · " : "GB 显存 · 预估基础组合吞吐 " + h[2] + " TPS（非峰值）· 预估聚合 " + (n * h[2]) + " TPS · ") : (english ? "GB VRAM · throughput pending peak input/output profile or benchmark · " : "GB 显存 · 吞吐待补充峰值输入/输出 Token 或实测资料 · ")) +
-                  (english ? "model uses " + need + "GB VRAM · total remaining " + (h[1] - need) + "GB VRAM · per-card estimated remaining " + perCardRemaining.toFixed(1) + 'GB.</p><span class="tag good">Capacity fits</span>' : "模型占用 " + need + "GB 显存 · 方案剩余 " + (h[1] - need) + "GB 显存 · 每卡预计剩余 " + perCardRemaining.toFixed(1) + 'GB 显存。</p><span class="tag good">容量满足</span>') +
-                  (hasWorkloadProfile ? (english ? '<span class="tag good">Meets ' + t + ' TPS</span>' : '<span class="tag good">满足 ' + t + ' TPS</span>') : '<span class="tag">' + (english ? 'Performance profile required' : '需补充性能档案') + '</span>') +
-                  '<span class="tag">' + displayPlanMode(h[5]) + '</span></div>'
+                  '</h3><p>' + h[1] + (english ? "GB · uses " : "GB · 占用 ") + need +
+                  (english ? "GB · remaining " : "GB · 剩余 ") + (h[1] - need) + "GB</p>" +
+                  '<span class="tag good">' + (english ? "Fits" : "容量满足") + "</span>" +
+                  (hasWorkloadProfile
+                    ? '<span class="tag good">' + t + " TPS</span>"
+                    : '<span class="tag">' + (english ? "Need TPS profile" : "需性能档案") + "</span>") +
+                  '<span class="tag">' + displayPlanMode(h[5]) + "</span></div>"
                 );
               })
               .join("")
-          : '<div class="option"><h3>' + (kvKnown ? (english ? 'No eligible deployment option in the current device library' : '当前设备库没有可行部署方案') : (english ? 'Deployment calculation blocked: KV Cache parameter unverified' : 'KV Cache 参数待核验，无法生成部署方案')) + '</h3><p>' + (kvKnown ? (english ? ('Required VRAM: ' + need + 'GB. Largest validated standard configuration: 144GB VRAM. Reduce context or concurrency, change quantization, or add a verified device configuration.') : ('需要 ' + need + 'GB 显存；当前标准设备库最大可验收容量为 144GB 显存。请降低上下文或并发、调整量化，或补充已验证设备配置。')) : (english ? 'The model directory entry is retained, but its KV architecture data must be verified from the official Hugging Face configuration before it can enter planning.' : '模型目录记录已保留，但必须先从 Hugging Face 官方配置核验 KV 架构数据，才能参与部署计算。')) + '</p><span class="tag">' + (english ? 'No recommendation generated' : '未生成推荐方案') + '</span></div>';
+          : '<div class="option"><h3>' + (kvKnown ? (english ? "No fitting device" : "没有可行设备") : (english ? "KV unverified" : "KV 待核验")) + '</h3><p>' + (kvKnown ? (english ? ("Needs " + need + "GB VRAM.") : ("需要 " + need + "GB 显存。")) : (english ? "Verify KV before planning." : "请先核验 KV。")) + '</p><span class="tag">' + (english ? "No recommendation" : "未生成方案") + "</span></div>";
         const best = fit[0];
         const deviceListHtml = fit.length ? fit.map((h) => {
           const n = hasWorkloadProfile ? Math.ceil(t / h[2]) : 1, total = n * h[3], remaining = h[1] - need;
@@ -843,11 +860,11 @@
           const node = r.querySelectorAll(".summary .row span")[0];
           if (!node) return;
           node.textContent = english
-            ? (isAiFusion2(m) ? "Weights / KV Cache (AI Fusion 2.0)" : "Weights / KV Cache (Q8)")
-            : (isAiFusion2(m) ? "权重 / KV Cache（AI Fusion 2.0）" : "权重 / KV Cache（Q8）");
+            ? (isAiFusion2(m) ? "Weights / KV (Turbo)" : "Weights / KV")
+            : (isAiFusion2(m) ? "权重 / KV（Turbo）" : "权重 / KV");
         }
         r.querySelector("#sumNeed").textContent = kvKnown ? need + " GB" : "待校验";
-        r.querySelector("#sumAccelerator").textContent = "—";
+        r.querySelector("#sumAccelerator").textContent = postTrainSummary(m, english);
         r.querySelector("#sumTps").textContent = hasWorkloadProfile ? (t + " / " + (best ? best[2] : "—") + " TPS") : (english ? "Workload profile required" : "需补充工作负载档案");
         const machineCount = best && hasWorkloadProfile ? Math.ceil(t / best[2]) : 0;
         const totalBestMachines = best ? machineCount * best[3] : 0;
@@ -855,7 +872,7 @@
       }
       function hardwareCalc() {
         const advanced = r.querySelector("#advancedRequirements"), advancedWasOpen = advanced && advanced.open;
-        const h = H[+hs.value], count = Math.max(1, +r.querySelector("#hardwareCount").value || 1), tier = +r.querySelector("#acceleratorTier").value, ram = r.querySelector("#systemRam").value, shard = r.querySelector("#hardwareSharding").value === "yes", target = +r.querySelector("#hardwareTps").value, capability = r.querySelector("#capability").value, bits = +r.querySelector("#hardwareQuant").value, vramUtilization = 0.9,
+        const h = H[+hs.value], count = Math.max(1, +r.querySelector("#hardwareCount").value || 1), tier = +r.querySelector("#acceleratorTier").value, shard = r.querySelector("#hardwareSharding").value === "yes", target = +r.querySelector("#hardwareTps").value, capability = r.querySelector("#capability").value, bits = +r.querySelector("#hardwareQuant").value, vramUtilization = 0.9,
           ctx = +r.querySelector("#hardwareContext").value * 1024,
           con = +r.querySelector("#hardwareConcurrency").value;
         const candidates = M.map((m) => {
@@ -870,27 +887,29 @@
           return { m, weight, offload, ssdKv, kv, kvKnown, util, need: kvKnown ? Math.ceil((weight + kv) / util) : null };
         }).filter((x) => x.kvKnown && matchesCapability(x.m[0], capability));
         const capacity = shard ? h[1] * count : h[1];
-        // AI accelerator tier is a quantization capability only. It never adds
+        // AI accelerator tier is for post-training only. It never adds
         // inference VRAM, changes model fit, or increases TPS.
         const deployable = candidates.filter((x) => x.need <= capacity);
         const nearest = candidates.slice().sort((a, b) => a.need - b.need)[0];
-        const acceleratorLabel = tier > 0
-          ? (english ? (tier + "GB AI accelerator tier, quantization only") : (tier + "GB AI 加速卡分层容量，仅用于量化"))
-          : (english ? "Inference only, no AI accelerator" : "仅推理，未配置 AI 加速卡");
-        const ramNote = ram === "custom" ? (english ? " · system RAM pending input" : " · 系统内存待补充") : (+ram < 64 ? (english ? " · system RAM below the 64GB local-inference baseline — validate risk" : " · 系统内存低于 64GB 本地推理基线，需验证风险") : (english ? " · system RAM " + ram + "GB" : " · 系统内存 " + ram + "GB"));
         r.querySelector("#hardwareMeta").textContent = english
-          ? (count + " × " + h[0] + " · " + (shard ? "sharded validated GPU VRAM " + (h[1] * count) : "per-machine validated GPU VRAM " + h[1]) + "GB" + ramNote + " · " + (ctx / 1024) + "K context · " + con + " concurrent · target " + target + " TPS.")
-          : (count + " × " + h[0] + " · " + (shard ? "可分片 GPU 可验收显存 " + (h[1] * count) : "单机可验收 GPU 显存 " + h[1]) + "GB" + ramNote + " · " + (ctx / 1024) + "K 上下文 · " + con + " 并发 · 目标 " + target + " TPS。");
+          ? (count + " × " + h[0] + " · " + (shard ? h[1] * count : h[1]) + "GB · " + (ctx / 1024) + "K · " + con + " concurrent · " + target + " TPS")
+          : (count + " × " + h[0] + " · " + (shard ? h[1] * count : h[1]) + "GB · " + (ctx / 1024) + "K · " + con + " 并发 · " + target + " TPS");
         r.querySelector("#hardwareMeta").textContent += " " + deviceSpecs(h);
         r.querySelector("#hardwareOptions").innerHTML = deployable.length ? deployable.map((x) =>
-          '<div class="option"><h3>' + x.m[0] + '</h3><p>' + (english ? ('GPU-resident weights ' + x.weight.toFixed(1) + 'GB VRAM' + (x.offload > 0 ? ' (after ' + x.offload.toFixed(0) + 'GB system-memory offload)' : '') + ' + ' + kvPrecisionLabel(x.m, true) + ' ' + x.kv.toFixed(1) + 'GB VRAM' + (x.ssdKv > 0 ? ' (after ' + x.ssdKv.toFixed(0) + 'GB SSD KV offload)' : '') + ', divided by the ' + Math.round(x.util * 100) + '% VRAM utilization limit = recommended VRAM ' + x.need + 'GB.') : ('GPU 权重 ' + x.weight.toFixed(1) + 'GB 显存' + (x.offload > 0 ? '（已卸载 ' + x.offload.toFixed(0) + 'GB 到系统内存）' : '') + ' + ' + kvPrecisionLabel(x.m, false) + ' ' + x.kv.toFixed(1) + 'GB 显存' + (x.ssdKv > 0 ? '（已卸载 ' + x.ssdKv.toFixed(0) + 'GB KV 到 SSD）' : '') + '，按 ' + Math.round(x.util * 100) + '% 显存使用上限折算 = 推荐显存 ' + x.need + 'GB。')) + (shard ? (english ? (' Uses ' + count + ' machines with cross-device sharding; multi-node runtime validation is required.') : (' 使用 ' + count + ' 台跨设备分片，需验证多机运行时。')) : (english ? (' Independently deployable per machine; up to ' + count + ' service replicas.') : (' 每台独立部署，最多 ' + count + ' 个服务副本。'))) + '</p><span class="tag good">' + (english ? 'Capacity deployable' : '容量可部署') + '</span>' + (isAiFusion2(x.m) ? '<span class="tag good">' + (english ? 'AI Fusion 2.0 supported' : 'AI Fusion 2.0 支持') + '</span><span class="tag">' + (english ? '~5GB to RAM · ~1GB KV on SSD · 5% safety' : '约 5GB 到内存 · 约 1GB KV 到 SSD · 安全余量 5%') + '</span>' : '') + '<span class="tag">' + acceleratorLabel + '</span><span class="tag">' + (tier ? (english ? 'Quantizable: yes, inference capacity unchanged' : '可量化：是，推理容量不变') : (english ? 'Inference only, not quantization-enabled' : '仅推理，不支持量化')) + '</span><span class="tag">' + (english ? ('Target ' + target + ' TPS') : ('目标 ' + target + ' TPS')) + '</span><span class="tag">' + (english ? 'Estimated maximum TPS: pending a model-specific profile' : '预计最高 TPS：待模型专属性能资料') + '</span></div>'
-        ).join("") : '<div class="option"><h3>' + (english ? 'No model fits the current hardware and runtime constraints' : '当前硬件与运行约束下，没有可部署的模型') + '</h3><p>' + (nearest ? (english ? ('Closest candidate: ' + nearest.m[0] + '. It needs ' + nearest.need + 'GB recommended VRAM, while the current GPU deployment capacity is ' + capacity + 'GB. Reduce context or peak concurrency, change quantization, add a device, or enable verified sharding. An AI accelerator does not increase inference capacity.') : ('最接近候选：' + nearest.m[0] + '。它需要 ' + nearest.need + 'GB 推荐显存，当前 GPU 推理容量为 ' + capacity + 'GB。请降低上下文或峰值并发、调整量化、增加设备，或启用已验证的跨设备分片。AI 加速卡不会增加推理容量。')) : (english ? 'No model with verified KV Cache architecture is available under the selected capability filter.' : '当前能力筛选下没有 KV Cache 架构已核验的模型。')) + '</p><span class="tag">' + (english ? 'No capacity match' : '容量不满足') + '</span></div>';
+          '<div class="option"><h3>' + x.m[0] + '</h3><p>' + (english
+            ? (x.weight.toFixed(1) + " + " + x.kv.toFixed(1) + " ÷ " + Math.round(x.util * 100) + "% = " + x.need + "GB")
+            : (x.weight.toFixed(1) + " + " + x.kv.toFixed(1) + " ÷ " + Math.round(x.util * 100) + "% = " + x.need + "GB")) + '</p><span class="tag good">' + (english ? "Fits" : "可部署") + "</span>" + (isAiFusion2(x.m) ? '<span class="tag good">AI Fusion Turbo</span>' : "") + postTrainTag(x.m, tier, english) + '<span class="tag">' + (english ? ("Target " + target + " TPS") : ("目标 " + target + " TPS")) + "</span></div>"
+        ).join("") : '<div class="option"><h3>' + (english ? "No fitting model" : "没有可部署模型") + '</h3><p>' + (nearest ? (english ? (nearest.m[0] + " needs " + nearest.need + "GB; capacity " + capacity + "GB.") : (nearest.m[0] + " 需要 " + nearest.need + "GB，当前容量 " + capacity + "GB。")) : (english ? "No verified-KV model in this filter." : "当前筛选下没有已核验 KV 的模型。")) + '</p><span class="tag">' + (english ? "No match" : "容量不满足") + "</span></div>";
         r.querySelector("#title").textContent = displayPlanName(h[0]);
         r.querySelector("#desc").textContent = english ? ("Hardware-to-model evaluation · " + (ctx / 1024) + "K context · " + con + " concurrent") : ("已有硬件反推 · " + (ctx / 1024) + "K 上下文 · " + con + " 并发");
         r.querySelector("#sumMemory").textContent = english ? (deployable.length + " models") : ("共 " + deployable.length + " 个模型");
         r.querySelector("#sumNeed").textContent = (shard ? h[1] * count : h[1]) + " GB GPU";
-        r.querySelector("#sumAccelerator").textContent = tier ? (english ? "Quantizable, inference capacity unchanged" : "可量化，推理容量不变") : (english ? "Inference only" : "仅推理");
-        r.querySelector("#sumTps").textContent = english ? (target + " TPS (pending validation)") : (target + " TPS（待验证）");
+        r.querySelector("#sumAccelerator").textContent = !tier
+          ? (english ? "Inference only" : "仅推理")
+          : (english
+            ? (deployable.filter((x) => canPostTrain(x.m, tier)).length + " can post-train")
+            : (deployable.filter((x) => canPostTrain(x.m, tier)).length + " 个可 Post training"));
+        r.querySelector("#sumTps").textContent = target + " TPS";
         r.querySelector("#sumMachineList").textContent = count + " × " + h[0];
         if (advanced) advanced.open = advancedWasOpen;
       }
@@ -912,22 +931,22 @@
       }
       function showModelLibrary() {
         const e = english;
-        const rows = M.map((m) => '<div class="option"><h3>' + m[0] + '</h3><p>' + m[1] + 'B ' + (e ? 'parameters · maximum context ' : '参数 · 最大上下文 ') + (m[3] / 1024) + 'K · KV Cache ' + kvBytesLabel(m, e) + '</p><span class="tag">' + m.slice(4).map(q=>q[0]).join(' / ') + '</span>' + (isAiFusion2(m) ? '<span class="tag good">' + (e ? 'AI Fusion 2.0 supported' : 'AI Fusion 2.0 支持') + '</span>' : '') + '</div>').join("");
-        showSecondary(e ? "Model Library (" + M.length + ")" : "模型库（" + M.length + "）", e ? "The current directory is retained. Parameters, context, architecture and license are synchronized from official Hugging Face repositories and reviewed. Qwen3.6 35B, Gemma 4 26B and Ornith 1.5 35B include an AI Fusion 2.0 option with K8-bit / Q3-bit KV compression, about 5GB of weights in host RAM, about 1GB of KV on SSD, and 5% safety headroom." : "现有目录保留；模型参数、上下文、架构和许可证改由 Hugging Face 官方仓库与配置文件同步并审核。Qwen3.6 35B、Gemma 4 26B 与 Ornith 1.5 35B 另提供 AI Fusion 2.0 支持选项，KV 压缩为 K8-bit / Q3-bit，约 5GB 权重到系统内存、约 1GB KV 到 SSD，安全余量 5%。", '<a class="action" href="https://huggingface.co/models" target="_blank" rel="noopener">' + (e ? 'Open Hugging Face Model Hub' : '打开 Hugging Face Model Hub') + '</a><button id="refreshModels" class="action" type="button">' + (e ? 'Refresh from Hugging Face' : '从 Hugging Face 刷新目录') + '</button><p class="hint" id="modelRefreshStatus">' + (e ? 'Refresh imports official repository metadata and revisions only. KV architecture, runtime precision and local performance must be reviewed before planning.' : '刷新只导入官方仓库元数据与版本信息。KV 架构参数、运行时精度与本地性能须审核后才可参与方案计算。') + '</p><div class="options">' + rows + '</div>');
-        r.querySelector("#refreshModels").onclick = () => r.querySelector("#modelRefreshStatus").textContent = e ? "Local prototype directory refreshed and sorted. Server synchronization with Hugging Face is not configured yet; models without required KV data remain visible but cannot generate a deployment calculation." : "本地原型目录已刷新并排序；尚未配置与 Hugging Face 的服务端同步。缺少 KV 参数的模型仍会显示，但不能生成部署计算。";
+        const rows = M.map((m) => '<div class="option"><h3>' + m[0] + '</h3><p>' + m[1] + 'B · ' + (m[3] / 1024) + 'K</p><span class="tag">' + m.slice(4).map(q=>q[0]).join(' / ') + '</span>' + (isAiFusion2(m) ? '<span class="tag good">AI Fusion Turbo</span>' : '') + '</div>').join("");
+        showSecondary(e ? "Model Library (" + M.length + ")" : "模型库（" + M.length + "）", e ? "Hugging Face specs. Gemma / Qwen / Ornith include AI Fusion Turbo." : "参数来自 Hugging Face。Gemma / Qwen / Ornith 提供 AI Fusion Turbo。", '<a class="action" href="https://huggingface.co/models" target="_blank" rel="noopener">' + (e ? "Open Hugging Face" : "打开 Hugging Face") + '</a><button id="refreshModels" class="action" type="button">' + (e ? "Refresh directory" : "刷新目录") + '</button><p class="hint" id="modelRefreshStatus">' + (e ? "Local directory only; KV still needs review." : "仅刷新本地目录；KV 仍需审核。") + '</p><div class="options">' + rows + '</div>');
+        r.querySelector("#refreshModels").onclick = () => r.querySelector("#modelRefreshStatus").textContent = e ? "Directory refreshed." : "目录已刷新。";
       }
       function showDeviceLibrary() {
         const e = english, rows = H.map((h) => '<div class="option"><h3>' + displayPlanName(h[0]) + '</h3><p>' + (e ? 'Validated VRAM ' : '可验收显存 ') + h[1] + 'GB · ' + deviceSpecs(h) + (h[4] ? ' <a href="' + h[4] + '" target="_blank" rel="noopener">' + (e ? 'Official GPU specification' : '官方 GPU 规格') + '</a>' : '') + '</p><span class="tag">' + (e ? 'Standard configuration' : '标准配置') + '</span></div>').join("");
-        showSecondary(e ? "Device Library" : "设备库", e ? "Standard devices are maintained by engineering. Pre-sales selects them in plans but does not overwrite their parameters." : "标准设备由工程团队维护；售前在方案中选择，不直接改写参数。", '<button id="addDevice" class="action" type="button">' + (e ? 'Add device configuration' : '新增设备配置') + '</button><p class="hint">' + (e ? 'Customer-specified hardware and new platforms are saved as pending review before they enter the device pool or recommendations.' : '客户指定硬件或新机型先以待审核记录保存，审核通过后才进入设备池和方案推荐。') + '</p><div class="options">' + rows + '</div>');
+        showSecondary(e ? "Device Library" : "设备库", e ? "Standard devices. Add new ones as pending review." : "标准设备。新增配置先待审核。", '<button id="addDevice" class="action" type="button">' + (e ? "Add device" : "新增设备") + '</button><p class="hint">' + (e ? "New hardware is pending review before recommendations." : "新硬件审核通过后才参与推荐。") + '</p><div class="options">' + rows + '</div>');
         r.querySelector("#addDevice").onclick = () => r.querySelector("#deviceModal").classList.add("show");
       }
       function showDevicePool() {
         const e = english, rows = H.map((h) => '<div class="option"><h3>' + displayPlanName(h[0]) + '</h3><p>' + (e ? 'Device instance available for plans · validated VRAM ' : '可加入方案的设备实例 · 可验收显存 ') + h[1] + 'GB · ' + deviceSpecs(h) + '</p><span class="tag good">' + (e ? 'Available for plans' : '可加入方案') + '</span></div>').join("");
-        showSecondary(e ? "Device Pool" : "设备池", e ? "Standard devices available to the current plan. The calculation determines device quantity." : "当前方案可使用的标准 ThinkCentre 设备；设备数量由方案计算决定。", '<div class="options">' + rows + '</div>');
+        showSecondary(e ? "Device Pool" : "设备池", e ? "Devices available to this plan." : "当前方案可用设备。", '<div class="options">' + rows + '</div>');
       }
       function showPerformanceLibrary() {
-        const e = english, rows = H.map((h) => '<div class="option"><h3>' + displayPlanName(h[0]) + '</h3><p>' + (e ? 'Current reference single-machine throughput: ' : '当前参考单机吞吐：') + h[2] + ' TPS · ' + deviceSpecs(h) + ' ' + (e ? 'Model, quantization, context, concurrency, runtime and test date must be recorded; untested results remain estimates.' : '必须同时记录模型、量化、上下文、并发、运行时和实测日期，未实测时仅作为估算。') + '</p><span class="tag">' + (e ? 'Pending validation / maintainable' : '待验证 / 可维护') + '</span></div>').join("");
-        showSecondary(e ? "Performance Library" : "性能资料库", e ? "Performance records must distinguish measurements from estimates. A plan may make a performance claim only with matching evidence." : "性能资料必须区分实测与估算，方案只在有对应证据时才可作性能承诺。", '<div class="options">' + rows + '</div>');
+        const e = english, rows = H.map((h) => '<div class="option"><h3>' + displayPlanName(h[0]) + '</h3><p>' + h[2] + ' TPS · ' + deviceSpecs(h) + '</p><span class="tag">' + (e ? "Pending / estimate" : "待验证 / 估算") + '</span></div>').join("");
+        showSecondary(e ? "Performance Library" : "性能资料库", e ? "Measured vs estimate. Claims need matching evidence." : "区分实测与估算；承诺需对应证据。", '<div class="options">' + rows + '</div>');
       }
       function showGeneral() { const e=english; showSecondary(e?"General Settings":"通用设置", e?"Manage language, the default VRAM utilization limit, context, and evidence rules.":"管理语言、默认显存使用上限、默认上下文与默认性能证据规则。", '<div class="grid"><div><label>'+ (e?"Interface language":"界面语言") +'</label><select><option>'+ (e?"Chinese":"中文") +'</option><option>English</option></select></div><div><label>'+ (e?"Default VRAM utilization limit":"默认显存使用上限") +'</label><input value="90%" /></div><div><label>'+ (e?"Default context":"默认上下文") +'</label><select><option>32K</option><option>128K</option></select></div><div><label>'+ (e?"Performance-claim rule":"性能承诺规则") +'</label><select><option>'+ (e?"Measured only":"仅实测") +'</option><option>'+ (e?"Allow estimates (must label)":"允许估算（需标记）") +'</option></select></div></div>'); }
       function showConnections() { const e=english; showSecondary(e?"Data & API":"数据与 API", e?"Configure data sources and refresh policy. External model records retain source, revision, license, and validation state.":"配置数据来源与同步策略；外部模型目录需保留来源、版本、许可证和验证状态。", '<div class="grid"><div><label>'+ (e?"Model directory source":"模型目录来源") +'</label><input value="Hugging Face Model Hub" /></div><div><label>'+ (e?"Directory refresh mode":"数据更新方式") +'</label><select><option>'+ (e?"Directory sync":"目录同步") +'</option><option>'+ (e?"Manual maintenance":"人工维护") +'</option></select></div><div><label>'+ (e?"Model-parameter source":"模型参数来源") +'</label><input value="'+(e?"Official model card + config.json":"官方模型卡 + config.json")+'" /></div><div><label>'+ (e?"Performance-data source":"性能数据来源") +'</label><input value="Internal benchmark library" /></div><div><label>'+ (e?"Connection status":"连接状态") +'</label><input value="'+(e?"Hugging Face sync to be configured":"Hugging Face 同步待配置")+'" /></div><div><label>'+ (e?"Historical directory reference":"历史目录参考") +'</label><input value="'+(e?"Retained, excluded from calculation":"保留，不参与计算")+'" /></div></div>'); }
@@ -967,16 +986,16 @@
       };
       let english = false, activeView = "model";
       const zh = {
-        title: "模型与设备的可解释匹配", sub: "每次选择都会立即刷新权重、KV Cache（本地 Q8 或 AI Fusion 2.0 K8-bit / Q3-bit）、显存门槛和可行 ThinkCentre 配置。",
-        constraints: "模型与运行约束", basis: "实时计算依据", options: "可行设备部署方案",
+        title: "模型与设备匹配", sub: "选择后立即刷新结果。",
+        constraints: "运行约束", basis: "计算依据", options: "可行方案",
         summary: "当前方案摘要", machine: "需要机器", list: "部署设备清单", evidence: "方案说明",
-        evidenceText: "结果按当前模型、权重量化、KV Cache（本地 Q8 或 AI Fusion 2.0 K8-bit / Q3-bit）、上下文、并发和 TPS 约束实时计算；性能为估算时需压测确认。"
+        evidenceText: "按当前输入估算，吞吐需压测。"
       };
       const en = {
-        title: "Explainable Model-to-Device Matching", sub: "Each selection refreshes weights, KV cache (local Q8 or AI Fusion 2.0 K8-bit / Q3-bit), VRAM threshold and eligible ThinkCentre configurations.",
-        constraints: "Model & Runtime Constraints", basis: "Live Calculation Basis", options: "Eligible Device Deployment Options",
+        title: "Model-to-Device Matching", sub: "Results refresh after each change.",
+        constraints: "Runtime Constraints", basis: "Calculation", options: "Fitting Devices",
         summary: "Current Plan Summary", machine: "Required Machines", list: "Deployment Device List", evidence: "Plan Notes",
-        evidenceText: "Results are calculated from the current model, weight quantization, KV cache (local Q8 or AI Fusion 2.0 K8-bit / Q3-bit), context, concurrency and TPS constraints. Estimated performance requires validation."
+        evidenceText: "Estimate from current inputs. Throughput needs a benchmark."
       };
       r.querySelector("#langZh").onclick = () => { english = false; applyLanguage(); };
       r.querySelector("#langEn").onclick = () => { english = true; applyLanguage(); };
@@ -988,16 +1007,16 @@
         ["Find Hardware for Model", "Find Models for Hardware", "Device Pool", "General", "Model Library (" + M.length + ")", "Device Library (14)", "Performance Library", "Data & API"].forEach((v,i)=>nav[i].textContent = english ? v : ["模型找硬件","硬件找模型","设备池","通用","模型库（" + M.length + "）","设备库（14）","性能资料库","数据与 API"][i]);
         r.querySelector("header .kick").textContent = english ? "WORKBENCH / LIVE CALCULATION" : "方案工作台 / 实时计算";
         r.querySelector("header h1").textContent = d.title; r.querySelector("header .sub").textContent = d.sub;
-        r.querySelector("#localDataNotice").textContent = english ? "Custom devices, prices, and test records stay in this browser only. They never overwrite the official library and can be adjusted locally at any time." : "本地自定义设备、报价和测试记录仅保存在当前浏览器，不会改写官方标准库；可随时在本地重新调整。";
+        r.querySelector("#localDataNotice").textContent = english ? "Custom data stays in this browser." : "自定义数据仅保存在本浏览器。";
         const modelTitles = a("#modelFlow h2"); [d.constraints,d.basis,d.options].forEach((v,i)=>modelTitles[i].textContent=v);
-        const modelHints = a("#modelFlow .hint"); modelHints[0].textContent = english ? "The directory contains " + M.length + " real MVP records; peak input/output tokens are optional. Qwen3.6 35B, Gemma 4 26B and Ornith 1.5 35B include an AI Fusion 2.0 option with K8-bit / Q3-bit KV, ~5GB RAM offload, ~1GB SSD KV and 5% safety." : "模型目录显示的是现有 MVP 的 " + M.length + " 个真实记录；峰值输入/输出 Token 为选填。Qwen3.6 35B、Gemma 4 26B 与 Ornith 1.5 35B 另提供 AI Fusion 2.0 支持选项（KV：K8-bit / Q3-bit；约 5GB 到内存、约 1GB KV 到 SSD、安全余量 5%）。"; modelHints[3].textContent = english ? "Each entry starts with a specific device configuration. With a workload profile, the system derives the required quantity from the target TPS; without one, it reports capacity only." : "每一个条目从单台具体配置开始；有工作负载档案时，系统按目标 TPS 反推需要台数；未补充时仅输出容量结论。";
-        const labels = a("#modelFlow label"); ["Target model","Quantization","Context length","Peak concurrency","Peak input / output tokens (optional)","Target aggregate TPS","VRAM utilization limit (%)","Weight VRAM (estimate)","KV Cache (local Q8)","Runtime safety headroom (calculated)","Recommended VRAM"].forEach((v,i)=>labels[i].textContent = english ? v : ["目标模型","量化","上下文长度","峰值并发","峰值输入 / 输出 Token（选填）","目标聚合 TPS","显存使用上限（%）","权重显存（推算）","KV Cache（本地 Q8）","运行时安全余量（自动计算）","推荐显存"][i]);
+        const modelHints = a("#modelFlow .hint"); modelHints[0].textContent = english ? M.length + " models; peak tokens optional." : "共 " + M.length + " 个模型；峰值 Token 选填。"; modelHints[3].textContent = english ? "Each option is one machine." : "每条为单台配置。";
+        const labels = a("#modelFlow label"); ["Target model","Quantization","Context","Concurrency","Peak tokens (optional)","Target TPS","VRAM limit (%)","Weight VRAM","KV Cache","Safety","Recommended VRAM"].forEach((v,i)=>labels[i].textContent = english ? v : ["目标模型","量化","上下文","并发","峰值 Token（选填）","目标 TPS","显存上限（%）","权重显存","KV Cache","安全余量","推荐显存"][i]);
         const modelPeakInput = r.querySelector("#modelPeakIo"); if (modelPeakInput) modelPeakInput.placeholder = english ? "Optional — use the scenario limit if unknown" : "未知时采用场景上限假设";
-        const hardwareTitles=a("#hardwareFlow h2"); hardwareTitles[0].textContent=english?"Existing Hardware & Runtime Constraints":"已有硬件与运行约束"; hardwareTitles[1].textContent=english?"Deployable Models":"可部署模型";
-        a("#hardwareFlow .hint")[0].textContent=english?"Select existing resources and service targets. The system derives deployable models, machine count, capacity headroom and validation requirements.":"选择已有资源与服务目标，系统反推出可部署模型、台数、容量余量与必须验证项。";
+        const hardwareTitles=a("#hardwareFlow h2"); hardwareTitles[0].textContent=english?"Existing Hardware":"已有硬件"; hardwareTitles[1].textContent=english?"Deployable Models":"可部署模型";
+        a("#hardwareFlow .hint")[0].textContent=english?"Derive deployable models from current hardware.":"按已有硬件反推可部署模型。";
         const hardwareSections=a("#hardwareFlow h3"); hardwareSections[0].textContent=english?"Quick assessment":"快速评估（常用）";
         const hardwareSummary=r.querySelector("#hardwareFlow summary"); if(hardwareSummary) hardwareSummary.textContent=english?"Additional requirements (optional)":"补充要求（选填）";
-        const hardwareLabels=a("#hardwareFlow label"); const hwEn=["Existing hardware","Machine count","Capability filter","Quantization","Context length","Peak concurrency","Target aggregate TPS","AI accelerator tier capacity","Peak input / output tokens","TTFT target (seconds)","System RAM","Allow multi-device sharding","Multi-device interconnect","Local / hybrid cloud","Budget limit","Power limit (W)","Target runtime","High-availability requirement"]; const hwZh=["已有设备","设备台数","模型能力筛选","量化","上下文长度","峰值并发","目标聚合 TPS","AI 加速卡分层容量","峰值输入 / 输出 Token","TTFT 目标（秒）","系统内存","允许跨设备分片","多机互联能力","本地 / 混合云","预算上限","功耗上限（W）","目标运行时","高可用需求"]; hardwareLabels.forEach((node,i)=>node.textContent=(english?hwEn:hwZh)[i] || node.textContent);
+        const hardwareLabels=a("#hardwareFlow label"); const hwEn=["Existing hardware","Machine count","Capability filter","Quantization","Context length","Peak concurrency","Target aggregate TPS","AI accelerator (post-training)","Peak input / output tokens","TTFT target (seconds)","System RAM","Allow multi-device sharding","Multi-device interconnect","Local / hybrid cloud","Budget limit","Power limit (W)","Target runtime","High-availability requirement"]; const hwZh=["已有设备","设备台数","模型能力筛选","量化","上下文长度","峰值并发","目标聚合 TPS","AI 加速卡（Post training）","峰值输入 / 输出 Token","TTFT 目标（秒）","系统内存","允许跨设备分片","多机互联能力","本地 / 混合云","预算上限","功耗上限（W）","目标运行时","高可用需求"]; hardwareLabels.forEach((node,i)=>node.textContent=(english?hwEn:hwZh)[i] || node.textContent);
         const relabelOptions = (id, labels) => Array.from(r.querySelector("#" + id).options).forEach((option, index) => option.textContent = labels[index] || option.textContent);
         relabelOptions("capability", english ? ["All open-weight models", "Reasoning / agent", "Code generation", "Multimodal / vision", "Document understanding / RAG", "Translation / multilingual", "General text Q&A"] : ["全部开放模型", "推理 / Agent", "代码生成", "多模态 / 视觉", "文档理解 / RAG", "翻译 / 多语言", "通用文本问答"]);
         Array.from(r.querySelector("#hardware").options).forEach((option, index) => option.textContent = displayPlanName(H[index][0]));
@@ -1007,9 +1026,9 @@
         relabelOptions("interconnect", english ? ["Unknown / pending validation", "Standard Ethernet", "High-speed network"] : ["未知 / 待验证", "标准以太网", "高速网络"]);
         relabelOptions("dataBoundary", english ? ["Local only", "Cloud allowed after de-identification", "Hybrid cloud allowed"] : ["必须本地", "脱敏后可上云", "允许混合云"]);
         r.querySelector(".summary label").textContent=d.summary; r.querySelector("#machineListLabel").textContent=d.list; r.querySelector("#evidenceTitle").textContent=d.evidence; r.querySelector("#evidenceText").textContent=d.evidenceText;
-        a(".summary .row span")[0].textContent=english?"Weights / KV Cache (Q8)":"权重 / KV Cache（Q8）"; a(".summary .row span")[1].textContent=english?"Validated VRAM":"可验收显存"; a(".summary .row span")[2].textContent=english?"Target / expected TPS":"目标 / 预计 TPS"; r.querySelector("#acceleratorSummaryLabel").textContent=english?"AI-accelerated quantization":"AI 加速量化"; r.querySelector("#evidenceLabel").textContent=english?"Evidence status":"证据状态"; r.querySelector("#evidenceStatus").textContent=english?"Estimated — validate by benchmark":"估算，需压测";
+        a(".summary .row span")[0].textContent=english?"Weights / KV":"权重 / KV"; a(".summary .row span")[1].textContent=english?"VRAM":"显存"; a(".summary .row span")[2].textContent=english?"Target TPS":"目标 TPS"; r.querySelector("#acceleratorSummaryLabel").textContent="Post training"; r.querySelector("#evidenceLabel").textContent=english?"Evidence":"证据"; r.querySelector("#evidenceStatus").textContent=english?"Estimate":"估算，需压测";
         r.querySelector("#deviceModal h2").textContent=english?"Add Device Configuration":"新增设备配置";
-        r.querySelector("#deviceModal .hint").textContent=english?"Engineering-maintained fields. New devices are marked Pending Review and participate in recommendations only after approval.":"工程师维护的字段。新增后标记为“待审核”，审核通过才参与正式推荐。";
+        r.querySelector("#deviceModal .hint").textContent=english?"New devices are pending review before recommendations.":"新增后待审核，通过后才参与推荐。";
         const modalLabels=a("#deviceModal label"); const modalEn=["Device name","Device platform","GPU vendor / model","VRAM per GPU (GB)","Supported GPU count","System RAM (GB)","Memory bandwidth (GB/s)","GPU TDP (W)","Peak AI TOPS","System price (optional)","Maximum machines in a plan","Cross-device model sharding","AI accelerator expansion","Performance evidence status","Test runtime","Notes and sources"]; const modalZh=["设备名称","设备平台","GPU 厂商 / 型号","单卡显存（GB）","支持卡数","系统内存（GB）","显存带宽（GB/s）","GPU TDP（W）","峰值 AI TOPS","整机价格（选填）","可用于方案的最大台数","跨设备模型分片","AI 加速卡扩展","性能证据状态","测试运行时","备注与来源"]; modalLabels.forEach((node,i)=>node.textContent=(english?modalEn:modalZh)[i] || node.textContent);
         r.querySelector("#closeDeviceModal").textContent=english?"Close":"关闭"; r.querySelector("#saveDevice").textContent=english?"Save as pending-review device":"保存为待审核设备";
         r.querySelector("#langZh").classList.toggle("active", !english);

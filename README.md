@@ -7,7 +7,7 @@ AI Compute Advisor is a pre-sales deployment advisor for matching open-weight mo
 - **Find Hardware for Model**: choose a model, quantization, context, concurrency, and service target, then review eligible device deployment options.
 - **Find Models for Hardware**: start from available devices and derive capacity-fit models, remaining VRAM, deployment constraints, and validation requirements.
 
-The calculator is designed for explainable proposal work. It separates model weights, KV Cache (local Q8 by default, or AI Fusion 2.0 K8-bit / Q3-bit on supported models, with about 5GB of weights in host RAM, about 1GB of KV on SSD, and a 5% safety margin), runtime safety headroom, AI accelerator tiering, and device capacity so that a pre-sales engineer can explain the basis of a recommendation.
+The calculator is designed for explainable proposal work. It separates model weights, KV Cache (local Q8 by default, or AI Fusion Turbo on supported models: ~5GB RAM, ~1GB SSD KV, 5% safety), runtime safety headroom, GPU + AI accelerator post-training (≤14B with 320GB, ≤72B with 1TB; Fusion Turbo excluded), and device capacity.
 
 ## Data-source policy
 
@@ -53,13 +53,13 @@ The current static interface ships a maintained starter directory. A real Huggin
 
 ## 简体中文
 
-AI Compute Advisor 是面向售前的模型与设备部署顾问。它支持从模型反推设备，也支持从已有设备反推可部署模型，并把模型权重、KV Cache（默认本地 Q8；Qwen3.6 35B、Gemma 4 26B、Ornith 1.5 35B 另提供 AI Fusion 2.0 的 K8-bit / Q3-bit 压缩选项，规划约 5GB 权重卸载到系统内存、约 1GB KV Cache 放到 SSD，安全余量 5%）、运行时安全余量、AI 加速卡分层容量与设备余量分开呈现。
+AI Compute Advisor 是面向售前的模型与设备部署顾问。它支持从模型反推设备，也支持从已有设备反推可部署模型，并把模型权重、KV Cache（默认本地 Q8；Qwen3.6 35B、Gemma 4 26B、Ornith 1.5 35B 另提供 AI Fusion Turbo：约 5GB 到内存、约 1GB KV 到 SSD、安全余量 5%）、运行时安全余量与设备余量分开呈现。
 
 ### 使用方式
 
 1. 打开 [Live Calculator](https://johnguo0915.github.io/ai-compute-advisor/)。
 2. 在“模型找硬件”中选择模型、量化、上下文、峰值并发和服务目标，查看可行设备部署方案。
-3. 在“硬件找模型”中选择已有设备与台数，查看可部署模型、显存余量、AI 加速量化能力与待验证项。
+3. 在“硬件找模型”中选择已有设备与台数，查看可部署模型、显存余量、Post training 能力与待验证项。
 4. 没有同模型、同量化、同上下文、同运行时的性能资料时，TPS、TTFT 和最大并发必须显示为待测，不能做对外承诺。
 
 ### 数据规则

@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "catalogId": "models",
-  "lastUpdated": "2026-09-20",
+  "lastUpdated": "2026-09-21",
   "source": {
     "label": "Artificial Analysis open-model index (family discovery)",
     "url": "https://artificialanalysis.ai/models/open-source",
-    "methodology": "Official model cards provide architecture, parameter, context and license fields. The Artificial Analysis public model index was used only to identify representative mainstream open-weight families; hosted-provider intelligence, price, TPS and latency metrics are not imported as local-hardware evidence. Fit is derived from GPU-resident model weights plus configured KV-cache, runtime and safety overhead and must be validated with the intended runtime and checkpoint. Local planning quantizes KV cache to Q8 (1 byte per K/V element) unless a catalogued AI Fusion 2.0 variant is selected. Those variants keep the same weights, use K 8-bit / Q 3-bit KV compression (1.375 bytes per K/V pair, 11/16 of the Q8 bytes/token), plan about 5GB of model weights offloaded into system memory, plan about 1GB of KV cache on SSD, and use a 5% VRAM safety margin. Catalog kvCacheBytesPerToken values are therefore either Q8 bytes/token derived from official GQA, or the AI Fusion 2.0 compressed equivalent.",
+    "methodology": "Official model cards provide architecture, parameter, context and license. Artificial Analysis is used only to discover families; hosted TPS, price and intelligence are not local-hardware evidence. Local KV is Q8 unless an AI Fusion Turbo variant is selected (K8/Q3 KV, ~5GB weights in RAM, ~1GB KV on SSD, 5% safety).",
     "license": "Mixed: Apache 2.0, MIT, Llama Community licenses and other model-specific terms"
   },
   "data": [
@@ -306,11 +306,11 @@
       "openWeight": true,
       "commercialUse": "allowed",
       "kvCacheBytesPerToken": 98304,
-      "notes": "Gemma 4 MoE workstation model; the A4B label rounds the official 3.8B active out of 25.2B total parameters. Specs and Apache 2.0 license: official Google Gemma 4 model card. Local planning KV is Q8 (98,304 B/token, matching the Gemma 4 workstation class estimate). An AI Fusion 2.0 option with K8-bit / Q3-bit KV is catalogued separately. Fit uses total weights, not active parameters, plus configured overhead; it does not verify runtime compatibility or TPS."
+      "notes": "Gemma 4 MoE workstation model (3.8B active / 25.2B total). Local KV is Q8. AI Fusion Turbo is catalogued separately. Does not verify runtime or TPS."
     },
     {
       "id": "gemma-4-26b-a4b-it-ai-fusion-2",
-      "name": "Gemma 4 26B A4B IT · AI Fusion 2.0（K8-bit / Q3-bit）",
+      "name": "Gemma 4 26B A4B IT · AI Fusion Turbo",
       "provider": "Google",
       "family": "Gemma 4",
       "modelType": "moe",
@@ -332,7 +332,7 @@
       "systemMemoryOffloadGB": 5,
       "ssdKvCacheOffloadGB": 1,
       "safetyMarginRatio": 0.05,
-      "notes": "AI Fusion 2.0 supported planning variant of Gemma 4 26B A4B IT. Weights match the base model. KV cache uses the AI Fusion 2.0 path (K 8-bit, Q 3-bit) instead of local Q8: 98,304 × 11/16 = 67,584 B/token. About 5GB of model weights are planned to offload into system memory, about 1GB of KV cache is planned to reside on SSD, and VRAM safety headroom is 5%. Specs and Apache 2.0 license: official Google Gemma 4 model card. Fit uses GPU-resident weights plus GPU-resident KV and this 5% margin; it does not verify AI Fusion 2.0 runtime compatibility, offload path, SSD paging, packing, quality or TPS."
+      "notes": "AI Fusion Turbo planning variant of Gemma 4 26B A4B IT. Same weights; K 8-bit, Q 3-bit KV (67,584 B/token); ~5GB RAM offload, ~1GB SSD KV, 5% safety. Does not verify runtime, offload path or TPS."
     },
     {
       "id": "gemma-4-31b-it",
@@ -424,11 +424,11 @@
       "openWeight": true,
       "commercialUse": "allowed",
       "kvCacheBytesPerToken": 131072,
-      "notes": "Current open-weight Qwen coding and multimodal MoE; about 3B of 35B parameters activate per token. Specs and Apache 2.0 license: official Qwen/Qwen3.6-35B-A3B model card. Local planning KV is Q8 (131,072 B/token). An AI Fusion 2.0 option with K8-bit / Q3-bit KV is catalogued separately. Fit uses total weights plus configured overhead; it does not verify runtime compatibility or TPS."
+      "notes": "Qwen3.6 35B MoE (~3B active). Local KV is Q8. AI Fusion Turbo is catalogued separately. Does not verify runtime or TPS."
     },
     {
       "id": "qwen3.6-35b-a3b-ai-fusion-2",
-      "name": "Qwen3.6 35B A3B · AI Fusion 2.0（K8-bit / Q3-bit）",
+      "name": "Qwen3.6 35B A3B · AI Fusion Turbo",
       "provider": "Qwen",
       "family": "Qwen3.6",
       "modelType": "moe",
@@ -451,7 +451,7 @@
       "systemMemoryOffloadGB": 5,
       "ssdKvCacheOffloadGB": 1,
       "safetyMarginRatio": 0.05,
-      "notes": "AI Fusion 2.0 supported planning variant of Qwen3.6 35B A3B. Weights match the base model. KV cache uses the AI Fusion 2.0 path (K 8-bit, Q 3-bit) instead of local Q8: 131,072 × 11/16 = 90,112 B/token. About 5GB of model weights are planned to offload into system memory, about 1GB of KV cache is planned to reside on SSD, and VRAM safety headroom is 5%. Specs and Apache 2.0 license: official Qwen/Qwen3.6-35B-A3B model card. Fit uses GPU-resident weights plus GPU-resident KV and this 5% margin; it does not verify AI Fusion 2.0 runtime compatibility, offload path, SSD paging, packing, quality or TPS."
+      "notes": "AI Fusion Turbo planning variant of Qwen3.6 35B A3B. Same weights; K 8-bit, Q 3-bit KV (90,112 B/token); ~5GB RAM offload, ~1GB SSD KV, 5% safety. Does not verify runtime, offload path or TPS."
     },
     {
       "id": "ornith-1.5-35b-a3b",
@@ -474,11 +474,11 @@
       "openWeight": true,
       "commercialUse": "allowed",
       "kvCacheBytesPerToken": 131072,
-      "notes": "Agentic-coding MoE with about 3B of 35B parameters active per token. Specs, native 262,144-token context (YaRN to about 1M) and MIT license: official ornith-ai/Ornith-1.5-35B-A3B model card. Hugging Face metadata lists ~36B including auxiliary tensors; fit uses the published 35B-A3B totals. Local planning KV is Q8 (131,072 B/token). An AI Fusion 2.0 option with K8-bit / Q3-bit KV is catalogued separately. Fit uses total weights plus configured overhead; it does not verify runtime compatibility or TPS."
+      "notes": "Ornith 1.5 35B MoE (~3B active, 262K context). Local KV is Q8. AI Fusion Turbo is catalogued separately. Does not verify runtime or TPS."
     },
     {
       "id": "ornith-1.5-35b-a3b-ai-fusion-2",
-      "name": "Ornith 1.5 35B A3B · AI Fusion 2.0（K8-bit / Q3-bit）",
+      "name": "Ornith 1.5 35B A3B · AI Fusion Turbo",
       "provider": "Ornith",
       "family": "Ornith 1.5",
       "modelType": "moe",
@@ -500,7 +500,7 @@
       "systemMemoryOffloadGB": 5,
       "ssdKvCacheOffloadGB": 1,
       "safetyMarginRatio": 0.05,
-      "notes": "AI Fusion 2.0 supported planning variant of Ornith 1.5 35B A3B. Weights match the base model. KV cache uses the AI Fusion 2.0 path (K 8-bit, Q 3-bit) instead of local Q8: 131,072 × 11/16 = 90,112 B/token. About 5GB of model weights are planned to offload into system memory, about 1GB of KV cache is planned to reside on SSD, and VRAM safety headroom is 5%. Specs, native 262,144-token context (YaRN to about 1M) and MIT license: official ornith-ai/Ornith-1.5-35B-A3B model card. Fit uses GPU-resident weights plus GPU-resident KV and this 5% margin; it does not verify AI Fusion 2.0 runtime compatibility, offload path, SSD paging, packing, quality or TPS."
+      "notes": "AI Fusion Turbo planning variant of Ornith 1.5 35B A3B. Same weights; K 8-bit, Q 3-bit KV (90,112 B/token); ~5GB RAM offload, ~1GB SSD KV, 5% safety. Does not verify runtime, offload path or TPS."
     },
     {
       "id": "llama-4-scout-17b-16e-instruct",
