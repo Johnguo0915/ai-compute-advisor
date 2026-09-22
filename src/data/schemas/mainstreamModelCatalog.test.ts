@@ -49,10 +49,7 @@ describe("mainstream local model catalog", () => {
       "gemma-4-26b-a4b-it-ai-fusion-2",
       "gemma-4-31b-it",
       "mistral-small-3.1-24b-instruct",
-      "mistral-small-4-119b",
       "llama-4-scout-17b-16e-instruct",
-      "deepseek-r1-distill-qwen-14b",
-      "deepseek-r1-distill-qwen-32b",
       "phi-4-14b",
       "gpt-oss-20b",
       "gpt-oss-120b",
@@ -116,7 +113,6 @@ describe("mainstream local model catalog", () => {
       "gemma-4-26b-a4b-it",
       "gemma-4-26b-a4b-it-ai-fusion-2",
       "llama-4-scout-17b-16e-instruct",
-      "mistral-small-4-119b",
       "gpt-oss-120b",
       "deepseek-v4-flash",
     ]) {
@@ -135,7 +131,6 @@ describe("mainstream local model catalog", () => {
 
     for (const id of [
       "llama-4-scout-17b-16e-instruct",
-      "mistral-small-4-119b",
       "gpt-oss-120b",
     ]) {
       expect(recommendedVramGB(id)).toBeLessThan(96);

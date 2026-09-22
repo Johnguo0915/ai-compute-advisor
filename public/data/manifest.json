@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "dataVersion": "2026.09-sample.13",
-  "lastUpdated": "2026-09-21",
+  "dataVersion": "2026.09-sample.14",
+  "lastUpdated": "2026-09-22",
   "catalogs": {
     "models": "models.json",
     "modelBenchmarks": "model-benchmarks.json",

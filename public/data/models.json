@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "catalogId": "models",
-  "lastUpdated": "2026-09-21",
+  "lastUpdated": "2026-09-22",
   "source": {
     "label": "Artificial Analysis open-model index (family discovery)",
     "url": "https://artificialanalysis.ai/models/open-source",
@@ -196,30 +196,6 @@
       "notes": "Compact reasoning-focused dense model. Specs and MIT license: official microsoft/phi-4 model card. Fit is calculated from weights plus configured KV/runtime/safety overhead; it does not verify runtime compatibility or TPS."
     },
     {
-      "id": "deepseek-r1-distill-qwen-14b",
-      "name": "DeepSeek-R1-Distill-Qwen-14B",
-      "provider": "DeepSeek",
-      "family": "DeepSeek-R1 Distill",
-      "modelType": "dense",
-      "totalParametersB": 14,
-      "activeParametersB": 14,
-      "contextWindowTokens": 131072,
-      "maxOutputTokens": 32768,
-      "recommendedQuantizationId": "q4",
-      "quantizations": [
-        { "id": "q4", "label": "4-bit", "bitsPerParameter": 4, "packingOverheadRatio": 0.05 },
-        { "id": "q8", "label": "8-bit", "bitsPerParameter": 8, "packingOverheadRatio": 0.03 },
-        { "id": "fp16", "label": "FP16", "bitsPerParameter": 16, "packingOverheadRatio": 0 }
-      ],
-      "capabilityTierId": "advanced",
-      "reasoning": true,
-      "modalities": ["text"],
-      "openWeight": true,
-      "commercialUse": "allowed",
-      "kvCacheBytesPerToken": 98304,
-      "notes": "Reasoning distillation based on Qwen2.5. Specs, local-run guidance and MIT/Apache license lineage: official deepseek-ai model card. Fit is calculated from weights plus configured KV/runtime/safety overhead; it does not verify runtime compatibility or TPS."
-    },
-    {
       "id": "gpt-oss-20b",
       "name": "gpt-oss-20b",
       "provider": "OpenAI",
@@ -379,30 +355,6 @@
       "notes": "Omni-modal audio-video generator, not an LLM. Official H3-Omni-Transformer is a 33B dense model; about 13B AdaLN parameters can be cached at inference, but this catalog keeps dense active=total so fit uses the full 33B weights. Publisher does not document an LLM context window; 8192 is only a packed-sequence planning bound for the schema. License: MiniMax H3 Community License. Token TPS/TTFT economics do not apply. Runtime, quality and memory must be validated on the intended FL2VA or Ref2VA checkpoint."
     },
     {
-      "id": "deepseek-r1-distill-qwen-32b",
-      "name": "DeepSeek-R1-Distill-Qwen-32B",
-      "provider": "DeepSeek",
-      "family": "DeepSeek-R1 Distill",
-      "modelType": "dense",
-      "totalParametersB": 32,
-      "activeParametersB": 32,
-      "contextWindowTokens": 131072,
-      "maxOutputTokens": 32768,
-      "recommendedQuantizationId": "q4",
-      "quantizations": [
-        { "id": "q4", "label": "4-bit", "bitsPerParameter": 4, "packingOverheadRatio": 0.05 },
-        { "id": "q8", "label": "8-bit", "bitsPerParameter": 8, "packingOverheadRatio": 0.03 },
-        { "id": "fp16", "label": "FP16", "bitsPerParameter": 16, "packingOverheadRatio": 0 }
-      ],
-      "capabilityTierId": "advanced",
-      "reasoning": true,
-      "modalities": ["text"],
-      "openWeight": true,
-      "commercialUse": "allowed",
-      "kvCacheBytesPerToken": 131072,
-      "notes": "Mainstream local reasoning distillation based on Qwen2.5. Specs, local-run guidance and MIT/Apache license lineage: official deepseek-ai model card. Fit is calculated from weights plus configured KV/runtime/safety overhead; it does not verify runtime compatibility or TPS."
-    },
-    {
       "id": "qwen3.6-35b-a3b",
       "name": "Qwen3.6 35B A3B",
       "provider": "Qwen",
@@ -523,27 +475,6 @@
       "openWeight": true,
       "commercialUse": "restricted",
       "notes": "Multimodal MoE with 109B total and 17B active parameters. Specs and license conditions: official Meta Llama 4 Scout model card. Commercial use is marked restricted because the custom Llama 4 Community License includes conditions. Fit uses total weights plus configured overhead; the 10M maximum context is not a promise that full context fits local memory, and runtime/TPS remain unverified."
-    },
-    {
-      "id": "mistral-small-4-119b",
-      "name": "Mistral Small 4 119B",
-      "provider": "Mistral AI",
-      "family": "Mistral Small 4",
-      "modelType": "moe",
-      "totalParametersB": 119,
-      "activeParametersB": 6.5,
-      "contextWindowTokens": 262144,
-      "recommendedQuantizationId": "nvfp4",
-      "quantizations": [
-        { "id": "nvfp4", "label": "NVFP4 (official checkpoint)", "bitsPerParameter": 4, "packingOverheadRatio": 0.08 },
-        { "id": "fp8", "label": "FP8", "bitsPerParameter": 8, "packingOverheadRatio": 0.04 }
-      ],
-      "capabilityTierId": "frontier",
-      "reasoning": true,
-      "modalities": ["text", "image"],
-      "openWeight": true,
-      "commercialUse": "allowed",
-      "notes": "Current configurable instruct/reasoning/coding MoE. Specs, official NVFP4 checkpoint and Apache 2.0 license: Mistral Small 4 publisher model cards. The 4-bit planning path can fit a 96GB class memory envelope at moderate context, but runtime support, long-context memory and TPS must be validated."
     },
     {
       "id": "gpt-oss-120b",

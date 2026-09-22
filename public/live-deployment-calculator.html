@@ -342,7 +342,7 @@
       <button class="on" id="modelMode">模型找硬件</button><button id="hardwareMode">硬件找模型</button
       ><button id="devicePool">设备池</button>
       <div class="sec" style="margin-top: 28px">设置</div>
-      <button id="generalSettings">通用</button><button id="modelLibrary">模型库（26）</button><button id="deviceLibrary">设备库（14）</button
+      <button id="generalSettings">通用</button><button id="modelLibrary">模型库（23）</button><button id="deviceLibrary">设备库（14）</button
       ><button id="performanceLibrary">性能资料库</button><button id="connectionSettings">数据与 API</button>
     </aside>
     <main>
@@ -360,7 +360,7 @@
       <div id="modelFlow"><section class="card">
         <h2>运行约束</h2>
         <p class="hint">
-          26 个模型；峰值 Token 选填。
+          23 个模型；峰值 Token 选填。
         </p>
         <div class="grid">
           <div>
@@ -541,15 +541,6 @@
           ["BF16", 16],
         ],
         ["Phi-4 14B", 14, 98304, 16384, ["Q4", 4], ["Q8", 8], ["FP16", 16]],
-        [
-          "DeepSeek-R1-Distill-Qwen-14B",
-          14,
-          98304,
-          131072,
-          ["Q4", 4],
-          ["Q8", 8],
-          ["FP16", 16],
-        ],
         ["gpt-oss-20b", 21, 98304, 131072, ["MXFP4", 4], ["BF16", 16]],
         [
           "Mistral Small 3.1 24B Instruct",
@@ -578,15 +569,6 @@
           ["Q4", 4],
           ["FP8", 8],
           ["BF16", 16],
-        ],
-        [
-          "DeepSeek-R1-Distill-Qwen-32B",
-          32,
-          131072,
-          131072,
-          ["Q4", 4],
-          ["Q8", 8],
-          ["FP16", 16],
         ],
         [
           "Qwen3.6 35B A3B",
@@ -633,7 +615,6 @@
           ["Q8", 8],
           ["BF16", 16],
         ],
-        ["Mistral Small 4 119B", 119, 98304, 262144, ["NVFP4", 4], ["FP8", 8]],
         ["gpt-oss-120b", 117, 98304, 131072, ["MXFP4", 4], ["BF16", 16]],
         ["Qwen3.8 Flash Next", 125, 98304, 262144, ["Q4", 4], ["Q8", 8], ["FP16", 16]],
         ["DeepSeek-V4-Flash", 284, 98304, 1000000, ["FP4", 4], ["FP8", 8]],
