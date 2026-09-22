@@ -986,7 +986,20 @@
         r.querySelector("#deviceModal").classList.remove("show");
         showSecondary("设备已保存", name + " 已保存为待审核设备，不会自动参与正式方案。", '<div class="option"><h3>' + name + '</h3><p>状态：待工程审核。审核时将核验 GPU 参数、显存、系统内存、分片支持和性能证据。' + (price ? (' 已录入整机价格：' + price + '。') : '') + '</p><span class="tag">待审核</span>' + (price ? '<span class="tag">已录入价格</span>' : '') + '</div>');
       };
-      let english = false, activeView = "model";
+      function requestedEnglish() {
+        const read = (search) => {
+          const lang = String(new URLSearchParams(search).get("lang") || new URLSearchParams(search).get("locale") || "").toLowerCase();
+          if (lang === "en" || lang === "en-us") return true;
+          if (lang === "zh" || lang === "zh-cn" || lang === "zh-hans") return false;
+          return null;
+        };
+        let result = read(location.search);
+        if (result == null) {
+          try { result = read(parent.location.search); } catch (e) {}
+        }
+        return result === true;
+      }
+      let english = requestedEnglish(), activeView = "model";
       const zh = {
         title: "模型与设备匹配", sub: "选择后立即刷新结果。",
         constraints: "运行约束", basis: "计算依据", options: "可行方案",
@@ -999,8 +1012,16 @@
         summary: "Current Plan Summary", machine: "Required Machines", list: "Deployment Device List", evidence: "Plan Notes",
         evidenceText: "Recommended GPU memory = model + chat cache + headroom."
       };
-      r.querySelector("#langZh").onclick = () => { english = false; applyLanguage(); };
-      r.querySelector("#langEn").onclick = () => { english = true; applyLanguage(); };
+      function persistLang() {
+        try {
+          const target = parent !== window && parent.location ? parent : window;
+          const url = new URL(target.location.href);
+          url.searchParams.set("lang", english ? "en" : "zh");
+          target.history.replaceState({}, "", url.pathname + url.search + url.hash);
+        } catch (e) {}
+      }
+      r.querySelector("#langZh").onclick = () => { english = false; persistLang(); applyLanguage(); };
+      r.querySelector("#langEn").onclick = () => { english = true; persistLang(); applyLanguage(); };
       function applyLanguage() {
         const d = english ? en : zh, a = (sel) => Array.from(r.querySelectorAll(sel));
         a(".sec")[0].textContent = english ? "WORKBENCH" : "方案工作台";
@@ -1041,7 +1062,8 @@
         r.querySelector("#langEn").classList.toggle("active", english);
         ({ model: calc, hardware: hardwareCalc, devicePool: showDevicePool, modelLibrary: showModelLibrary, deviceLibrary: showDeviceLibrary, performanceLibrary: showPerformanceLibrary, general: showGeneral, connections: showConnections }[activeView] || calc)();
       }
-      update();
+      if (english) applyLanguage();
+      else update();
     })();
   </script>
 </div>
