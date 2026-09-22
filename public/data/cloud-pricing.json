@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "catalogId": "cloud-pricing",
-  "lastUpdated": "2026-09-20",
+  "lastUpdated": "2026-09-22",
   "source": {
     "label": "Bundled directional API pricing sample",
     "methodology": "Illustrative USD rates for demonstrating the economics engine; replace with current provider pricing."
@@ -9,6 +9,6 @@
   "data": [
     { "id": "sample-efficient-api", "provider": "Sample Cloud", "modelId": "qwen3-14b", "modelName": "Efficient API Model", "currency": "USD", "inputPricePerMillionTokens": 0.3, "outputPricePerMillionTokens": 1.2, "cachedInputPricePerMillionTokens": 0.08, "lastUpdated": "2026-09-20" },
     { "id": "sample-advanced-api", "provider": "Sample Cloud", "modelId": "llama-3.1-70b-instruct", "modelName": "Advanced Hosted Model", "currency": "USD", "inputPricePerMillionTokens": 1.5, "outputPricePerMillionTokens": 6, "cachedInputPricePerMillionTokens": 0.4, "lastUpdated": "2026-08-10" },
-    { "id": "sample-frontier-api", "provider": "Sample Cloud", "modelId": "deepseek-v4-flash", "modelName": "Frontier Reasoning API", "currency": "USD", "inputPricePerMillionTokens": 3, "outputPricePerMillionTokens": 12, "cachedInputPricePerMillionTokens": 0.75, "lastUpdated": "2026-09-20" }
+    { "id": "sample-frontier-api", "provider": "Sample Cloud", "modelId": "gpt-oss-120b", "modelName": "Frontier Reasoning API", "currency": "USD", "inputPricePerMillionTokens": 3, "outputPricePerMillionTokens": 12, "cachedInputPricePerMillionTokens": 0.75, "lastUpdated": "2026-09-22" }
   ]
 }

@@ -519,27 +519,6 @@
       "openWeight": true,
       "commercialUse": "restricted",
       "notes": "Qwen4-preview multimodal MoE: 125B backbone with 6B activated per token, plus a 51B n-gram embedding table and 4B MTP head that the publisher describes as offloadable. Specs, native 262,144-token context (YaRN to 1M) and qwen-community-1.0 license: official Qwen/Qwen3.8-Flash-Next model card. Fit uses the 125B MoE backbone, not the offloaded n-gram table; add that capacity if it stays on the accelerator. Runtime, quality and TPS must be validated."
-    },
-    {
-      "id": "deepseek-v4-flash",
-      "name": "DeepSeek-V4-Flash",
-      "provider": "DeepSeek",
-      "family": "DeepSeek-V4",
-      "modelType": "moe",
-      "totalParametersB": 284,
-      "activeParametersB": 13,
-      "contextWindowTokens": 1000000,
-      "recommendedQuantizationId": "fp4-mixed",
-      "quantizations": [
-        { "id": "fp4-mixed", "label": "FP4+FP8 mixed (official)", "bitsPerParameter": 4, "packingOverheadRatio": 0.08 },
-        { "id": "fp8", "label": "FP8 mixed", "bitsPerParameter": 8, "packingOverheadRatio": 0.04 }
-      ],
-      "capabilityTierId": "frontier",
-      "reasoning": true,
-      "modalities": ["text"],
-      "openWeight": true,
-      "commercialUse": "allowed",
-      "notes": "DeepSeek-V4-Flash MoE: 284B total / 13B active, 1M native context. Official instruct checkpoint stores MoE experts in FP4 and most other weights in FP8. Specs and MIT license: official deepseek-ai/DeepSeek-V4-Flash model card. Fit uses total weights plus configured overhead; the 1M window is not a promise that full context fits local memory. Runtime, quality and TPS must be validated. Think Max mode is documented as needing at least a 384K working window."
     }
   ]
 }

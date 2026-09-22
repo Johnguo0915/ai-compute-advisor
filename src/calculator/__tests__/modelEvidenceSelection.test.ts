@@ -151,11 +151,11 @@ describe("model-bound recommendation evidence", () => {
 
     const result = calculateAnalysis(config, catalogs);
 
-    expect(result.selectedModel?.id).toBe("deepseek-v4-flash");
+    expect(result.selectedModel?.id).toBe("gpt-oss-120b");
     expect(result.modelRequirement.reasonCodes).toContain(
       "PARTIAL_MODEL_EVIDENCE_FALLBACK",
     );
-    expect(result.cloudCost?.pricing?.modelId).toBe("deepseek-v4-flash");
+    expect(result.cloudCost?.pricing?.modelId).toBe("gpt-oss-120b");
     expect(
       result.warnings.some(
         (warning) =>

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "catalogId": "model-benchmarks",
-  "lastUpdated": "2026-09-20",
+  "lastUpdated": "2026-09-22",
   "source": {
     "label": "Bundled directional comparison sample",
     "methodology": "Illustrative normalized 0-100 scores and directional performance observations. Do not mix with external methodologies or treat speed as hardware-independent."
@@ -10,7 +10,6 @@
     { "id": "sample-llama32-3b", "modelId": "llama-3.2-3b-instruct", "sourceId": "bundled-directional", "methodologyVersion": "sample-v1", "measuredAt": "2026-08-10", "intelligenceScore": 28, "intelligenceScale": { "min": 0, "max": 100 }, "codingScore": 25, "agenticScore": 22, "longContextScore": 45, "outputTokensPerSecond": 115, "timeToFirstTokenSeconds": 0.18, "method": "estimated" },
     { "id": "sample-qwen3-14b", "modelId": "qwen3-14b", "sourceId": "bundled-directional", "methodologyVersion": "sample-v1", "measuredAt": "2026-09-20", "intelligenceScore": 52, "intelligenceScale": { "min": 0, "max": 100 }, "codingScore": 58, "agenticScore": 48, "longContextScore": 63, "outputTokensPerSecond": 46, "timeToFirstTokenSeconds": 0.38, "method": "estimated" },
     { "id": "sample-mixtral", "modelId": "mixtral-8x7b-instruct", "sourceId": "bundled-directional", "methodologyVersion": "sample-v1", "measuredAt": "2026-08-10", "intelligenceScore": 49, "intelligenceScale": { "min": 0, "max": 100 }, "codingScore": 51, "agenticScore": 43, "longContextScore": 44, "outputTokensPerSecond": 35, "timeToFirstTokenSeconds": 0.55, "method": "estimated" },
-    { "id": "sample-llama31-70b", "modelId": "llama-3.1-70b-instruct", "sourceId": "bundled-directional", "methodologyVersion": "sample-v1", "measuredAt": "2026-08-10", "intelligenceScore": 72, "intelligenceScale": { "min": 0, "max": 100 }, "codingScore": 68, "agenticScore": 70, "longContextScore": 71, "outputTokensPerSecond": 38, "timeToFirstTokenSeconds": 0.61, "method": "estimated" },
-    { "id": "sample-deepseek-v4-flash", "modelId": "deepseek-v4-flash", "sourceId": "bundled-directional", "methodologyVersion": "sample-v1", "measuredAt": "2026-09-20", "intelligenceScore": 89, "intelligenceScale": { "min": 0, "max": 100 }, "codingScore": 91, "agenticScore": 88, "longContextScore": 82, "outputTokensPerSecond": 28, "timeToFirstTokenSeconds": 1.1, "method": "estimated" }
+    { "id": "sample-llama31-70b", "modelId": "llama-3.1-70b-instruct", "sourceId": "bundled-directional", "methodologyVersion": "sample-v1", "measuredAt": "2026-08-10", "intelligenceScore": 72, "intelligenceScale": { "min": 0, "max": 100 }, "codingScore": 68, "agenticScore": 70, "longContextScore": 71, "outputTokensPerSecond": 38, "timeToFirstTokenSeconds": 0.61, "method": "estimated" }
   ]
 }

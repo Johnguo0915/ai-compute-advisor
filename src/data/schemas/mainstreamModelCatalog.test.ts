@@ -43,7 +43,6 @@ describe("mainstream local model catalog", () => {
       "ornith-1.5-35b-a3b",
       "ornith-1.5-35b-a3b-ai-fusion-2",
       "minimax-h3",
-      "deepseek-v4-flash",
       "gemma-4-12b-it",
       "gemma-4-26b-a4b-it",
       "gemma-4-26b-a4b-it-ai-fusion-2",
@@ -114,7 +113,6 @@ describe("mainstream local model catalog", () => {
       "gemma-4-26b-a4b-it-ai-fusion-2",
       "llama-4-scout-17b-16e-instruct",
       "gpt-oss-120b",
-      "deepseek-v4-flash",
     ]) {
       const candidate = model(id);
       expect(candidate.modelType).toBe("moe");
@@ -135,19 +133,5 @@ describe("mainstream local model catalog", () => {
     ]) {
       expect(recommendedVramGB(id)).toBeLessThan(96);
     }
-
-    const deepseek = model("deepseek-v4-flash");
-    expect(deepseek.recommendedQuantizationId).toBe("fp4-mixed");
-    expect(
-      calculateVramRequirement({
-        model: deepseek,
-        quantization: deepseek.quantizations.find(
-          (candidate) => candidate.id === deepseek.recommendedQuantizationId,
-        )!,
-        peakContextTokens: 8192,
-        peakConcurrentUsers: 1,
-        assumptions: assumptions.vram,
-      }).recommendedVramGB,
-    ).toBeGreaterThan(96);
   });
 });
