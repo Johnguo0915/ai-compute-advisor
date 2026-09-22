@@ -414,7 +414,7 @@
         <h2>计算依据</h2>
         <p class="hint" id="modelMeta"></p>
         <div id="offloadBox" class="option pass" style="display:none;margin:12px 0 0">
-          <h3 id="offloadTitle">AI Fusion Turbo</h3>
+          <h3 id="offloadTitle">AI Fusion 2.0</h3>
           <p id="offloadText">约 5GB 模型放到电脑内存，约 1GB 对话缓存放到 SSD，GPU 只留 5% 余量。</p>
         </div>
         <div class="formula">
@@ -542,7 +542,7 @@
           ["BF16", 16],
         ],
         [
-          "Gemma 4 26B A4B IT · AI Fusion Turbo",
+          "Gemma 4 26B A4B IT · AI Fusion 2.0",
           25.2,
           67584,
           262144,
@@ -590,7 +590,7 @@
           ["FP16", 16],
         ],
         [
-          "Qwen3.6 35B A3B · AI Fusion Turbo",
+          "Qwen3.6 35B A3B · AI Fusion 2.0",
           35,
           90112,
           262144,
@@ -608,7 +608,7 @@
           ["FP16", 16],
         ],
         [
-          "Ornith 1.5 35B A3B · AI Fusion Turbo",
+          "Ornith 1.5 35B A3B · AI Fusion 2.0",
           35,
           90112,
           262144,
@@ -702,7 +702,7 @@
         return !!labels[capability];
       }
       function isAiFusion2(m) {
-        return String(m[0]).indexOf("AI Fusion Turbo") >= 0;
+        return String(m[0]).indexOf("AI Fusion 2.0") >= 0;
       }
       function canPostTrain(m, tier) {
         if (!tier || isAiFusion2(m)) return false;
@@ -737,7 +737,7 @@
         return isAiFusion2(m) ? 0.95 : fallback;
       }
       function kvPrecisionLabel(m, english) {
-        if (isAiFusion2(m)) return "Fusion Turbo KV";
+        if (isAiFusion2(m)) return "Fusion 2.0 KV";
         return english ? "Q8 KV" : "Q8 KV";
       }
       function kvBytesLabel(m, english) {
@@ -766,7 +766,7 @@
         const offloadBox = r.querySelector("#offloadBox");
         if (offloadBox) offloadBox.style.display = isAiFusion2(m) ? "block" : "none";
         if (isAiFusion2(m)) {
-          r.querySelector("#offloadTitle").textContent = "AI Fusion Turbo";
+          r.querySelector("#offloadTitle").textContent = "AI Fusion 2.0";
           r.querySelector("#offloadText").textContent = english
             ? ("About " + offload.toFixed(0) + "GB of the model sits in system RAM, about " + ssdKv.toFixed(0) + "GB of chat cache on SSD; the GPU keeps only 5% headroom.")
             : ("约 " + offload.toFixed(0) + "GB 模型放到电脑内存，约 " + ssdKv.toFixed(0) + "GB 对话缓存放到 SSD，GPU 只留 5% 余量。");
@@ -778,8 +778,8 @@
           ? (offload > 0 ? "GPU weights" : "Weight VRAM")
           : (offload > 0 ? "GPU 上的模型" : "权重显存");
         r.querySelector("#kvLabel").textContent = english
-          ? (ssdKv > 0 ? "GPU chat cache" : (isAiFusion2(m) ? "Fusion Turbo cache" : "KV cache"))
-          : (ssdKv > 0 ? "GPU 上的对话缓存" : (isAiFusion2(m) ? "Fusion Turbo 对话缓存" : "KV Cache"));
+          ? (ssdKv > 0 ? "GPU chat cache" : (isAiFusion2(m) ? "Fusion 2.0 cache" : "KV cache"))
+          : (ssdKv > 0 ? "GPU 上的对话缓存" : (isAiFusion2(m) ? "Fusion 2.0 对话缓存" : "KV Cache"));
         const setHint = (id, text) => { const node = r.querySelector("#" + id); if (node) node.textContent = text; };
         setHint("weightHint", english ? (offload > 0 ? "Model still on the GPU" : "Space the model itself needs") : (offload > 0 ? "仍留在 GPU 上的模型部分" : "模型本身占用"));
         setHint("kvHint", english ? (ssdKv > 0 ? "Chat cache still on the GPU" : "Grows with context and users") : (ssdKv > 0 ? "仍留在 GPU 上的对话缓存" : "对话越长、人越多，这里越大"));
@@ -808,7 +808,7 @@
           : m[0] === "MiniMax H3 33B"
           ? (english ? 'Source: <a href="https://huggingface.co/MiniMaxAI/MiniMax-H3" target="_blank" rel="noopener">MiniMax-H3</a>. Not an LLM; KV unavailable.' : '来源：<a href="https://huggingface.co/MiniMaxAI/MiniMax-H3" target="_blank" rel="noopener">MiniMax-H3</a>。非 LLM，缺少 KV。')
           : isAiFusion2(m)
-          ? (english ? 'Source: <a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face</a>. AI Fusion Turbo keeps ~5GB of the model in RAM and ~1GB of chat cache on SSD.' : '来源：<a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face</a>。AI Fusion Turbo：约 5GB 模型放内存，约 1GB 对话缓存放 SSD。')
+          ? (english ? 'Source: <a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face</a>. AI Fusion 2.0 keeps ~5GB of the model in RAM and ~1GB of chat cache on SSD.' : '来源：<a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face</a>。AI Fusion 2.0：约 5GB 模型放内存，约 1GB 对话缓存放 SSD。')
           : (kvKnown
           ? (english ? 'Source: <a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face</a>. Chat cache is planned at Q8.' : '来源：<a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face</a>。对话缓存按 Q8 估算。')
           : (english ? 'Source: <a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face</a>. Chat-cache (KV) data is missing, so GPU memory cannot be sized.' : '来源：<a href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face</a>。缺少对话缓存（KV），无法计算容量。'));
@@ -849,8 +849,8 @@
           kvKnown ? gpuWeight.toFixed(1) + " / " + kv.toFixed(1) + " GB" : gpuWeight.toFixed(1) + " GB / 待校验";
         const memoryLabel = r.querySelector("#sumMemoryLabel");
         if (memoryLabel) memoryLabel.textContent = english
-          ? (isAiFusion2(m) ? "Model / chat cache (Turbo)" : "Model / chat cache")
-          : (isAiFusion2(m) ? "模型占用 / 对话缓存（Turbo）" : "模型占用 / 对话缓存");
+          ? (isAiFusion2(m) ? "Model / chat cache (2.0)" : "Model / chat cache")
+          : (isAiFusion2(m) ? "模型占用 / 对话缓存（2.0）" : "模型占用 / 对话缓存");
         const needLabel = r.querySelector("#sumNeedLabel");
         if (needLabel) needLabel.textContent = english ? "Recommended GPU memory" : "建议 GPU 显存";
         const tpsRow = r.querySelector("#sumTpsLabel") && r.querySelector("#sumTpsLabel").closest(".row");
@@ -892,7 +892,7 @@
         r.querySelector("#hardwareOptions").innerHTML = deployable.length ? deployable.map((x) =>
           '<div class="option"><h3>' + x.m[0] + '</h3><p>' + (english
             ? ("Model " + x.weight.toFixed(1) + "GB + chat cache " + x.kv.toFixed(1) + "GB → needs " + x.need + "GB (includes " + Math.round((1 - x.util) * 100) + "% headroom). This GPU has " + capacity + "GB, " + (capacity - x.need) + "GB left.")
-            : ("模型 " + x.weight.toFixed(1) + "GB + 对话缓存 " + x.kv.toFixed(1) + "GB → 建议 " + x.need + "GB（含 " + Math.round((1 - x.util) * 100) + "% 余量）。机器有 " + capacity + "GB，还剩 " + (capacity - x.need) + "GB。")) + '</p><span class="tag good">' + (english ? "Fits" : "可部署") + "</span>" + (isAiFusion2(x.m) ? '<span class="tag good">AI Fusion Turbo</span>' : "") + postTrainTag(x.m, tier, english) + '<span class="tag">' + (english ? ("Target " + target + " tokens/sec") : ("目标每秒 " + target + " Token")) + "</span></div>"
+            : ("模型 " + x.weight.toFixed(1) + "GB + 对话缓存 " + x.kv.toFixed(1) + "GB → 建议 " + x.need + "GB（含 " + Math.round((1 - x.util) * 100) + "% 余量）。机器有 " + capacity + "GB，还剩 " + (capacity - x.need) + "GB。")) + '</p><span class="tag good">' + (english ? "Fits" : "可部署") + "</span>" + (isAiFusion2(x.m) ? '<span class="tag good">AI Fusion 2.0</span>' : "") + postTrainTag(x.m, tier, english) + '<span class="tag">' + (english ? ("Target " + target + " tokens/sec") : ("目标每秒 " + target + " Token")) + "</span></div>"
         ).join("") : '<div class="option"><h3>' + (english ? "No fitting model" : "没有可部署模型") + '</h3><p>' + (nearest ? (english ? (nearest.m[0] + " needs " + nearest.need + "GB; this GPU only has " + capacity + "GB.") : (nearest.m[0] + " 需要 " + nearest.need + "GB，这台机器只有 " + capacity + "GB。")) : (english ? "No verified chat-cache (KV) model in this filter." : "当前筛选下没有已核验对话缓存（KV）的模型。")) + '</p><span class="tag">' + (english ? "No match" : "容量不满足") + "</span></div>";
         r.querySelector("#title").textContent = displayPlanName(h[0]);
         r.querySelector("#desc").textContent = english ? ("Hardware-to-model · " + (ctx / 1024) + "K context · " + con + " concurrent user(s)") : ("已有硬件反推 · " + (ctx / 1024) + "K 上下文 · " + con + " 人同时用");
@@ -933,8 +933,8 @@
       }
       function showModelLibrary() {
         const e = english;
-        const rows = M.map((m) => '<div class="option"><h3>' + m[0] + '</h3><p>' + (e ? (m[1] + 'B parameters · max context ' + (m[3] / 1024) + 'K tokens') : (m[1] + 'B 参数 · 最长上下文 ' + (m[3] / 1024) + 'K tokens')) + '</p><span class="tag">' + m.slice(4).map(q=>q[0]).join(' / ') + '</span>' + (isAiFusion2(m) ? '<span class="tag good">AI Fusion Turbo</span>' : '') + '</div>').join("");
-        showSecondary(e ? "Model Library (" + M.length + ")" : "模型库（" + M.length + "）", e ? "Hugging Face specs. Gemma / Qwen / Ornith include AI Fusion Turbo." : "参数来自 Hugging Face。Gemma / Qwen / Ornith 提供 AI Fusion Turbo。", '<a class="action" href="https://huggingface.co/models" target="_blank" rel="noopener">' + (e ? "Open Hugging Face" : "打开 Hugging Face") + '</a><button id="refreshModels" class="action" type="button">' + (e ? "Refresh directory" : "刷新目录") + '</button><p class="hint" id="modelRefreshStatus">' + (e ? "Local directory only; KV still needs review." : "仅刷新本地目录；KV 仍需审核。") + '</p><div class="options">' + rows + '</div>');
+        const rows = M.map((m) => '<div class="option"><h3>' + m[0] + '</h3><p>' + (e ? (m[1] + 'B parameters · max context ' + (m[3] / 1024) + 'K tokens') : (m[1] + 'B 参数 · 最长上下文 ' + (m[3] / 1024) + 'K tokens')) + '</p><span class="tag">' + m.slice(4).map(q=>q[0]).join(' / ') + '</span>' + (isAiFusion2(m) ? '<span class="tag good">AI Fusion 2.0</span>' : '') + '</div>').join("");
+        showSecondary(e ? "Model Library (" + M.length + ")" : "模型库（" + M.length + "）", e ? "Hugging Face specs. Gemma / Qwen / Ornith include AI Fusion 2.0." : "参数来自 Hugging Face。Gemma / Qwen / Ornith 提供 AI Fusion 2.0。", '<a class="action" href="https://huggingface.co/models" target="_blank" rel="noopener">' + (e ? "Open Hugging Face" : "打开 Hugging Face") + '</a><button id="refreshModels" class="action" type="button">' + (e ? "Refresh directory" : "刷新目录") + '</button><p class="hint" id="modelRefreshStatus">' + (e ? "Local directory only; KV still needs review." : "仅刷新本地目录；KV 仍需审核。") + '</p><div class="options">' + rows + '</div>');
         r.querySelector("#refreshModels").onclick = () => r.querySelector("#modelRefreshStatus").textContent = e ? "Directory refreshed." : "目录已刷新。";
       }
       function showDeviceLibrary() {

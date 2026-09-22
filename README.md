@@ -7,7 +7,7 @@ AI Compute Advisor is a pre-sales deployment advisor for matching open-weight mo
 - **Find Hardware for Model**: choose a model, quantization, context, concurrency, and service target, then review eligible device deployment options.
 - **Find Models for Hardware**: start from available devices and derive capacity-fit models, remaining VRAM, deployment constraints, and validation requirements.
 
-The calculator is designed for explainable proposal work. It separates model weights, KV Cache (local Q8 by default, or AI Fusion Turbo on supported models: ~5GB RAM, ~1GB SSD KV, 5% safety), runtime safety headroom, GPU + AI accelerator post-training (≤14B with 320GB, ≤72B with 1TB; Fusion Turbo excluded), and device capacity.
+The calculator is designed for explainable proposal work. It separates model weights, KV Cache (local Q8 by default, or AI Fusion 2.0 on supported models: ~5GB RAM, ~1GB SSD KV, 5% safety), runtime safety headroom, GPU + AI accelerator post-training (≤14B with 320GB, ≤72B with 1TB; Fusion 2.0 excluded), and device capacity.
 
 ## Data-source policy
 
@@ -53,7 +53,7 @@ The current static interface ships a maintained starter directory. A real Huggin
 
 ## 简体中文
 
-AI Compute Advisor 是面向售前的模型与设备部署顾问。它支持从模型反推设备，也支持从已有设备反推可部署模型，并把模型权重、KV Cache（默认本地 Q8；Qwen3.6 35B、Gemma 4 26B、Ornith 1.5 35B 另提供 AI Fusion Turbo：约 5GB 到内存、约 1GB KV 到 SSD、安全余量 5%）、运行时安全余量与设备余量分开呈现。
+AI Compute Advisor 是面向售前的模型与设备部署顾问。它支持从模型反推设备，也支持从已有设备反推可部署模型，并把模型权重、KV Cache（默认本地 Q8；Qwen3.6 35B、Gemma 4 26B、Ornith 1.5 35B 另提供 AI Fusion 2.0：约 5GB 到内存、约 1GB KV 到 SSD、安全余量 5%）、运行时安全余量与设备余量分开呈现。
 
 ### 使用方式
 

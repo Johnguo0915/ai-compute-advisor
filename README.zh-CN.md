@@ -218,7 +218,7 @@ Daily、Heavy、Always-on 等名称只代表当前 Data Pack 的起始模板，�
 
 ### 模型目录与智能评分
 
-内置目录当前提供 22 个有代表性的本地/开放权重模型；其中 Qwen3.6 35B、Gemma 4 26B 与 Ornith 1.5 35B 各有一条 AI Fusion Turbo 选项（K8/Q3 KV，约 5GB 到内存、约 1GB KV 到 SSD、安全余量 5%）。它是可扩充的起始集合，不代表穷举市场全部模型。Artificial Analysis 的开放模型目录只用于发现主流模型家族，参数、上下文、许可与部署说明以模型发布方的模型卡为准。它提供的云端价格、速度、延迟或智能评分不会被静默当成本地 TPS 或硬件适配证据。用户仍可通过 Full Data Pack 或 Browser Library 新增、修改和删除模型。
+内置目录当前提供 22 个有代表性的本地/开放权重模型；其中 Qwen3.6 35B、Gemma 4 26B 与 Ornith 1.5 35B 各有一条 AI Fusion 2.0 选项（K8/Q3 KV，约 5GB 到内存、约 1GB KV 到 SSD、安全余量 5%）。它是可扩充的起始集合，不代表穷举市场全部模型。Artificial Analysis 的开放模型目录只用于发现主流模型家族，参数、上下文、许可与部署说明以模型发布方的模型卡为准。它提供的云端价格、速度、延迟或智能评分不会被静默当成本地 TPS 或硬件适配证据。用户仍可通过 Full Data Pack 或 Browser Library 新增、修改和删除模型。
 
 选择“智能”对比指标时，页面会解释当前 Artificial Analysis Intelligence Index v4.1.1：共 9 项评测，Agents 34%、Coding 24%、Scientific Reasoning 24%、General 18%，通常采用英文文本与 pass@1 类条件。它是相对综合分，不代表模型一定能在某张显卡上运行，也不代表 TPS、客户任务适配度或生产可用性。导入的记录只会在同一接口和同一指数版本内对比；内置方向性示例分数会明确显示为另一套数据口径。
 

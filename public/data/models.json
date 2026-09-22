@@ -5,7 +5,7 @@
   "source": {
     "label": "Artificial Analysis open-model index (family discovery)",
     "url": "https://artificialanalysis.ai/models/open-source",
-    "methodology": "Official model cards provide architecture, parameter, context and license. Artificial Analysis is used only to discover families; hosted TPS, price and intelligence are not local-hardware evidence. Local KV is Q8 unless an AI Fusion Turbo variant is selected (K8/Q3 KV, ~5GB weights in RAM, ~1GB KV on SSD, 5% safety).",
+    "methodology": "Official model cards provide architecture, parameter, context and license. Artificial Analysis is used only to discover families; hosted TPS, price and intelligence are not local-hardware evidence. Local KV is Q8 unless an AI Fusion 2.0 variant is selected (K8/Q3 KV, ~5GB weights in RAM, ~1GB KV on SSD, 5% safety).",
     "license": "Mixed: Apache 2.0, MIT, Llama Community licenses and other model-specific terms"
   },
   "data": [
@@ -282,11 +282,11 @@
       "openWeight": true,
       "commercialUse": "allowed",
       "kvCacheBytesPerToken": 98304,
-      "notes": "Gemma 4 MoE workstation model (3.8B active / 25.2B total). Local KV is Q8. AI Fusion Turbo is catalogued separately. Does not verify runtime or TPS."
+      "notes": "Gemma 4 MoE workstation model (3.8B active / 25.2B total). Local KV is Q8. AI Fusion 2.0 is catalogued separately. Does not verify runtime or TPS."
     },
     {
       "id": "gemma-4-26b-a4b-it-ai-fusion-2",
-      "name": "Gemma 4 26B A4B IT · AI Fusion Turbo",
+      "name": "Gemma 4 26B A4B IT · AI Fusion 2.0",
       "provider": "Google",
       "family": "Gemma 4",
       "modelType": "moe",
@@ -308,7 +308,7 @@
       "systemMemoryOffloadGB": 5,
       "ssdKvCacheOffloadGB": 1,
       "safetyMarginRatio": 0.05,
-      "notes": "AI Fusion Turbo planning variant of Gemma 4 26B A4B IT. Same weights; K 8-bit, Q 3-bit KV (67,584 B/token); ~5GB RAM offload, ~1GB SSD KV, 5% safety. Does not verify runtime, offload path or TPS."
+      "notes": "AI Fusion 2.0 planning variant of Gemma 4 26B A4B IT. Same weights; K 8-bit, Q 3-bit KV (67,584 B/token); ~5GB RAM offload, ~1GB SSD KV, 5% safety. Does not verify runtime, offload path or TPS."
     },
     {
       "id": "gemma-4-31b-it",
@@ -376,11 +376,11 @@
       "openWeight": true,
       "commercialUse": "allowed",
       "kvCacheBytesPerToken": 131072,
-      "notes": "Qwen3.6 35B MoE (~3B active). Local KV is Q8. AI Fusion Turbo is catalogued separately. Does not verify runtime or TPS."
+      "notes": "Qwen3.6 35B MoE (~3B active). Local KV is Q8. AI Fusion 2.0 is catalogued separately. Does not verify runtime or TPS."
     },
     {
       "id": "qwen3.6-35b-a3b-ai-fusion-2",
-      "name": "Qwen3.6 35B A3B · AI Fusion Turbo",
+      "name": "Qwen3.6 35B A3B · AI Fusion 2.0",
       "provider": "Qwen",
       "family": "Qwen3.6",
       "modelType": "moe",
@@ -403,7 +403,7 @@
       "systemMemoryOffloadGB": 5,
       "ssdKvCacheOffloadGB": 1,
       "safetyMarginRatio": 0.05,
-      "notes": "AI Fusion Turbo planning variant of Qwen3.6 35B A3B. Same weights; K 8-bit, Q 3-bit KV (90,112 B/token); ~5GB RAM offload, ~1GB SSD KV, 5% safety. Does not verify runtime, offload path or TPS."
+      "notes": "AI Fusion 2.0 planning variant of Qwen3.6 35B A3B. Same weights; K 8-bit, Q 3-bit KV (90,112 B/token); ~5GB RAM offload, ~1GB SSD KV, 5% safety. Does not verify runtime, offload path or TPS."
     },
     {
       "id": "ornith-1.5-35b-a3b",
@@ -426,11 +426,11 @@
       "openWeight": true,
       "commercialUse": "allowed",
       "kvCacheBytesPerToken": 131072,
-      "notes": "Ornith 1.5 35B MoE (~3B active, 262K context). Local KV is Q8. AI Fusion Turbo is catalogued separately. Does not verify runtime or TPS."
+      "notes": "Ornith 1.5 35B MoE (~3B active, 262K context). Local KV is Q8. AI Fusion 2.0 is catalogued separately. Does not verify runtime or TPS."
     },
     {
       "id": "ornith-1.5-35b-a3b-ai-fusion-2",
-      "name": "Ornith 1.5 35B A3B · AI Fusion Turbo",
+      "name": "Ornith 1.5 35B A3B · AI Fusion 2.0",
       "provider": "Ornith",
       "family": "Ornith 1.5",
       "modelType": "moe",
@@ -452,7 +452,7 @@
       "systemMemoryOffloadGB": 5,
       "ssdKvCacheOffloadGB": 1,
       "safetyMarginRatio": 0.05,
-      "notes": "AI Fusion Turbo planning variant of Ornith 1.5 35B A3B. Same weights; K 8-bit, Q 3-bit KV (90,112 B/token); ~5GB RAM offload, ~1GB SSD KV, 5% safety. Does not verify runtime, offload path or TPS."
+      "notes": "AI Fusion 2.0 planning variant of Ornith 1.5 35B A3B. Same weights; K 8-bit, Q 3-bit KV (90,112 B/token); ~5GB RAM offload, ~1GB SSD KV, 5% safety. Does not verify runtime, offload path or TPS."
     },
     {
       "id": "llama-4-scout-17b-16e-instruct",
