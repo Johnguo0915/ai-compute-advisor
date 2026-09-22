@@ -1,6 +1,6 @@
 # AI Compute Advisor
 
-[简体中文](https://johnguo0915.github.io/ai-compute-advisor/?lang=zh) · [Live Calculator](https://johnguo0915.github.io/ai-compute-advisor/?lang=en)
+[Live Calculator](https://johnguo0915.github.io/ai-compute-advisor/?lang=en)
 
 AI Compute Advisor is a pre-sales deployment advisor for matching open-weight models to available devices. It supports both directions of work:
 
@@ -57,7 +57,7 @@ AI Compute Advisor 是面向售前的模型与设备部署顾问。它支持从�
 
 ### 使用方式
 
-1. 打开 [Live Calculator](https://johnguo0915.github.io/ai-compute-advisor/?lang=zh)。
+1. 打开 [在线计算器](https://johnguo0915.github.io/ai-compute-advisor/?lang=zh)。
 2. 在“模型找硬件”中选择模型、量化、上下文、峰值并发和服务目标，查看可行设备部署方案。
 3. 在“硬件找模型”中选择已有设备与台数，查看可部署模型、显存余量、Post training 能力与待验证项。
 4. 没有同模型、同量化、同上下文、同运行时的性能资料时，TPS、TTFT 和最大并发必须显示为待测，不能做对外承诺。
