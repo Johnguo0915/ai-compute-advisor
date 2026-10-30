@@ -638,9 +638,26 @@
         ["ThinkCentre X Tower · RTX PRO 5000 72GB", 72, 35, [1344, 2064, "FP4 Tensor Core vendor peak", 300], "https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-5000/"],
         ["ThinkCentre X Tower · 双 RTX PRO 5000 72GB", 144, 55, [1344, 2064, "FP4 Tensor Core vendor peak", 300], "https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-5000/"],
         ["ThinkCentre X Ultra · 总计 128GB，可分配 96GB 给 GPU", 96, 20, [273, 55, "NPU TOPS", null]],
+        ["TSK-C4 · RTX 5060 Ti 16GB", 16, 14, [448, 759, "FP4 Tensor Core vendor peak", 180], "https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5060-family/"],
+        ["TSK-C4 · Radeon RX 9060 XT 16GB", 16, null, [320, 205, "INT8 matrix vendor peak", 160], "https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9060xt.html"],
+        ["ThinkCentre X Tower Gen2 · RTX 5060 Ti 16GB", 16, 14, [448, 759, "FP4 Tensor Core vendor peak", 180], "https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5060-family/"],
+        ["ThinkCentre X Tower Gen2 · 双 RTX 5060 Ti 16GB", 32, 20, [448, 759, "FP4 Tensor Core vendor peak", 180], "https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5060-family/"],
+        ["ThinkCentre X Tower Gen2 · RTX 5080 16GB", 16, 18, [960, 1801, "FP4 Tensor Core vendor peak", 360], "https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5080/"],
+        ["ThinkCentre X Tower Gen2 · RTX 5090 32GB", 32, 27, [1792, 3352, "FP4 Tensor Core vendor peak", 575], "https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5090/"],
+        ["ThinkCentre X Tower Gen2 · RTX PRO 5000 48GB", 48, 28, [1344, 2064, "FP4 Tensor Core vendor peak", 300], "https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-5000/"],
+        ["ThinkCentre X Tower Gen2 · 双 RTX PRO 5000 48GB", 96, 42, [1344, 2064, "FP4 Tensor Core vendor peak", 300], "https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-5000/"],
+        ["ThinkCentre X Tower Gen2 · RTX PRO 5000 72GB", 72, 35, [1344, 2064, "FP4 Tensor Core vendor peak", 300], "https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-5000/"],
+        ["ThinkCentre X Tower Gen2 · 双 RTX PRO 5000 72GB", 144, 55, [1344, 2064, "FP4 Tensor Core vendor peak", 300], "https://www.nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-5000/"],
+        ["M90a Pro Gen7（AIO） · Radeon RX 9060 XT 16GB", 16, null, [320, 205, "INT8 matrix vendor peak", 160], "https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9060xt.html"],
+        ["M90ts Gen7 · RTX 5060 Ti 16GB", 16, 14, [448, 759, "FP4 Tensor Core vendor peak", 180], "https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5060-family/"],
+        ["M90ts Gen7 · Radeon RX 9060 XT 16GB", 16, null, [320, 205, "INT8 matrix vendor peak", 160], "https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9060xt.html"],
+        ["M90q Gen7 · RTX 5060 Ti 16GB", 16, 14, [448, 759, "FP4 Tensor Core vendor peak", 180], "https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5060-family/"],
+        ["M90q Gen7 · Radeon RX 9060 XT 16GB", 16, null, [320, 205, "INT8 matrix vendor peak", 160], "https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9060xt.html"],
+        ["TSK-C5 · RTX 5060 Ti 16GB", 16, 14, [448, 759, "FP4 Tensor Core vendor peak", 180], "https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5060-family/"],
+        ["TSK-C5 · Radeon RX 9060 XT 16GB", 16, null, [320, 205, "INT8 matrix vendor peak", 160], "https://www.amd.com/en/products/graphics/desktops/radeon/9000-series/amd-radeon-rx-9060xt.html"],
       ];
       const P = [
-        ["1 × ThinkCentre X Tower · RTX 5060 Ti 16GB", 16, 14, 1, 1, "单机单卡", null, null, null, "性能资料待压测"],
+        ["1 × ThinkCentre X Tower · RTX 5060 Ti 16GB", 16, 14, 1, 1, "单机单卡", null, null, null, "Gemma 4 26B 与 35B A3B 实测 60–70 Token/秒；其他模型性能资料待压测"],
         ["1 × ThinkCentre X Tower · 双 RTX 5060 Ti 16GB", 32, 20, 1, 2, "单机双卡分片", null, null, null, "双卡分片与性能资料待压测"],
         ["2 × ThinkCentre X Tower · 各 1 × RTX 5060 Ti 16GB", 32, 16, 2, 2, "跨设备分片，需验证运行时", null, null, null, "需验证多机互联、网络与分布式运行时"],
         ["1 × ThinkCentre X Tower · RTX 5080 16GB", 16, 18, 1, 1, "单机单卡", null, null, null, "性能资料待压测"],
@@ -650,6 +667,23 @@
         ["1 × ThinkCentre X Tower · RTX PRO 5000 72GB", 72, 35, 1, 1, "单机单卡", null, null, null, "性能资料待压测"],
         ["1 × ThinkCentre X Tower · 双 RTX PRO 5000 72GB", 144, 55, 1, 2, "单机双卡分片", null, null, null, "双卡分片与性能资料待压测"],
         ["1 × ThinkCentre X Ultra · 总计 128GB，可分配 96GB 给 GPU", 96, 20, 1, 1, "统一内存", null, null, null, "统一内存分配与性能资料待压测"],
+        ["1 × TSK-C4 · RTX 5060 Ti 16GB", 16, 14, 1, 1, "单机单卡", null, null, null, "支持 AI Fusion 2.0；Gemma 4 26B 与 35B A3B 实测 60–70 Token/秒"],
+        ["1 × TSK-C4 · Radeon RX 9060 XT 16GB", 16, null, 1, 1, "单机单卡", null, null, null, "支持 AI Fusion 2.0；Gemma 4 26B 与 35B A3B 实测约 50 Token/秒"],
+        ["1 × ThinkCentre X Tower Gen2 · RTX 5060 Ti 16GB", 16, 14, 1, 1, "单机单卡", null, null, null, "支持 AI Fusion 2.0；Gemma 4 26B 与 35B A3B 实测 60–70 Token/秒"],
+        ["1 × ThinkCentre X Tower Gen2 · 双 RTX 5060 Ti 16GB", 32, 20, 1, 2, "单机双卡分片", null, null, null, "支持 AI Fusion 2.0；双卡分片与性能资料待压测"],
+        ["1 × ThinkCentre X Tower Gen2 · RTX 5080 16GB", 16, 18, 1, 1, "单机单卡", null, null, null, "支持 AI Fusion 2.0；性能资料待压测"],
+        ["1 × ThinkCentre X Tower Gen2 · RTX 5090 32GB", 32, 27, 1, 1, "单机单卡", null, null, null, "支持 AI Fusion 2.0；性能资料待压测"],
+        ["1 × ThinkCentre X Tower Gen2 · RTX PRO 5000 48GB", 48, 28, 1, 1, "单机单卡", null, null, null, "支持 AI Fusion 2.0；性能资料待压测"],
+        ["1 × ThinkCentre X Tower Gen2 · 双 RTX PRO 5000 48GB", 96, 42, 1, 2, "单机双卡分片", null, null, null, "支持 AI Fusion 2.0；双卡分片与性能资料待压测"],
+        ["1 × ThinkCentre X Tower Gen2 · RTX PRO 5000 72GB", 72, 35, 1, 1, "单机单卡", null, null, null, "支持 AI Fusion 2.0；性能资料待压测"],
+        ["1 × ThinkCentre X Tower Gen2 · 双 RTX PRO 5000 72GB", 144, 55, 1, 2, "单机双卡分片", null, null, null, "支持 AI Fusion 2.0；双卡分片与性能资料待压测"],
+        ["1 × M90a Pro Gen7（AIO） · Radeon RX 9060 XT 16GB", 16, null, 1, 1, "单机单卡", null, null, null, "支持 AI Fusion 2.0；Gemma 4 26B 与 35B A3B 实测约 50 Token/秒"],
+        ["1 × M90ts Gen7 · RTX 5060 Ti 16GB", 16, 14, 1, 1, "单机单卡", null, null, null, "支持 AI Fusion 2.0；Gemma 4 26B 与 35B A3B 实测 60–70 Token/秒"],
+        ["1 × M90ts Gen7 · Radeon RX 9060 XT 16GB", 16, null, 1, 1, "单机单卡", null, null, null, "支持 AI Fusion 2.0；Gemma 4 26B 与 35B A3B 实测约 50 Token/秒"],
+        ["1 × M90q Gen7 · RTX 5060 Ti 16GB", 16, 14, 1, 1, "单机单卡", null, null, null, "支持 AI Fusion 2.0；Gemma 4 26B 与 35B A3B 实测 60–70 Token/秒"],
+        ["1 × M90q Gen7 · Radeon RX 9060 XT 16GB", 16, null, 1, 1, "单机单卡", null, null, null, "支持 AI Fusion 2.0；Gemma 4 26B 与 35B A3B 实测约 50 Token/秒"],
+        ["1 × TSK-C5 · RTX 5060 Ti 16GB", 16, 14, 1, 1, "单机单卡", null, null, null, "支持 AI Fusion 2.0；Gemma 4 26B 与 35B A3B 实测 60–70 Token/秒"],
+        ["1 × TSK-C5 · Radeon RX 9060 XT 16GB", 16, null, 1, 1, "单机单卡", null, null, null, "支持 AI Fusion 2.0；Gemma 4 26B 与 35B A3B 实测约 50 Token/秒"],
       ];
       M.sort((a, b) => {
         const family = (name) => name.toLowerCase().replace(/^deepseek-r1-distill-qwen/, "deepseek").replace(/^llama\s+\d/, "llama").replace(/^qwen[\d.]+/, "qwen");
@@ -661,6 +695,8 @@
       M.forEach((m, i) => sm.add(new Option(m[0], i)));
       const hs = r.querySelector("#hardware");
       H.forEach((h, i) => hs.add(new Option(h[0], i)));
+      const deviceLibraryButton = r.querySelector("#deviceLibrary");
+      if (deviceLibraryButton) deviceLibraryButton.textContent = "设备库（" + H.length + "）";
       function update() {
         const m = M[+sm.value];
         sq.innerHTML = m
@@ -675,7 +711,7 @@
       }
       function displayPlanName(name) {
         if (!english) return name;
-        return name.replace("双 RTX", "Dual RTX").replace("各 1 ×", "each with 1 ×").replace("总计 128GB，可分配 96GB 给 GPU", "128GB in total, 96GB allocatable to GPU");
+        return name.replace("双 RTX", "Dual RTX").replace("各 1 ×", "each with 1 ×").replace("总计 128GB，可分配 96GB 给 GPU", "128GB in total, 96GB allocatable to GPU").replace("（AIO）", " (AIO)");
       }
       function displayPlanCore(name) { return displayPlanName(name).replace(/^\d+ ×\s*/, ""); }
       function displayPlanMode(mode) {
@@ -684,9 +720,14 @@
       }
       function deviceSpecs(h) {
         const [bandwidth, tops, precision, tdp] = h[3] || [];
-        return english
-          ? (bandwidth + " GB/s memory bandwidth · " + tops + " TOPS chip peak (not chat speed)" + (tdp ? " · " + tdp + " W power" : ""))
-          : (bandwidth + " GB/s 显存带宽 · " + tops + " TOPS 芯片算力峰值（不是对话速度）" + (tdp ? " · " + tdp + " W 功耗" : ""));
+        const bandwidthText = bandwidth == null
+          ? (english ? "bandwidth unavailable" : "带宽暂无")
+          : (bandwidth + (english ? " GB/s memory bandwidth" : " GB/s 显存带宽"));
+        const topsText = tops == null
+          ? (english ? "TOPS unavailable" : "TOPS 暂无")
+          : (tops + " TOPS" + (precision ? " (" + precision + ")" : "") + (english ? " chip peak (not chat speed)" : " 芯片算力峰值（不是对话速度）"));
+        const powerText = tdp ? (" · " + tdp + (english ? " W board power" : " W 板卡功耗")) : "";
+        return bandwidthText + " · " + topsText + powerText;
       }
       function matchesCapability(name, capability) {
         if (capability === "all") return true;
@@ -703,6 +744,32 @@
       }
       function isAiFusion2(m) {
         return String(m[0]).indexOf("AI Fusion 2.0") >= 0;
+      }
+      function isMeasuredModel(name) {
+        const value = String(name);
+        return value.indexOf("Gemma 4 26B") >= 0 || value.indexOf("35B A3B") >= 0;
+      }
+      function measuredChatSpeed(deviceName, modelName) {
+        if (modelName && !isMeasuredModel(modelName)) return null;
+        const name = String(deviceName);
+        if (name.indexOf("双") >= 0 || name.indexOf("各 1") >= 0) return null;
+        if (name.indexOf("5060 Ti") >= 0) return { low: 60, high: 70, text: "60–70" };
+        if (name.indexOf("9060 XT") >= 0) return { low: 50, high: 50, text: "50" };
+        return null;
+      }
+      function measuredSpeedLabel(speed, withModels) {
+        if (!speed) return "";
+        if (english) {
+          const prefix = withModels ? "Gemma 4 26B and 35B A3B measured " : "Measured ";
+          return prefix + speed.text + " tokens/sec";
+        }
+        const prefix = withModels ? "Gemma 4 26B 与 35B A3B 实测" : "实测";
+        return prefix + (speed.low === speed.high ? ("约 " + speed.text) : (" " + speed.text)) + " Token/秒";
+      }
+      function planningSpeed(device, model) {
+        const measured = model ? measuredChatSpeed(device[0], model[0]) : null;
+        if (measured) return measured.low;
+        return Number.isFinite(device[2]) && device[2] > 0 ? device[2] : null;
       }
       function canPostTrain(m, tier) {
         if (!tier || isAiFusion2(m)) return false;
@@ -824,21 +891,26 @@
         r.querySelector("#options").innerHTML = fit.length
           ? fit
               .map((h) => {
-                const n = hasWorkloadProfile ? Math.ceil(t / h[2]) : 1, totalMachines = n * h[3];
+                const speed = planningSpeed(h, m);
+                const n = hasWorkloadProfile && speed ? Math.ceil(t / speed) : 1, totalMachines = n * h[3];
+                const measured = measuredChatSpeed(h[0], m[0]);
                 return (
                   '<div class="option"><h3>' +
                   totalMachines + " × " + displayPlanCore(h[0]) +
                   '</h3><p>' + (english
                     ? ("This GPU has " + h[1] + "GB. The model needs " + need + "GB, leaving " + (h[1] - need) + "GB.")
-                    : ("这台 GPU 有 " + h[1] + "GB。模型要用 " + need + "GB，还剩 " + (h[1] - need) + "GB。")) + '</p>' +
+                    : ("这台 GPU 有 " + h[1] + "GB。模型要用 " + need + "GB，还剩 " + (h[1] - need) + "GB。")) +
+                  (measured ? (" " + measuredSpeedLabel(measured, false) + (english ? "." : "。")) : "") + '</p>' +
                   '<span class="tag good">' + (english ? "Fits" : "容量满足") + "</span>" +
+                  (measured ? '<span class="tag good">' + measuredSpeedLabel(measured, false) + "</span>" : "") +
                   '<span class="tag">' + displayPlanMode(h[5]) + "</span></div>"
                 );
               })
               .join("")
           : '<div class="option"><h3>' + (kvKnown ? (english ? "No fitting device" : "没有可行设备") : (english ? "KV unverified" : "KV 待核验")) + '</h3><p>' + (kvKnown ? (english ? ("Needs " + need + "GB of GPU memory.") : ("需要 " + need + "GB 显存，当前设备都不够。")) : (english ? "Verify chat-cache (KV) data before planning." : "请先核验对话缓存（KV），才能估算显存。")) + '</p><span class="tag">' + (english ? "No recommendation" : "未生成方案") + "</span></div>";
         const deviceListHtml = fit.length ? fit.map((h) => {
-          const n = hasWorkloadProfile ? Math.ceil(t / h[2]) : 1, total = n * h[3], remaining = h[1] - need;
+          const speed = planningSpeed(h, m);
+          const n = hasWorkloadProfile && speed ? Math.ceil(t / speed) : 1, total = n * h[3], remaining = h[1] - need;
           return '<span class="device-line">' + (total + " × " + displayPlanCore(h[0]) + (english ? (" · GPU " + h[1] + "GB, " + remaining + "GB left after this model") : (" · GPU " + h[1] + "GB，装完这个模型还剩 " + remaining + "GB"))) + '</span>';
         }).join("") : "—";
         r.querySelector("#title").textContent =
@@ -889,11 +961,15 @@
           ? (count + " machine(s) · GPU " + capacity + "GB · " + (ctx / 1024) + "K context · " + con + " concurrent user(s) · target " + target + " tokens/sec")
           : (count + " 台 · GPU 显存 " + capacity + "GB · 上下文 " + (ctx / 1024) + "K · " + con + " 人同时用 · 目标每秒 " + target + " Token");
         r.querySelector("#hardwareMeta").textContent += " · " + deviceSpecs(h);
-        r.querySelector("#hardwareOptions").innerHTML = deployable.length ? deployable.map((x) =>
-          '<div class="option"><h3>' + x.m[0] + '</h3><p>' + (english
+        r.querySelector("#hardwareOptions").innerHTML = deployable.length ? deployable.map((x) => {
+          const measured = measuredChatSpeed(h[0], x.m[0]);
+          const belowTarget = measured && target > measured.high;
+          return '<div class="option"><h3>' + x.m[0] + '</h3><p>' + (english
             ? ("Model " + x.weight.toFixed(1) + "GB + chat cache " + x.kv.toFixed(1) + "GB → needs " + x.need + "GB (includes " + Math.round((1 - x.util) * 100) + "% headroom). This GPU has " + capacity + "GB, " + (capacity - x.need) + "GB left.")
-            : ("模型 " + x.weight.toFixed(1) + "GB + 对话缓存 " + x.kv.toFixed(1) + "GB → 建议 " + x.need + "GB（含 " + Math.round((1 - x.util) * 100) + "% 余量）。机器有 " + capacity + "GB，还剩 " + (capacity - x.need) + "GB。")) + '</p><span class="tag good">' + (english ? "Fits" : "可部署") + "</span>" + (isAiFusion2(x.m) ? '<span class="tag good">AI Fusion 2.0</span>' : "") + postTrainTag(x.m, tier, english) + '<span class="tag">' + (english ? ("Target " + target + " tokens/sec") : ("目标每秒 " + target + " Token")) + "</span></div>"
-        ).join("") : '<div class="option"><h3>' + (english ? "No fitting model" : "没有可部署模型") + '</h3><p>' + (nearest ? (english ? (nearest.m[0] + " needs " + nearest.need + "GB; this GPU only has " + capacity + "GB.") : (nearest.m[0] + " 需要 " + nearest.need + "GB，这台机器只有 " + capacity + "GB。")) : (english ? "No verified chat-cache (KV) model in this filter." : "当前筛选下没有已核验对话缓存（KV）的模型。")) + '</p><span class="tag">' + (english ? "No match" : "容量不满足") + "</span></div>";
+            : ("模型 " + x.weight.toFixed(1) + "GB + 对话缓存 " + x.kv.toFixed(1) + "GB → 建议 " + x.need + "GB（含 " + Math.round((1 - x.util) * 100) + "% 余量）。机器有 " + capacity + "GB，还剩 " + (capacity - x.need) + "GB。")) +
+            (measured ? (" " + measuredSpeedLabel(measured, false) + (english ? "." : "。")) : "") +
+            '</p><span class="tag good">' + (english ? "Fits" : "可部署") + "</span>" + (isAiFusion2(x.m) ? '<span class="tag good">AI Fusion 2.0</span>' : "") + (measured ? '<span class="tag good">' + measuredSpeedLabel(measured, false) + "</span>" : "") + (belowTarget ? '<span class="tag">' + (english ? "Below target speed" : "低于目标速度") + "</span>" : "") + postTrainTag(x.m, tier, english) + '<span class="tag">' + (english ? ("Target " + target + " tokens/sec") : ("目标每秒 " + target + " Token")) + "</span></div>";
+        }).join("") : '<div class="option"><h3>' + (english ? "No fitting model" : "没有可部署模型") + '</h3><p>' + (nearest ? (english ? (nearest.m[0] + " needs " + nearest.need + "GB; this GPU only has " + capacity + "GB.") : (nearest.m[0] + " 需要 " + nearest.need + "GB，这台机器只有 " + capacity + "GB。")) : (english ? "No verified chat-cache (KV) model in this filter." : "当前筛选下没有已核验对话缓存（KV）的模型。")) + '</p><span class="tag">' + (english ? "No match" : "容量不满足") + "</span></div>";
         r.querySelector("#title").textContent = displayPlanName(h[0]);
         r.querySelector("#desc").textContent = english ? ("Hardware-to-model · " + (ctx / 1024) + "K context · " + con + " concurrent user(s)") : ("已有硬件反推 · " + (ctx / 1024) + "K 上下文 · " + con + " 人同时用");
         r.querySelector("#sumMemoryLabel").textContent = english ? "Models that fit this GPU" : "可放进这台机器的模型";
@@ -947,7 +1023,16 @@
         showSecondary(e ? "Device Pool" : "设备池", e ? "Devices available to this plan." : "当前方案可用设备。", '<div class="options">' + rows + '</div>');
       }
       function showPerformanceLibrary() {
-        const e = english, rows = H.map((h) => '<div class="option"><h3>' + displayPlanName(h[0]) + '</h3><p>' + (e ? 'Directional speed ' : '方向性速度 ') + h[2] + (e ? ' tokens/sec · ' : ' Token/秒 · ') + deviceSpecs(h) + '</p><span class="tag">' + (e ? "Pending / estimate" : "待验证 / 估算") + '</span></div>').join("");
+        const e = english, rows = H.map((h) => {
+          const measured = measuredChatSpeed(h[0]);
+          const generic = Number.isFinite(h[2])
+            ? ((e ? "Directional speed " : "方向性速度 ") + h[2] + (e ? " tokens/sec" : " Token/秒"))
+            : (e ? "Chat speed pending" : "对话速度待测");
+          const speedText = measured
+            ? (measuredSpeedLabel(measured, true) + (e ? ". Other models: " : "。其他模型：") + generic)
+            : generic;
+          return '<div class="option"><h3>' + displayPlanName(h[0]) + '</h3><p>' + speedText + " · " + deviceSpecs(h) + '</p><span class="tag' + (measured ? " good" : "") + '">' + (measured ? (e ? "Measured for named models" : "实测（指定模型）") : (e ? "Pending / estimate" : "待验证 / 估算")) + '</span></div>';
+        }).join("");
         showSecondary(e ? "Performance Library" : "性能资料库", e ? "Measured vs estimate. Claims need matching evidence." : "区分实测与估算；承诺需对应证据。", '<div class="options">' + rows + '</div>');
       }
       function showGeneral() { const e=english; showSecondary(e?"General Settings":"通用设置", e?"Manage language, the default VRAM utilization limit, context, and evidence rules.":"管理语言、默认显存使用上限、默认上下文与默认性能证据规则。", '<div class="grid"><div><label>'+ (e?"Interface language":"界面语言") +'</label><select><option>'+ (e?"Chinese":"中文") +'</option><option>English</option></select></div><div><label>'+ (e?"Default VRAM utilization limit":"默认显存使用上限") +'</label><input value="90%" /></div><div><label>'+ (e?"Default context":"默认上下文") +'</label><select><option>32K</option><option>128K</option></select></div><div><label>'+ (e?"Performance-claim rule":"性能承诺规则") +'</label><select><option>'+ (e?"Measured only":"仅实测") +'</option><option>'+ (e?"Allow estimates (must label)":"允许估算（需标记）") +'</option></select></div></div>'); }
@@ -1027,7 +1112,7 @@
         a(".sec")[0].textContent = english ? "WORKBENCH" : "方案工作台";
         a(".sec")[1].textContent = english ? "SETTINGS" : "设置";
         const nav = a("aside button");
-        ["Find Hardware for Model", "Find Models for Hardware", "Device Pool", "General", "Model Library (" + M.length + ")", "Device Library (14)", "Performance Library", "Data & API"].forEach((v,i)=>nav[i].textContent = english ? v : ["模型找硬件","硬件找模型","设备池","通用","模型库（" + M.length + "）","设备库（14）","性能资料库","数据与 API"][i]);
+        ["Find Hardware for Model", "Find Models for Hardware", "Device Pool", "General", "Model Library (" + M.length + ")", "Device Library (" + H.length + ")", "Performance Library", "Data & API"].forEach((v,i)=>nav[i].textContent = english ? v : ["模型找硬件","硬件找模型","设备池","通用","模型库（" + M.length + "）","设备库（" + H.length + "）","性能资料库","数据与 API"][i]);
         r.querySelector("header .kick").textContent = english ? "WORKBENCH / LIVE CALCULATION" : "方案工作台 / 实时计算";
         r.querySelector("header h1").textContent = d.title; r.querySelector("header .sub").textContent = d.sub;
         r.querySelector("#localDataNotice").textContent = english ? "Custom data stays in this browser." : "自定义数据仅保存在本浏览器。";
